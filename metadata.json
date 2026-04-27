@@ -1,0 +1,6 @@
+{
+  "name": "Examullator Web",
+  "description": "Sistema de prova dissertativa com grader automático baseado em palavras-chave e progressão por níveis.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
