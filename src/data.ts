@@ -17,7 +17,6 @@ export const APP_CONFIG: AppConfig = {
 };
 
 export const BANCO_DE_PROVAS: Record<string, Prova> = {
- {
   "01": {
     "nivel": 0,
     "titulo": "Comando Ctrl + C",
