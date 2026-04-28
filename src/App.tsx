@@ -11,7 +11,7 @@ import {
   BookOpen,
   LogOut
 } from 'lucide-react';
-import { BANCO_DE_PROVAS, Prova } from './data';
+import { BANCO_DE_PROVAS, Prova, APP_CONFIG } from './data';
 
 interface UserProgress {
   sequence: string[];
@@ -44,10 +44,11 @@ const generateSequence = (): string[] => {
   const sequence: string[] = [];
   
   sortedNiveis.forEach(n => {
-    sequence.push(...shuffleArray(byLevel[n]));
+    const shuffled = shuffleArray(byLevel[n]);
+    sequence.push(...shuffled.slice(0, APP_CONFIG.questoesPorNivel));
   });
 
-  return sequence;
+  return sequence.slice(0, APP_CONFIG.totalQuestoes);
 };
 
 export default function App() {

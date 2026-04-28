@@ -6,6 +6,16 @@ export interface Prova {
   keywords: string[];
 }
 
+export interface AppConfig {
+  questoesPorNivel: number;
+  totalQuestoes: number;
+}
+
+export const APP_CONFIG: AppConfig = {
+  questoesPorNivel: 2,
+  totalQuestoes: 10,
+};
+
 export const BANCO_DE_PROVAS: Record<string, Prova> = {
   "00": {
     "nivel": 0,
