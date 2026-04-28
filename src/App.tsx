@@ -90,6 +90,12 @@ export default function App() {
     localStorage.setItem('examullator_progress', JSON.stringify(progress));
   }, [progress]);
 
+  useEffect(() => {
+    if (progress.completed) {
+      downloadReport();
+    }
+  }, [progress.completed]);
+
   const currentLevelData: Prova = BANCO_DE_PROVAS[progress.currentLevel];
   const currentResponse = progress.responses[progress.currentLevel] || '';
 
@@ -126,8 +132,9 @@ export default function App() {
       !textLower.includes(kw.toLowerCase())
     );
 
-    const scoreValue = (foundKeywords.length / currentLevelData.keywords.length) * 10;
-    const finalScore = Number(scoreValue.toFixed(1));
+    const keywordsRatio = foundKeywords.length / currentLevelData.keywords.length;
+    const rawScore = (keywordsRatio / APP_CONFIG.percentualPalavrasParaNotaMaxima) * 10;
+    const finalScore = Number(Math.min(10, rawScore).toFixed(1));
 
     setFeedback({
       score: finalScore,
@@ -190,7 +197,7 @@ export default function App() {
   };
 
   const finishExam = () => {
-    if (confirm("Deseja encerrar a prova agora? Você ainda poderá baixar seu relatório final.")) {
+    if (confirm("Deseja encerrar a prova agora? Seu relatório será baixado automaticamente.")) {
       setProgress(prev => ({ ...prev, completed: true }));
     }
   };
@@ -203,16 +210,22 @@ export default function App() {
           animate={{ opacity: 1, scale: 1 }}
           className="max-w-md w-full bg-white rounded-xl shadow-sm border border-gray-200 p-10 text-center space-y-6"
         >
-          <CheckCircle2 size={48} className="mx-auto text-green-600" />
-          <h1 className="text-2xl font-semibold">Prova Concluída!</h1>
-          <p className="text-gray-500">Seu desempenho foi registrado localmente. Baixe o relatório para envio.</p>
-          <div className="flex flex-col gap-3 pt-4">
-            <button onClick={downloadReport} className="w-full bg-[#111827] text-white px-6 py-3 rounded-lg font-medium hover:bg-[#374151] transition-all">
-              Baixar Relatório Final
-            </button>
-            <button onClick={resetProgress} className="w-full bg-white text-gray-700 border border-gray-300 px-6 py-3 rounded-lg font-medium hover:bg-gray-50 transition-all">
-              Reiniciar Prova
-            </button>
+          <div className="mx-auto w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 animate-pulse">
+            <GraduationCap size={32} />
+          </div>
+          <div className="space-y-2">
+            <h1 className="text-2xl font-semibold">Prova Finalizada</h1>
+            <p className="text-gray-500 text-sm">Seu relatório foi baixado automaticamente.</p>
+          </div>
+
+          <div className="bg-gray-50 rounded-2xl p-8 border border-gray-100 space-y-4">
+            <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+            <p className="text-sm font-medium text-gray-700">
+              Aguarde o término da avaliação pelo sistema...
+            </p>
+            <p className="text-xs text-gray-400 leading-relaxed">
+              O processamento final pode levar alguns instantes. Você pode fechar esta aba assim que o download for concluído.
+            </p>
           </div>
         </motion.div>
       </div>
@@ -253,15 +266,6 @@ export default function App() {
               >
                 <LogOut size={14} />
                 Sair
-              </button>
-
-              <button 
-                onClick={resetProgress}
-                className="bg-white text-red-600 border border-red-100 px-3 py-2 rounded-md text-xs font-bold hover:bg-red-50 transition-all flex items-center gap-1.5 uppercase tracking-tighter"
-                title="Reiniciar Prova"
-              >
-                <RotateCcw size={14} />
-                Reiniciar
               </button>
               
               <button 
