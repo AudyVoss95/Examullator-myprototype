@@ -14,31 +14,68 @@ import {
 import { BANCO_DE_PROVAS, Prova } from './data';
 
 interface UserProgress {
+  sequence: string[];
   currentLevel: string;
   responses: Record<string, string>;
   scores: Record<string, number>;
   completed: boolean;
 }
 
-export default function App() {
-  const levels = Object.keys(BANCO_DE_PROVAS).sort();
+const shuffleArray = <T,>(array: T[]): T[] => {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+};
+
+const generateSequence = (): string[] => {
+  const allIds = Object.keys(BANCO_DE_PROVAS);
+  const byLevel: Record<number, string[]> = {};
   
+  allIds.forEach(id => {
+    const nivel = BANCO_DE_PROVAS[id].nivel;
+    if (!byLevel[nivel]) byLevel[nivel] = [];
+    byLevel[nivel].push(id);
+  });
+
+  const sortedNiveis = Object.keys(byLevel).map(Number).sort((a, b) => a - b);
+  const sequence: string[] = [];
+  
+  sortedNiveis.forEach(n => {
+    sequence.push(...shuffleArray(byLevel[n]));
+  });
+
+  return sequence;
+};
+
+export default function App() {
   const [progress, setProgress] = useState<UserProgress>(() => {
     const saved = localStorage.getItem('examullator_progress');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        // Migration: Ensure sequence exists
+        if (!parsed.sequence) {
+          parsed.sequence = Object.keys(BANCO_DE_PROVAS).sort();
+        }
+        return parsed;
       } catch (e) {
         console.error("Failed to parse progress", e);
       }
     }
+    const initialSequence = generateSequence();
     return {
-      currentLevel: levels[0],
+      sequence: initialSequence,
+      currentLevel: initialSequence[0],
       responses: {},
       scores: {},
       completed: false
     };
   });
+
+  const levels = progress.sequence;
 
   const [feedback, setFeedback] = useState<{
     score: number;
@@ -132,15 +169,17 @@ export default function App() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `relatorio_exame_${new Date().toISOString().split('T')[0]}.txt`;
+    a.download = `Relatório_Avaliação.txt`;
     a.click();
     URL.revokeObjectURL(url);
   };
 
   const resetProgress = () => {
     if (confirm("Tem certeza que deseja apagar todo o progresso?")) {
+      const newSequence = generateSequence();
       setProgress({
-        currentLevel: levels[0],
+        sequence: newSequence,
+        currentLevel: newSequence[0],
         responses: {},
         scores: {},
         completed: false
