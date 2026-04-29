@@ -19,81 +19,523 @@ export const APP_CONFIG: AppConfig = {
 };
 
 export const BANCO_DE_PROVAS: Record<string, Prova> = {
-  "00": {
+  // Nível 0 - Informática Básica
+  "001": {
     "nivel": 0,
-    "titulo": "Conceitos de IA",
-    "enunciado": "Explique a diferença entre IA Forte (Geral) e IA Fraca (Estreita), destacando suas principais limitações e aplicações atuais.",
-    "min_chars": 50,
-    "keywords": ["algoritmo", "consciência", "específica", "geral", "estreita", "automação", "limitação"]
+    "titulo": "Hardware vs Software",
+    "enunciado": "Explique com suas palavras a diferença entre Hardware e Software e cite um exemplo de cada.",
+    "min_chars": 120,
+    "keywords": ["físico", "programas", "componentes", "execução", "sistema"]
   },
-  "00b": {
+  "002": {
     "nivel": 0,
-    "titulo": "Definição de Algoritmos",
-    "enunciado": "O que define um algoritmo e por que eles são a base para o desenvolvimento de qualquer Inteligência Artificial?",
-    "min_chars": 40,
-    "keywords": ["instruções", "lógica", "sequência", "processamento", "entrada", "saída", "fundamento", "automação"]
-  },
-  "01": {
-    "nivel": 1,
-    "titulo": "Algoritmos e Sociedade",
-    "enunciado": "Como os algoritmos de recomendação influenciam a opinião pública e o consumo? Discorra sobre o conceito de 'bolhas de filtro'.",
-    "min_chars": 80,
-    "keywords": ["recomendação", "filtro", "bolha", "polarização", "viés", "consumo", "algoritmo", "redes sociais"]
-  },
-  "02": {
-    "nivel": 2,
-    "titulo": "Ética na IA",
-    "enunciado": "Quais são os principais desafios éticos no uso de reconhecimento facial por governos e empresas privadas?",
-    "min_chars": 100,
-    "keywords": ["privacidade", "ética", "reconhecimento", "racial", "viés", "segurança", "vigilância", "consentimento"]
-  },
-  "03": {
-    "nivel": 3,
-    "titulo": "IA Generativa",
-    "enunciado": "Discorra sobre o funcionamento das IAs generativas (como LLMs). Como elas aprendem a gerar textos e quais os riscos de 'alucinação'?",
-    "min_chars": 120,
-    "keywords": ["generativa", "probabilidade", "treinamento", "tokens", "alucinação", "contexto", "linguagem", "parâmetros"]
-  },
-  "04": {
-    "nivel": 4,
-    "titulo": "Mercado de Trabalho",
-    "enunciado": "Como a automação inteligente deve transformar o mercado de trabalho na próxima década? Quais habilidades humanas se tornarão mais valiosas?",
-    "min_chars": 120,
-    "keywords": ["automação", "substituição", "habilidades", "criatividade", "empatia", "colaboração", "adaptabilidade", "humanas"]
-  },
-  "05": {
-    "nivel": 5,
-    "titulo": "Cibersegurança e IA",
-    "enunciado": "Quais os perigos do uso de IA para a criação de 'Deepfakes' e ataques de phishing altamente personalizados? Como a sociedade pode se proteger?",
+    "titulo": "Comandos Ctrl+C, V e X",
+    "enunciado": "Explique para que servem os comandos Ctrl+C, Ctrl+V e Ctrl+X e descreva a diferença entre 'copiar' e 'recortar'.",
     "min_chars": 150,
-    "keywords": ["deepfake", "manipulação", "verdade", "phishing", "verificação", "assinatura digital", "desinformação", "segurança"]
+    "keywords": ["copiar", "colar", "recortar", "duplicar", "mover"]
   },
-  "06": {
+  "003": {
+    "nivel": 0,
+    "titulo": "Bloco de Notas (.txt)",
+    "enunciado": "O Bloco de Notas é um editor de 'texto simples'. Qual a principal característica de um arquivo .txt e por que ele é muito usado por programadores?",
+    "min_chars": 150,
+    "keywords": ["texto simples", "formatação", "leve", "código", "compatibilidade"]
+  },
+  "004": {
+    "nivel": 0,
+    "titulo": "VS Code vs Bloco de Notas",
+    "enunciado": "O VS Code possui recursos como cores no texto (syntax highlighting). Por que isso é uma vantagem em relação ao Bloco de Notas para quem está programando?",
+    "min_chars": 180,
+    "keywords": ["destaque", "sintaxe", "produtividade", "visualização", "erros"]
+  },
+  "005": {
+    "nivel": 0,
+    "titulo": "Salvar Arquivos (Ctrl+S)",
+    "enunciado": "Por que é importante usar o comando Ctrl+S frequentemente ao trabalhar no VS Code? O que acontece se o computador desligar e o arquivo não estiver salvo?",
+    "min_chars": 120,
+    "keywords": ["salvar", "persistência", "memória", "perda", "progresso"]
+  },
+  "006": {
+    "nivel": 0,
+    "titulo": "Atalho Alt + Tab",
+    "enunciado": "Para que serve o comando de teclado 'Alt + Tab' no Windows e em que situação ele ajuda na produtividade do desenvolvedor?",
+    "min_chars": 100,
+    "keywords": ["alternar", "janelas", "programas", "navegação", "multitarefa"]
+  },
+  "007": {
+    "nivel": 0,
+    "titulo": "Nuvem e Backup",
+    "enunciado": "O que significa salvar um arquivo 'na nuvem' (ex: Google Drive)? Qual a principal vantagem em relação ao pendrive?",
+    "min_chars": 150,
+    "keywords": ["internet", "armazenamento", "acesso remoto", "segurança", "backup"]
+  },
+  "008": {
+    "nivel": 0,
+    "titulo": "Criação de Pastas",
+    "enunciado": "Descreva o passo a passo para criar uma nova pasta no Windows e explique por que é importante nomeá-la corretamente.",
+    "min_chars": 120,
+    "keywords": ["botão direito", "novo", "pasta", "nomear", "organização"]
+  },
+  "009": {
+    "nivel": 0,
+    "titulo": "Renomear e Organizar",
+    "enunciado": "Como você renomeia um arquivo ou pasta? Por que não devemos usar nomes como 'trabalho1', 'trabalho final', 'agora vai'?",
+    "min_chars": 150,
+    "keywords": ["renomear", "identificação", "clareza", "organização", "contexto"]
+  },
+
+  // Nível 1 - Algoritmos e Lógica Inicial
+  "101": {
+    "nivel": 1,
+    "titulo": "O que é Algoritmo",
+    "enunciado": "Defina o conceito de algoritmo utilizando um exemplo do cotidiano (como uma receita ou trocar um pneu).",
+    "min_chars": 150,
+    "keywords": ["passos", "sequência", "instruções", "lógica", "objetivo"]
+  },
+  "102": {
+    "nivel": 1,
+    "titulo": "Fluxogramas",
+    "enunciado": "Qual a utilidade de um fluxograma antes de começar a escrever o código? O que o símbolo de 'losango' representa?",
+    "min_chars": 120,
+    "keywords": ["visual", "planejamento", "decisão", "fluxo", "lógica"]
+  },
+  "103": {
+    "nivel": 1,
+    "titulo": "Entrada e Saída",
+    "enunciado": "Em lógica, o que representam os conceitos de Entrada, Processamento e Saída de dados?",
+    "min_chars": 120,
+    "keywords": ["dados", "informação", "resultado", "transformação", "fluxo"]
+  },
+  "104": {
+    "nivel": 1,
+    "titulo": "Pseudocódigo",
+    "enunciado": "Por que usamos pseudocódigo (Portugol) antes de passar para uma linguagem como Python?",
+    "min_chars": 150,
+    "keywords": ["lógica", "entendimento", "linguagem", "estrutura", "transição"]
+  },
+  "105": {
+    "nivel": 1,
+    "titulo": "Símbolo de Processo",
+    "enunciado": "No fluxograma, o retângulo representa um processo. Dê dois exemplos de ações que seriam colocadas dentro de um retângulo.",
+    "min_chars": 100,
+    "keywords": ["ação", "cálculo", "atribuição", "tarefa", "processamento"]
+  },
+  "106": {
+    "nivel": 1,
+    "titulo": "Símbolo de Início/Fim",
+    "enunciado": "Por que todo fluxograma deve obrigatoriamente ter um símbolo de Início e um de Fim?",
+    "min_chars": 120,
+    "keywords": ["limite", "entrada", "saída", "término", "execução"]
+  },
+  "107": {
+    "nivel": 1,
+    "titulo": "Automação no Cotidiano",
+    "enunciado": "Cite um exemplo de um processo automático no seu dia a dia que segue um algoritmo (ex: semáforo). Explique a lógica.",
+    "min_chars": 150,
+    "keywords": ["sequência", "sensores", "tempo", "decisão", "automático"]
+  },
+  "108": {
+    "nivel": 1,
+    "titulo": "Ordem de Execução",
+    "enunciado": "O que acontece se invertermos a ordem de dois passos em um algoritmo de 'fazer café'? Como isso afeta o resultado?",
+    "min_chars": 120,
+    "keywords": ["sequência", "erro", "lógica", "passos", "resultado"]
+  },
+  "109": {
+    "nivel": 1,
+    "titulo": "Clareza de Instruções",
+    "enunciado": "Por que um algoritmo não pode ter instruções ambíguas (duvidosas)? O que acontece se o computador não entender um passo?",
+    "min_chars": 150,
+    "keywords": ["precisão", "clareza", "interpretação", "erro", "instrução"]
+  },
+
+  // Nível 2 - Ambiente de Desenvolvimento e Python
+  "201": {
+    "nivel": 2,
+    "titulo": "Python Interativo",
+    "enunciado": "O que acontece quando você digita apenas 'python' no terminal? Como você faz para sair desse modo?",
+    "min_chars": 100,
+    "keywords": ["modo interativo", "comandos", "testar", "exit()", "terminal"]
+  },
+  "202": {
+    "nivel": 2,
+    "titulo": "Erros de Sintaxe",
+    "enunciado": "O que o computador faz quando encontra um erro de sintaxe no seu código? Ele executa o resto do programa?",
+    "min_chars": 120,
+    "keywords": ["interrupção", "gramática", "interpretação", "falha", "correção"]
+  },
+  "203": {
+    "nivel": 2,
+    "titulo": "Extensão .py",
+    "enunciado": "Por que os arquivos de código Python devem terminar com a extensão '.py'? O que o sistema operacional faz com essa informação?",
+    "min_chars": 120,
+    "keywords": ["extensão", "identificação", "interpretador", "formato", "execução"]
+  },
+  "204": {
+    "nivel": 2,
+    "titulo": "Função Print",
+    "enunciado": "Para que serve o comando print()? O que acontece se você esquecer de colocar as aspas em volta de um texto dentro do print?",
+    "min_chars": 120,
+    "keywords": ["exibir", "tela", "erro", "aspas", "string"]
+  },
+  "205": {
+    "nivel": 2,
+    "titulo": "Comentários (#)",
+    "enunciado": "Por que usamos o símbolo # no código? O computador lê o que está escrito depois desse símbolo?",
+    "min_chars": 120,
+    "keywords": ["documentação", "explicação", "ignorar", "leitura", "clareza"]
+  },
+  "206": {
+    "nivel": 2,
+    "titulo": "Diferença Python 2 e 3",
+    "enunciado": "Embora usemos o Python 3, por que é importante saber que versões antigas existem? Cite uma diferença básica (ex: print).",
+    "min_chars": 150,
+    "keywords": ["compatibilidade", "evolução", "versão", "sintaxe", "legado"]
+  },
+  "207": {
+    "nivel": 2,
+    "titulo": "Case Sensitive",
+    "enunciado": "Python é 'Case Sensitive'. O que isso significa se você criar uma variável chamada Nome e tentar usar nome?",
+    "min_chars": 120,
+    "keywords": ["maiúsculas", "minúsculas", "diferença", "erro", "variável"]
+  },
+  "208": {
+    "nivel": 2,
+    "titulo": "O Interpretador",
+    "enunciado": "Explique brevemente o papel do 'Interpretador Python' na execução de um arquivo de código.",
+    "min_chars": 150,
+    "keywords": ["tradução", "execução", "linha por linha", "máquina", "código"]
+  },
+  "209": {
+    "nivel": 2,
+    "titulo": "Identação (Espaçamento)",
+    "enunciado": "Diferente de outras linguagens, o Python usa espaços para organizar blocos. O que acontece se o alinhamento estiver errado?",
+    "min_chars": 150,
+    "keywords": ["estrutura", "identação", "erro", "bloco", "organização"]
+  },
+
+  // Nível 3 - Variáveis e Tipos
+  "301": {
+    "nivel": 3,
+    "titulo": "Tipagem Dinâmica",
+    "enunciado": "Em Python, não precisamos dizer que uma variável é 'inteira' ao criá-la. Explique como o Python descobre o tipo do dado.",
+    "min_chars": 150,
+    "keywords": ["atribuição", "valor", "dinâmico", "tipo", "memória"]
+  },
+  "302": {
+    "nivel": 3,
+    "titulo": "Input e String",
+    "enunciado": "Por que o comando input() sempre retorna um texto (str), mesmo que o usuário digite um número?",
+    "min_chars": 150,
+    "keywords": ["entrada", "padrão", "conversão", "caractere", "teclado"]
+  },
+  "303": {
+    "nivel": 3,
+    "titulo": "Inteiro vs Float",
+    "enunciado": "Qual a diferença técnica entre o tipo int e o tipo float? Dê um exemplo de quando usar cada um.",
+    "min_chars": 120,
+    "keywords": ["inteiro", "decimal", "casas decimais", "precisão", "números"]
+  },
+  "304": {
+    "nivel": 3,
+    "titulo": "Booleano (bool)",
+    "enunciado": "O que é o tipo de dado Booleano? Quais são os dois únicos valores que ele pode assumir?",
+    "min_chars": 100,
+    "keywords": ["True", "False", "lógico", "verdadeiro", "falso"]
+  },
+  "305": {
+    "nivel": 3,
+    "titulo": "Nomes de Variáveis",
+    "enunciado": "Quais são as regras para dar nome a uma variável em Python? (Pode começar com número? Pode ter espaço?)",
+    "min_chars": 150,
+    "keywords": ["regras", "início", "caracteres", "espaço", "sublinhado"]
+  },
+  "306": {
+    "nivel": 3,
+    "titulo": "Função Type()",
+    "enunciado": "Para que serve o comando type()? Dê um exemplo de como ele ajudaria a descobrir um erro no código.",
+    "min_chars": 120,
+    "keywords": ["identificar", "tipo", "depuração", "verificação", "variável"]
+  },
+  "307": {
+    "nivel": 3,
+    "titulo": "Conversão (Casting)",
+    "enunciado": "Como transformamos um texto \"10\" em um número real 10.0? Use o nome da função correta na explicação.",
+    "min_chars": 100,
+    "keywords": ["float()", "conversão", "casting", "tipo", "real"]
+  },
+  "308": {
+    "nivel": 3,
+    "titulo": "Variável vs Constante",
+    "enunciado": "Embora o Python não tenha 'constantes' fixas por padrão, qual a diferença conceitual entre uma variável e uma constante?",
+    "min_chars": 150,
+    "keywords": ["alteração", "valor fixo", "semântica", "padrão", "armazenamento"]
+  },
+  "309": {
+    "nivel": 3,
+    "titulo": "Concatenação",
+    "enunciado": "O que acontece quando usamos o sinal de + entre duas Strings? Como isso é diferente de usar o + com números?",
+    "min_chars": 150,
+    "keywords": ["juntar", "somar", "texto", "tipos", "operador"]
+  },
+
+  // Nível 4 - Condicionais e Decisões
+  "401": {
+    "nivel": 4,
+    "titulo": "Identação no IF",
+    "enunciado": "Qual a importância do 'espaço' (Tab) logo abaixo de um comando if? O que acontece se esquecermos dele?",
+    "min_chars": 150,
+    "keywords": ["bloco", "recuo", "erro", "estrutura", "hierarquia"]
+  },
+  "402": {
+    "nivel": 4,
+    "titulo": "Operador de Módulo (%)",
+    "enunciado": "Explique como o operador % (resto da divisão) pode ser usado para descobrir se um número é Par ou Ímpar.",
+    "min_chars": 120,
+    "keywords": ["resto", "divisão", "zero", "comparação", "paridade"]
+  },
+  "403": {
+    "nivel": 4,
+    "titulo": "Operador de Igualdade (==)",
+    "enunciado": "Por que usamos == para comparar valores e não apenas =? Qual a função do = sozinho?",
+    "min_chars": 120,
+    "keywords": ["comparação", "atribuição", "igualdade", "erro", "operador"]
+  },
+  "404": {
+    "nivel": 4,
+    "titulo": "Função do ELIF",
+    "enunciado": "Em uma estrutura de decisão com 5 opções diferentes, por que usar elif é melhor do que usar vários if seguidos?",
+    "min_chars": 150,
+    "keywords": ["eficiência", "exclusivo", "ordem", "caminhos", "lógica"]
+  },
+  "405": {
+    "nivel": 4,
+    "titulo": "Operador lógico AND",
+    "enunciado": "Quando usamos o and em uma condição? O que deve acontecer com as duas partes para o resultado ser Verdadeiro?",
+    "min_chars": 120,
+    "keywords": ["ambos", "verdadeiro", "conjunção", "condição", "lógica"]
+  },
+  "406": {
+    "nivel": 4,
+    "titulo": "Operador lógico OR",
+    "enunciado": "Explique o funcionamento do or. Basta uma condição ser verdadeira para o bloco ser executado?",
+    "min_chars": 120,
+    "keywords": ["ou", "pelo menos um", "verdadeiro", "alternativa", "lógica"]
+  },
+  "407": {
+    "nivel": 4,
+    "titulo": "O papel do ELSE",
+    "enunciado": "O comando else precisa de uma condição (ex: else x > 10)? Explique quando o bloco do else é executado.",
+    "min_chars": 150,
+    "keywords": ["padrão", "negação", "contrário", "opcional", "execução"]
+  },
+  "408": {
+    "nivel": 4,
+    "titulo": "Valores de Borda",
+    "enunciado": "Em um programa que aprova alunos com nota >= 6.0, por que a nota 6.0 é chamada de 'valor de borda'?",
+    "min_chars": 150,
+    "keywords": ["limite", "teste", "comparação", "precisão", "erro de lógica"]
+  },
+  "409": {
+    "nivel": 4,
+    "titulo": "Operador Diferente (!=)",
+    "enunciado": "Como verificamos se o nome de um usuário não é 'admin'? Explique o uso do operador !=.",
+    "min_chars": 100,
+    "keywords": ["diferente", "negação", "comparação", "operador", "lógica"]
+  },
+
+  // Nível 5 - Estruturas de Repetição
+  "501": {
+    "nivel": 5,
+    "titulo": "Loop Infinito",
+    "enunciado": "O que causa um loop infinito em um comando while? Como podemos garantir que o loop um dia termine?",
+    "min_chars": 150,
+    "keywords": ["condição", "parada", "incremento", "atualização", "erro"]
+  },
+  "502": {
+    "nivel": 5,
+    "titulo": "Função Range",
+    "enunciado": "No comando for i in range(5), quais são os valores que a variável i assumirá? Explique o início e o fim.",
+    "min_chars": 120,
+    "keywords": ["sequência", "zero", "incremento", "iteração", "intervalo"]
+  },
+  "503": {
+    "nivel": 5,
+    "titulo": "Variável Contadora",
+    "enunciado": "Para que serve uma variável contadora (ex: cont = cont + 1) dentro de um loop while?",
+    "min_chars": 120,
+    "keywords": ["contagem", "controle", "incremento", "iteração", "limite"]
+  },
+  "504": {
+    "nivel": 5,
+    "titulo": "Variável Acumuladora",
+    "enunciado": "Qual a diferença entre um 'contador' e um 'acumulador' (ex: soma = soma + preco)?",
+    "min_chars": 150,
+    "keywords": ["total", "soma", "valores", "variável", "diferença"]
+  },
+  "505": {
+    "nivel": 5,
+    "titulo": "For vs While",
+    "enunciado": "Em que situação é melhor usar o for e em qual é melhor usar o while?",
+    "min_chars": 150,
+    "keywords": ["determinado", "indeterminado", "repetição", "escolha", "lógica"]
+  },
+  "506": {
+    "nivel": 5,
+    "titulo": "Comando Break",
+    "enunciado": "Para que serve o comando break? Ele encerra o programa inteiro ou apenas o loop atual?",
+    "min_chars": 120,
+    "keywords": ["interrupção", "saída", "loop", "encerramento", "controle"]
+  },
+  "507": {
+    "nivel": 5,
+    "titulo": "Comando Continue",
+    "enunciado": "Qual a diferença entre o break e o continue dentro de uma repetição?",
+    "min_chars": 150,
+    "keywords": ["pular", "interromper", "próxima iteração", "controle", "fluxo"]
+  },
+  "508": {
+    "nivel": 5,
+    "titulo": "Range com Passo",
+    "enunciado": "No comando range(0, 10, 2), o que o número 2 representa? Qual será a sequência de números gerada?",
+    "min_chars": 120,
+    "keywords": ["passo", "salto", "intervalo", "sequência", "incremento"]
+  },
+  "509": {
+    "nivel": 5,
+    "titulo": "Loops Aninhados",
+    "enunciado": "O que acontece quando colocamos um for dentro de outro for? Dê um exemplo prático (ex: relógio).",
+    "min_chars": 150,
+    "keywords": ["repetição dupla", "horas e minutos", "coordenadas", "estrutura", "complexidade"]
+  },
+
+  // Nível 6 - Listas e Dados Compostos
+  "601": {
     "nivel": 6,
-    "titulo": "História da IA",
-    "enunciado": "Quem foi Alan Turing e qual a importância do 'Teste de Turing' para a definição de inteligência em máquinas?",
-    "min_chars": 60,
-    "keywords": ["turing", "teste", "inteligência", "máquina", "jogo da imitação", "computação", "pioneiro"]
+    "titulo": "Listas vs Variáveis",
+    "enunciado": "Qual a vantagem de usar uma Lista (list) em vez de criar 50 variáveis differentes (ex: nota1, nota2...)?",
+    "min_chars": 180,
+    "keywords": ["organização", "índice", "loop", "coleção", "flexibilidade"]
   },
-  "07": {
+  "602": {
+    "nivel": 6,
+    "titulo": "Índices de Matriz",
+    "enunciado": "Para acessar um valor em uma matriz, usamos dois colchetes matriz[x][y]. O que o primeiro e o segundo índice representam?",
+    "min_chars": 120,
+    "keywords": ["linha", "coluna", "coordenada", "bidimensional", "posição"]
+  },
+  "603": {
+    "nivel": 6,
+    "titulo": "Index Out of Range",
+    "enunciado": "O que causa o erro 'list index out of range'? Como evitar acessar um índice que não existe?",
+    "min_chars": 150,
+    "keywords": ["erro", "limite", "tamanho", "inexistente", "acesso"]
+  },
+  "604": {
+    "nivel": 6,
+    "titulo": "Método Append()",
+    "enunciado": "Para que serve o comando .append()? Onde o novo elemento é colocado na lista?",
+    "min_chars": 100,
+    "keywords": ["adicionar", "final", "elemento", "inserir", "lista"]
+  },
+  "605": {
+    "nivel": 6,
+    "titulo": "Método Pop()",
+    "enunciado": "Como removemos o último elemento de uma lista? Explique o funcionamento básico do .pop().",
+    "min_chars": 120,
+    "keywords": ["remover", "excluir", "último", "retorno", "lista"]
+  },
+  "606": {
+    "nivel": 6,
+    "titulo": "Percorrendo Listas",
+    "enunciado": "Como usamos o for para imprimir todos os nomes de uma lista um por um?",
+    "min_chars": 120,
+    "keywords": ["iteração", "elemento", "lista", "exibição", "loop"]
+  },
+  "607": {
+    "nivel": 6,
+    "titulo": "Função Len()",
+    "enunciado": "O que a função len() nos diz sobre uma lista? Por que ela é útil em loops?",
+    "min_chars": 120,
+    "keywords": ["tamanho", "comprimento", "quantidade", "limite", "total"]
+  },
+  "608": {
+    "nivel": 6,
+    "titulo": "Listas Vazias",
+    "enunciado": "Por que às vezes começamos um programa criando uma lista vazia lista = []?",
+    "min_chars": 120,
+    "keywords": ["inicialização", "preenchimento", "dinâmico", "armazenamento", "futuro"]
+  },
+  "609": {
+    "nivel": 6,
+    "titulo": "Matrizes no Real",
+    "enunciado": "Dê um exemplo de dado do mundo real que se comporta como uma matriz (ex: cinema, excel, batalha naval).",
+    "min_chars": 150,
+    "keywords": ["linhas", "colunas", "grade", "bidimensional", "organização"]
+  },
+
+  // Nível 7 - Modularização
+  "701": {
     "nivel": 7,
-    "titulo": "Machine Learning vs Deep Learning",
-    "enunciado": "Explique de forma simples a relação entre Inteligência Artificial, Machine Learning e Deep Learning. Como um se contém dentro do outro?",
-    "min_chars": 70,
-    "keywords": ["subconjunto", "aprendizado", "máquina", "profundo", "redes neurais", "dados", "algoritmos"]
+    "titulo": "Escopo de Variáveis",
+    "enunciado": "Uma variável criada dentro de uma função pode ser usada fora dela? Explique o conceito de variáveis locais.",
+    "min_chars": 150,
+    "keywords": ["escopo", "local", "global", "visibilidade", "função"]
   },
-  "08": {
-    "nivel": 8,
-    "titulo": "IA no Cotidiano",
-    "enunciado": "Cite e explique três exemplos de como a IA está presente no seu dia a dia (redes sociais, GPS, streaming, etc) e como ela processa esses dados.",
-    "min_chars": 50,
-    "keywords": ["cotidiano", "exemplo", "processamento", "usuário", "dados", "personalização", "recomendação"]
+  "702": {
+    "nivel": 7,
+    "titulo": "Parâmetros",
+    "enunciado": "Para que servem os parâmetros de uma função? Dê um exemplo de uma função que recebe dados para processar.",
+    "min_chars": 150,
+    "keywords": ["entrada", "argumentos", "flexibilidade", "processamento", "reuso"]
   },
-  "09": {
-    "nivel": 9,
-    "titulo": "IA e Robótica",
-    "enunciado": "Explique como a Inteligência Artificial se diferencia da automação robótica simples. O que torna um robô 'inteligente' em comparação a um braço mecânico de fábrica tradicional?",
-    "min_chars": 60,
-    "keywords": ["robótica", "automação", "sensor", "percepção", "tomada de decisão", "adaptabilidade", "autônomo", "mecânico"]
+  "703": {
+    "nivel": 7,
+    "titulo": "Return vs Print",
+    "enunciado": "Qual a diferença entre uma função que dá um print() e uma função que dá um return?",
+    "min_chars": 180,
+    "keywords": ["resultado", "exibir", "devolver", "variável", "saída"]
+  },
+  "704": {
+    "nivel": 7,
+    "titulo": "Vantagem de Modularizar",
+    "enunciado": "Por que dividimos um programa grande em várias funções pequenas? Cite duas vantagens.",
+    "min_chars": 150,
+    "keywords": ["organização", "reuso", "manutenção", "legibilidade", "divisão"]
+  },
+  "705": {
+    "nivel": 7,
+    "titulo": "Docstrings",
+    "enunciado": "O que é uma docstring (texto entre três aspas) logo abaixo da definição da função? Para que serve?",
+    "min_chars": 150,
+    "keywords": ["documentação", "ajuda", "explicação", "desenvolvedor", "clareza"]
+  },
+  "706": {
+    "nivel": 7,
+    "titulo": "Parâmetros Opcionais",
+    "enunciado": "Como definimos um valor padrão para um parâmetro (ex: f(x=10))? O que acontece se o usuário não enviar o valor?",
+    "min_chars": 150,
+    "keywords": ["padrão", "default", "opcional", "argumento", "flexibilidade"]
+  },
+  "707": {
+    "nivel": 7,
+    "titulo": "Chamar uma Função",
+    "enunciado": "Como você 'executa' uma função que já foi definida? O que acontece se você esquecer dos parênteses ()?",
+    "min_chars": 120,
+    "keywords": ["chamada", "invocação", "parênteses", "execução", "referência"]
+  },
+  "708": {
+    "nivel": 7,
+    "titulo": "DRY (Don't Repeat Yourself)",
+    "enunciado": "Explique o conceito de DRY na programação e como as funções ajudam a evitar a repetição de código.",
+    "min_chars": 150,
+    "keywords": ["repetição", "reuso", "padrão", "manutenção", "limpeza"]
+  },
+  "709": {
+    "nivel": 7,
+    "titulo": "Bibliotecas (Import)",
+    "enunciado": "Qual a relação entre funções e o comando import? O que estamos trazendo para o nosso código?",
+    "min_chars": 150,
+    "keywords": ["módulos", "bibliotecas", "ferramentas prontas", "reuso", "funcionalidades"]
   }
 };

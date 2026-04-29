@@ -15,6 +15,7 @@ import { BANCO_DE_PROVAS, Prova, APP_CONFIG } from './data';
 
 interface UserProgress {
   sequence: string[];
+  userName: string;
   currentLevel: string;
   responses: Record<string, string>;
   scores: Record<string, number>;
@@ -57,9 +58,12 @@ export default function App() {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        // Migration: Ensure sequence exists
+        // Migration: Ensure sequence and userName exist
         if (!parsed.sequence) {
           parsed.sequence = Object.keys(BANCO_DE_PROVAS).sort();
+        }
+        if (parsed.userName === undefined) {
+          parsed.userName = '';
         }
         return parsed;
       } catch (e) {
@@ -69,12 +73,15 @@ export default function App() {
     const initialSequence = generateSequence();
     return {
       sequence: initialSequence,
+      userName: '',
       currentLevel: initialSequence[0],
       responses: {},
       scores: {},
       completed: false
     };
   });
+
+  const [tempName, setTempName] = useState('');
 
   const levels = progress.sequence;
 
@@ -91,9 +98,21 @@ export default function App() {
   }, [progress]);
 
   useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (progress.completed) {
+        e.preventDefault();
+        e.returnValue = 'A avaliação foi concluída. O ambiente está travado para análise.';
+        return 'A avaliação foi concluída. O ambiente está travado para análise.';
+      }
+    };
+
     if (progress.completed) {
-      downloadReport();
+      window.addEventListener('beforeunload', handleBeforeUnload);
     }
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
   }, [progress.completed]);
 
   const currentLevelData: Prova = BANCO_DE_PROVAS[progress.currentLevel];
@@ -108,6 +127,21 @@ export default function App() {
 
   const saveResponse = () => {
     setIsSaving(true);
+    
+    // Download draft
+    let content = `RASCUNHO - QUESTÃO ${progress.currentLevel}\n`;
+    content += `Estudante: ${progress.userName}\n`;
+    content += "--------------------------------------------\n";
+    content += currentResponse;
+
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Rascunho_Questão.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+    
     setTimeout(() => setIsSaving(false), 800);
   };
 
@@ -160,9 +194,18 @@ export default function App() {
     }
   };
 
+  const handleStart = () => {
+    if (tempName.trim().length < 3) {
+      alert("Por favor, insira seu nome completo.");
+      return;
+    }
+    setProgress(prev => ({ ...prev, userName: tempName.trim() }));
+  };
+
   const downloadReport = () => {
     let content = "RELATÓRIO FINAL DE DESEMPENHO - EXAMULLATOR\n";
     content += "============================================\n";
+    content += `Estudante: ${progress.userName}\n`;
     content += `Data: ${new Date().toLocaleString()}\n\n`;
     
     levels.forEach(lvl => {
@@ -177,7 +220,9 @@ export default function App() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `Relatório_Avaliação.txt`;
+    // Sugere uma pasta prefixando o nome do arquivo
+    const safeName = progress.userName.replace(/[^a-z0-9]/gi, '_').toUpperCase();
+    a.download = `PROVAS_ENVIADAS/${safeName}_RELATORIO.txt`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -197,10 +242,52 @@ export default function App() {
   };
 
   const finishExam = () => {
-    if (confirm("Deseja encerrar a prova agora? Seu relatório será baixado automaticamente.")) {
+    if (confirm("Deseja encerrar a prova agora?")) {
       setProgress(prev => ({ ...prev, completed: true }));
     }
   };
+
+  if (!progress.userName) {
+    return (
+      <div className="h-screen bg-gray-50 flex items-center justify-center p-6 font-sans">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-md w-full bg-white rounded-xl shadow-sm border border-gray-200 p-10 space-y-8"
+        >
+          <div className="text-center space-y-2">
+            <div className="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mb-4">
+              <GraduationCap size={32} />
+            </div>
+            <h1 className="text-2xl font-black text-slate-900">Identificação</h1>
+            <p className="text-gray-500 text-sm">Insira seu nome completo para iniciar a avaliação.</p>
+          </div>
+
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Nome Completo</label>
+              <input
+                type="text"
+                value={tempName}
+                onChange={(e) => setTempName(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleStart()}
+                className="w-full p-4 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none text-slate-700 font-medium transition-all"
+                placeholder="Ex: João Silva Sauro"
+                autoFocus
+              />
+            </div>
+            <button
+              onClick={handleStart}
+              className="w-full bg-[#111827] text-white py-4 rounded-xl font-bold hover:bg-[#374151] transition-all shadow-lg shadow-gray-200 active:scale-[0.98]"
+            >
+              Iniciar Avaliação
+            </button>
+          </div>
+          <p className="text-[10px] text-center text-gray-400 font-medium">Seu progresso será salvo automaticamente.</p>
+        </motion.div>
+      </div>
+    );
+  }
 
   if (progress.completed) {
     return (
@@ -215,7 +302,7 @@ export default function App() {
           </div>
           <div className="space-y-2">
             <h1 className="text-2xl font-semibold">Prova Finalizada</h1>
-            <p className="text-gray-500 text-sm">Seu relatório foi baixado automaticamente.</p>
+            <p className="text-gray-500 text-sm">Obrigado por participar.</p>
           </div>
 
           <div className="bg-gray-50 rounded-2xl p-8 border border-gray-100 space-y-4">
@@ -224,7 +311,7 @@ export default function App() {
               Aguarde o término da avaliação pelo sistema...
             </p>
             <p className="text-xs text-gray-400 leading-relaxed">
-              O processamento final pode levar alguns instantes. Você pode fechar esta aba assim que o download for concluído.
+              O processamento final pode levar alguns instantes. Sua submissão está sendo analisada pelos avaliadores.
             </p>
           </div>
         </motion.div>
