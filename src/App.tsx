@@ -228,15 +228,17 @@ export default function App() {
   };
 
   const resetProgress = () => {
-    if (confirm("Tem certeza que deseja apagar todo o progresso?")) {
+    if (confirm("Tem certeza que deseja apagar todo o progresso? Isso limpará o nome e todas as respostas.")) {
       const newSequence = generateSequence();
       setProgress({
         sequence: newSequence,
+        userName: '',
         currentLevel: newSequence[0],
         responses: {},
         scores: {},
         completed: false
       });
+      setTempName('');
       setFeedback(null);
     }
   };
@@ -313,6 +315,15 @@ export default function App() {
             <p className="text-xs text-gray-400 leading-relaxed">
               O processamento final pode levar alguns instantes. Sua submissão está sendo analisada pelos avaliadores.
             </p>
+            
+            <div className="pt-4 border-t border-gray-200 mt-4">
+              <button 
+                onClick={resetProgress}
+                className="text-[10px] font-bold text-red-400 uppercase tracking-widest hover:text-red-600 transition-colors flex items-center justify-center gap-1 mx-auto"
+              >
+                <RotateCcw size={10} /> Reiniciar Sistema (Config)
+              </button>
+            </div>
           </div>
         </motion.div>
       </div>
@@ -346,6 +357,15 @@ export default function App() {
             </div>
             
             <div className="flex items-center gap-2">
+              <button 
+                onClick={resetProgress}
+                className="bg-white text-red-600 border border-red-200 px-3 py-2 rounded-md text-xs font-bold hover:bg-red-50 transition-all flex items-center gap-1.5 uppercase tracking-tighter"
+                title="Limpar tudo (Temporário)"
+              >
+                <RotateCcw size={14} />
+                Reset
+              </button>
+
               <button 
                 onClick={() => window.location.href = 'https://www.google.com'}
                 className="bg-white text-gray-500 border border-gray-200 px-3 py-2 rounded-md text-xs font-bold hover:bg-gray-50 transition-all flex items-center gap-1.5 uppercase tracking-tighter"
