@@ -115,6 +115,12 @@ export default function App() {
     };
   }, [progress.completed]);
 
+  useEffect(() => {
+    if (progress.completed) {
+      downloadReport();
+    }
+  }, [progress.completed]);
+
   const currentLevelData: Prova = BANCO_DE_PROVAS[progress.currentLevel];
   const currentResponse = progress.responses[progress.currentLevel] || '';
 
@@ -134,11 +140,12 @@ export default function App() {
     content += "--------------------------------------------\n";
     content += currentResponse;
 
+    const safeName = progress.userName.replace(/[^a-z0-9]/gi, '_').toUpperCase();
     const blob = new Blob([content], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `Rascunho_Questão.txt`;
+    a.download = `${safeName}_Rascunho_Questão_${progress.currentLevel}.txt`;
     a.click();
     URL.revokeObjectURL(url);
     
@@ -415,7 +422,6 @@ export default function App() {
                 id="answer-input"
                 value={currentResponse}
                 onChange={(e) => handleResponseChange(e.target.value)}
-                onBlur={saveResponse}
                 className="flex-1 p-5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none resize-none text-gray-700 leading-relaxed font-mono text-[13px] bg-white transition-all shadow-sm"
                 placeholder="Digite sua dissertação técnica aqui..."
                 spellCheck="false"
