@@ -131,85 +131,49 @@ export default function App() {
     }));
   };
 
-  const saveResponse = () => {
+  const saveToLocalServer = async (filename: string, content: string, folder?: string) => {
+    try {
+      const response = await fetch('http://localhost:3001/api/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filename, content, folder })
+      });
+      return response.ok;
+    } catch (e) {
+      console.warn("Local server not reachable, falling back to browser download.");
+      return false;
+    }
+  };
+
+  const saveResponse = async () => {
     setIsSaving(true);
     
-    // Download draft
     let content = `RASCUNHO - QUESTÃO ${progress.currentLevel}\n`;
     content += `Estudante: ${progress.userName}\n`;
     content += "--------------------------------------------\n";
     content += currentResponse;
 
     const safeName = progress.userName.replace(/[^a-z0-9]/gi, '_').toUpperCase();
-    const blob = new Blob([content], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${safeName}_Rascunho_Questão_${progress.currentLevel}.txt`;
-    a.click();
-    URL.revokeObjectURL(url);
+    const filename = `${safeName}_Rascunho_Questão_${progress.currentLevel}.txt`;
+
+    // Try saving to local server first
+    const savedLocally = await saveToLocalServer(filename, content);
+
+    // If local server failed or didn't respond, fallback to browser download
+    if (!savedLocally) {
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
     
     setTimeout(() => setIsSaving(false), 800);
   };
 
-  const evaluateNota = () => {
-    const text = currentResponse.trim();
-    
-    if (text.length < currentLevelData.min_chars) {
-      setFeedback({
-        score: 0,
-        missingKeys: [],
-        error: `Resposta muito curta! Mínimo ${currentLevelData.min_chars} caracteres.`
-      });
-      return;
-    }
-
-    const textLower = text.toLowerCase();
-    const foundKeywords = currentLevelData.keywords.filter(kw => 
-      textLower.includes(kw.toLowerCase())
-    );
-    
-    const missingKeys = currentLevelData.keywords.filter(kw => 
-      !textLower.includes(kw.toLowerCase())
-    );
-
-    const keywordsRatio = foundKeywords.length / currentLevelData.keywords.length;
-    const rawScore = (keywordsRatio / APP_CONFIG.percentualPalavrasParaNotaMaxima) * 10;
-    const finalScore = Number(Math.min(10, rawScore).toFixed(1));
-
-    setFeedback({
-      score: finalScore,
-      missingKeys: missingKeys,
-    });
-
-    setProgress(prev => ({
-      ...prev,
-      scores: { ...prev.scores, [prev.currentLevel]: finalScore }
-    }));
-  };
-
-  const nextLevel = () => {
-    const currentIndex = levels.indexOf(progress.currentLevel);
-    if (currentIndex < levels.length - 1) {
-      setProgress(prev => ({
-        ...prev,
-        currentLevel: levels[currentIndex + 1]
-      }));
-      setFeedback(null);
-    } else {
-      setProgress(prev => ({ ...prev, completed: true }));
-    }
-  };
-
-  const handleStart = () => {
-    if (tempName.trim().length < 3) {
-      alert("Por favor, insira seu nome completo.");
-      return;
-    }
-    setProgress(prev => ({ ...prev, userName: tempName.trim() }));
-  };
-
-  const downloadReport = () => {
+  const downloadReport = async () => {
     let content = "RELATÓRIO FINAL DE DESEMPENHO - EXAMULLATOR\n";
     content += "============================================\n";
     content += `Estudante: ${progress.userName}\n`;
@@ -223,15 +187,21 @@ export default function App() {
       content += "--------------------------------------------\n\n";
     });
 
-    const blob = new Blob([content], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    // Sugere uma pasta prefixando o nome do arquivo
     const safeName = progress.userName.replace(/[^a-z0-9]/gi, '_').toUpperCase();
-    a.download = `PROVAS_ENVIADAS/${safeName}_RELATORIO.txt`;
-    a.click();
-    URL.revokeObjectURL(url);
+    const filename = `${safeName}_RELATORIO.txt`;
+
+    // Try saving to local server (into PROVAS_ENVIADAS subfolder)
+    const savedLocally = await saveToLocalServer(filename, content, 'PROVAS_ENVIADAS');
+
+    if (!savedLocally) {
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `PROVAS_ENVIADAS/${filename}`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
   };
 
   const resetProgress = () => {
