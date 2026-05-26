@@ -135,6 +135,12 @@ export default function App() {
     };
   }, [progress.completed]);
 
+  useEffect(() => {
+    if (progress.completed) {
+      downloadReport();
+    }
+  }, [progress.completed]);
+
   const currentLevelData: Prova = BANCO_DE_PROVAS[progress.currentLevel];
   const currentResponse = progress.responses[progress.currentLevel] || '';
 
