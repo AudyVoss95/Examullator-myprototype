@@ -13,9 +13,9 @@ export interface AppConfig {
 }
 
 export const APP_CONFIG: AppConfig = {
-  questoesPorNivel: 2,
-  totalQuestoes: 10,
-  percentualPalavrasParaNotaMaxima: 0.7, // 70% das palavras já garantem nota 10
+  questoesPorNivel: 3,
+  totalQuestoes: 15,
+  percentualPalavrasParaNotaMaxima: 0.9, // 70% das palavras já garantem nota 10
 };
 
 export const BANCO_DE_PROVAS: Record<string, Prova> = {
