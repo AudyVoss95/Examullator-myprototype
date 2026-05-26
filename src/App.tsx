@@ -82,6 +82,26 @@ export default function App() {
   });
 
   const [tempName, setTempName] = useState('');
+  const [modal, setModal] = useState<{
+    show: boolean;
+    title: string;
+    message: string;
+    onConfirm?: () => void;
+    type: 'alert' | 'confirm';
+  }>({
+    show: false,
+    title: '',
+    message: '',
+    type: 'alert'
+  });
+
+  const showAlert = (title: string, message: string) => {
+    setModal({ show: true, title, message, type: 'alert' });
+  };
+
+  const showConfirm = (title: string, message: string, onConfirm: () => void) => {
+    setModal({ show: true, title, message, onConfirm, type: 'confirm' });
+  };
 
   const levels = progress.sequence;
 
@@ -114,6 +134,16 @@ export default function App() {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, [progress.completed]);
+
+  const currentLevelData: Prova = BANCO_DE_PROVAS[progress.currentLevel];
+  const currentResponse = progress.responses[progress.currentLevel] || '';
+
+  const handleResponseChange = (val: string) => {
+    setProgress(prev => ({
+      ...prev,
+      responses: { ...prev.responses, [prev.currentLevel]: val }
+    }));
+  };
 
   const saveResponse = () => {
     setIsSaving(true);
@@ -187,7 +217,7 @@ export default function App() {
 
   const handleStart = () => {
     if (tempName.trim().length < 3) {
-      alert("Por favor, insira seu nome completo.");
+      showAlert("Identificação", "Por favor, insira seu nome completo.");
       return;
     }
     setProgress(prev => ({ ...prev, userName: tempName.trim() }));
@@ -218,25 +248,33 @@ export default function App() {
   };
 
   const resetProgress = () => {
-    if (confirm("Tem certeza que deseja apagar todo o progresso? Isso limpará o nome e todas as respostas.")) {
-      const newSequence = generateSequence();
-      setProgress({
-        sequence: newSequence,
-        userName: '',
-        currentLevel: newSequence[0],
-        responses: {},
-        scores: {},
-        completed: false
-      });
-      setTempName('');
-      setFeedback(null);
-    }
+    showConfirm(
+      "Resetar Progresso", 
+      "Tem certeza que deseja apagar todo o progresso? Isso limpará o nome e todas as respostas.",
+      () => {
+        const newSequence = generateSequence();
+        setProgress({
+          sequence: newSequence,
+          userName: '',
+          currentLevel: newSequence[0],
+          responses: {},
+          scores: {},
+          completed: false
+        });
+        setTempName('');
+        setFeedback(null);
+      }
+    );
   };
 
   const finishExam = () => {
-    if (confirm("Deseja encerrar a prova agora?")) {
-      setProgress(prev => ({ ...prev, completed: true }));
-    }
+    showConfirm(
+      "Encerrar Prova",
+      "Deseja encerrar a prova agora?",
+      () => {
+        setProgress(prev => ({ ...prev, completed: true }));
+      }
+    );
   };
 
   if (!progress.userName) {
@@ -277,6 +315,64 @@ export default function App() {
           </div>
           <p className="text-[10px] text-center text-gray-400 font-medium">Seu progresso será salvo automaticamente.</p>
         </motion.div>
+        {/* Custom Modal */}
+        <AnimatePresence>
+          {modal.show && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setModal(m => ({ ...m, show: false }))}
+                className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
+              />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                className="relative bg-white rounded-2xl shadow-2xl border border-slate-100 max-w-sm w-full overflow-hidden"
+              >
+                <div className="p-6 text-center space-y-4">
+                  <div className="mx-auto w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center text-slate-400">
+                    <AlertCircle size={24} />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-lg font-bold text-slate-900">{modal.title}</h3>
+                    <p className="text-sm text-slate-500 leading-relaxed">{modal.message}</p>
+                  </div>
+                </div>
+                <div className="p-4 bg-slate-50 border-t border-slate-100 flex gap-3">
+                  {modal.type === 'confirm' ? (
+                    <>
+                      <button
+                        onClick={() => setModal(m => ({ ...m, show: false }))}
+                        className="flex-1 px-4 py-2.5 rounded-xl text-sm font-bold text-slate-500 hover:bg-slate-100 transition-colors"
+                      >
+                        Cancelar
+                      </button>
+                      <button
+                        onClick={() => {
+                          modal.onConfirm?.();
+                          setModal(m => ({ ...m, show: false }));
+                        }}
+                        className="flex-1 px-4 py-2.5 rounded-xl text-sm font-bold bg-[#111827] text-white hover:bg-[#374151] transition-colors"
+                      >
+                        Confirmar
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      onClick={() => setModal(m => ({ ...m, show: false }))}
+                      className="w-full px-4 py-2.5 rounded-xl text-sm font-bold bg-[#111827] text-white hover:bg-[#374151] transition-colors"
+                    >
+                      Entendido
+                    </button>
+                  )}
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
       </div>
     );
   }
@@ -316,6 +412,64 @@ export default function App() {
             </div>
           </div>
         </motion.div>
+        {/* Modal Overlay */}
+        <AnimatePresence>
+          {modal.show && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setModal(m => ({ ...m, show: false }))}
+                className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
+              />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                className="relative bg-white rounded-2xl shadow-2xl border border-slate-100 max-w-sm w-full overflow-hidden"
+              >
+                <div className="p-6 text-center space-y-4">
+                  <div className="mx-auto w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center text-slate-400">
+                    <AlertCircle size={24} />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-lg font-bold text-slate-900">{modal.title}</h3>
+                    <p className="text-sm text-slate-500 leading-relaxed">{modal.message}</p>
+                  </div>
+                </div>
+                <div className="p-4 bg-slate-50 border-t border-slate-100 flex gap-3">
+                  {modal.type === 'confirm' ? (
+                    <>
+                      <button
+                        onClick={() => setModal(m => ({ ...m, show: false }))}
+                        className="flex-1 px-4 py-2.5 rounded-xl text-sm font-bold text-slate-500 hover:bg-slate-100 transition-colors"
+                      >
+                        Cancelar
+                      </button>
+                      <button
+                        onClick={() => {
+                          modal.onConfirm?.();
+                          setModal(m => ({ ...m, show: false }));
+                        }}
+                        className="flex-1 px-4 py-2.5 rounded-xl text-sm font-bold bg-[#111827] text-white hover:bg-[#374151] transition-colors"
+                      >
+                        Confirmar
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      onClick={() => setModal(m => ({ ...m, show: false }))}
+                      className="w-full px-4 py-2.5 rounded-xl text-sm font-bold bg-[#111827] text-white hover:bg-[#374151] transition-colors"
+                    >
+                      Entendido
+                    </button>
+                  )}
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
       </div>
     );
   }
@@ -490,6 +644,65 @@ export default function App() {
       <div className="py-2 text-center text-[10px] text-gray-400 font-bold uppercase tracking-[0.3em] opacity-50">
         Engine Examullator &trade; 2026
       </div>
+
+      {/* Modal Overlay for Main View */}
+      <AnimatePresence>
+        {modal.show && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setModal(m => ({ ...m, show: false }))}
+              className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative bg-white rounded-2xl shadow-2xl border border-slate-100 max-w-sm w-full overflow-hidden"
+            >
+              <div className="p-6 text-center space-y-4">
+                <div className="mx-auto w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center text-slate-400">
+                  <AlertCircle size={24} />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-lg font-bold text-slate-900">{modal.title}</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed">{modal.message}</p>
+                </div>
+              </div>
+              <div className="p-4 bg-slate-50 border-t border-slate-100 flex gap-3">
+                {modal.type === 'confirm' ? (
+                  <>
+                    <button
+                      onClick={() => setModal(m => ({ ...m, show: false }))}
+                      className="flex-1 px-4 py-2.5 rounded-xl text-sm font-bold text-slate-500 hover:bg-slate-100 transition-colors"
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      onClick={() => {
+                        modal.onConfirm?.();
+                        setModal(m => ({ ...m, show: false }));
+                      }}
+                      className="flex-1 px-4 py-2.5 rounded-xl text-sm font-bold bg-[#111827] text-white hover:bg-[#374151] transition-colors"
+                    >
+                      Confirmar
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    onClick={() => setModal(m => ({ ...m, show: false }))}
+                    className="w-full px-4 py-2.5 rounded-xl text-sm font-bold bg-[#111827] text-white hover:bg-[#374151] transition-colors"
+                  >
+                    Entendido
+                  </button>
+                )}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
