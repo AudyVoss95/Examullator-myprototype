@@ -13,8 +13,8 @@ export interface AppConfig {
 }
 
 export const APP_CONFIG: AppConfig = {
-  questoesPorNivel: 3,
-  totalQuestoes: 24,
+  questoesPorNivel: 2,
+  totalQuestoes: 16,
   percentualPalavrasParaNotaMaxima: 0.9, // 70% das palavras já garantem nota 10
 };
 
