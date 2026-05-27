@@ -25,10 +25,10 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Explique com suas palavras a diferença entre Hardware e Software e cite um exemplo de cada.",
     "min_chars": 43,
     "keywords": [
-      "físico",
-      "programas",
-      "componentes",
-      "sistema"
+      "WnNPdGMybGpidz09",
+      "Y0hKdlozSmhiV0Z6",
+      "WTI5dGNHOXVaVzUwWlhNPQ==",
+      "YzJsemRHVnRZUT09"
     ]
   },
   "002": {
@@ -37,11 +37,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Explique para que servem os comandos Ctrl+C, Ctrl+V e Ctrl+X e descreva a diferença entre 'copiar' e 'recortar'.",
     "min_chars": 42,
     "keywords": [
-      "copiar",
-      "colar",
-      "recortar",
-      "duplicar",
-      "mover"
+      "WTI5d2FXRnk=",
+      "WTI5c1lYST0=",
+      "Y21WamIzSjBZWEk9",
+      "WkhWd2JHbGpZWEk9",
+      "Ylc5MlpYST0="
     ]
   },
   "003": {
@@ -50,11 +50,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "O Bloco de Notas é um editor de 'texto simples'. Qual a principal característica de um arquivo .txt e por que ele é muito usado por programadores?",
     "min_chars": 57,
     "keywords": [
-      "texto simples",
-      "formatação",
-      "leve",
-      "código",
-      "compatibilidade"
+      "ZEdWNGRHOGdjMmx0Y0d4bGN3PT0=",
+      "Wm05eWJXRjBZY09udzZOdg==",
+      "YkdWMlpRPT0=",
+      "WThPelpHbG5idz09",
+      "WTI5dGNHRjBhV0pwYkdsa1lXUmw="
     ]
   },
   "004": {
@@ -63,11 +63,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "O VS Code possui recursos como cores no texto (syntax highlighting). Por que isso é uma vantagem em relação ao Bloco de Notas para quem está programando?",
     "min_chars": 55,
     "keywords": [
-      "destaque",
-      "sintaxe",
-      "produtividade",
-      "visualização",
-      "erros"
+      "WkdWemRHRnhkV1U9",
+      "YzJsdWRHRjRaUT09",
+      "Y0hKdlpIVjBhWFpwWkdGa1pRPT0=",
+      "ZG1semRXRnNhWHBodzZmRG8yOD0=",
+      "WlhKeWIzTT0="
     ]
   },
   "005": {
@@ -76,11 +76,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Por que é importante usar o comando Ctrl+S frequentemente ao trabalhar no VS Code? O que acontece se o computador desligar e o arquivo não estiver salvo?",
     "min_chars": 49,
     "keywords": [
-      "salvar",
-      "persistência",
-      "memória",
-      "perda",
-      "progresso"
+      "YzJGc2RtRnk=",
+      "Y0dWeWMybHpkTU9xYm1OcFlRPT0=",
+      "YldWdHc3TnlhV0U9",
+      "Y0dWeVpHRT0=",
+      "Y0hKdlozSmxjM052"
     ]
   },
   "006": {
@@ -89,11 +89,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Para que serve o comando de teclado 'Alt + Tab' no Windows e em que situação ele ajuda na produtividade do desenvolvedor?",
     "min_chars": 54,
     "keywords": [
-      "alternar",
-      "janelas",
-      "programas",
-      "navegação",
-      "multitarefa"
+      "WVd4MFpYSnVZWEk9",
+      "YW1GdVpXeGhjdz09",
+      "Y0hKdlozSmhiV0Z6",
+      "Ym1GMlpXZGh3NmZEbzI4PQ==",
+      "YlhWc2RHbDBZWEpsWm1FPQ=="
     ]
   },
   "007": {
@@ -102,11 +102,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "O que significa salvar um arquivo 'na nuvem' (ex: Google Drive)? Qual a principal vantagem em relação ao pendrive?",
     "min_chars": 58,
     "keywords": [
-      "internet",
-      "armazenamento",
-      "acesso remoto",
-      "segurança",
-      "backup"
+      "YVc1MFpYSnVaWFE9",
+      "WVhKdFlYcGxibUZ0Wlc1MGJ3PT0=",
+      "WVdObGMzTnZJSEpsYlc5MGJ3PT0=",
+      "YzJWbmRYSmhic09uWVE9PQ==",
+      "WW1GamEzVnc="
     ]
   },
   "008": {
@@ -115,11 +115,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Descreva o passo a passo para criar uma nova pasta no Windows e explique por que é importante nomeá-la corretamente.",
     "min_chars": 48,
     "keywords": [
-      "botão direito",
-      "novo",
-      "pasta",
-      "nomear",
-      "organização"
+      "WW05MHc2TnZJR1JwY21WcGRHOD0=",
+      "Ym05MmJ3PT0=",
+      "Y0dGemRHRT0=",
+      "Ym05dFpXRnk=",
+      "YjNKbllXNXBlbUhEcDhPamJ3PT0="
     ]
   },
   "009": {
@@ -128,11 +128,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Como você renomeia um arquivo ou pasta? Por que não devemos usar nomes como 'trabalho1', 'trabalho final', 'agora vai'?",
     "min_chars": 57,
     "keywords": [
-      "renomear",
-      "identificação",
-      "clareza",
-      "organização",
-      "contexto"
+      "Y21WdWIyMWxZWEk9",
+      "YVdSbGJuUnBabWxqWWNPbnc2TnY=",
+      "WTJ4aGNtVjZZUT09",
+      "YjNKbllXNXBlbUhEcDhPamJ3PT0=",
+      "WTI5dWRHVjRkRzg9"
     ]
   },
   "101": {
@@ -141,11 +141,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Defina o conceito de algoritmo utilizando um exemplo do cotidiano (como uma receita ou trocar um pneu).",
     "min_chars": 49,
     "keywords": [
-      "passos",
-      "sequência",
-      "instruções",
-      "lógica",
-      "objetivo"
+      "Y0dGemMyOXo=",
+      "YzJWeGRjT3FibU5wWVE9PQ==",
+      "YVc1emRISjF3NmZEdFdWeg==",
+      "Yk1PeloybGpZUT09",
+      "YjJKcVpYUnBkbTg9"
     ]
   },
   "102": {
@@ -154,11 +154,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Qual a utilidade de um fluxograma antes de começar a escrever o código? O que o símbolo de 'losango' representa?",
     "min_chars": 46,
     "keywords": [
-      "visual",
-      "planejamento",
-      "decisão",
-      "fluxo",
-      "lógica"
+      "ZG1semRXRnM=",
+      "Y0d4aGJtVnFZVzFsYm5Sdg==",
+      "WkdWamFYUERvMjg9",
+      "Wm14MWVHOD0=",
+      "Yk1PeloybGpZUT09"
     ]
   },
   "103": {
@@ -167,11 +167,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Em lógica, o que representam os conceitos de Entrada, Processamento e Saída de dados?",
     "min_chars": 52,
     "keywords": [
-      "dados",
-      "informação",
-      "resultado",
-      "transformação",
-      "fluxo"
+      "WkdGa2IzTT0=",
+      "YVc1bWIzSnRZY09udzZOdg==",
+      "Y21WemRXeDBZV1J2",
+      "ZEhKaGJuTm1iM0p0WWNPbnc2TnY=",
+      "Wm14MWVHOD0="
     ]
   },
   "104": {
@@ -180,11 +180,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Por que usamos pseudocódigo (Portugol) antes de passar para uma linguagem como Python?",
     "min_chars": 55,
     "keywords": [
-      "lógica",
-      "entendimento",
-      "linguagem",
-      "estrutura",
-      "transição"
+      "Yk1PeloybGpZUT09",
+      "Wlc1MFpXNWthVzFsYm5Sdg==",
+      "YkdsdVozVmhaMlZ0",
+      "WlhOMGNuVjBkWEpo",
+      "ZEhKaGJuTnB3NmZEbzI4PQ=="
     ]
   },
   "105": {
@@ -193,11 +193,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "No fluxograma, o retângulo representa um processo. Dê dois exemplos de ações que seriam colocadas dentro de um retângulo.",
     "min_chars": 50,
     "keywords": [
-      "ação",
-      "cálculo",
-      "atribuição",
-      "tarefa",
-      "processamento"
+      "WWNPbnc2TnY=",
+      "WThPaGJHTjFiRzg9",
+      "WVhSeWFXSjFhY09udzZOdg==",
+      "ZEdGeVpXWmg=",
+      "Y0hKdlkyVnpjMkZ0Wlc1MGJ3PT0="
     ]
   },
   "106": {
@@ -206,11 +206,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Por que todo fluxograma deve obrigatoriamente ter um símbolo de Início e um de Fim?",
     "min_chars": 43,
     "keywords": [
-      "limite",
-      "entrada",
-      "saída",
-      "término",
-      "execução"
+      "YkdsdGFYUmw=",
+      "Wlc1MGNtRmtZUT09",
+      "YzJIRHJXUmg=",
+      "ZE1PcGNtMXBibTg9",
+      "WlhobFkzWERwOE9qYnc9PQ=="
     ]
   },
   "107": {
@@ -219,11 +219,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Cite um exemplo de um processo automático no seu dia a dia que segue um algoritmo (ex: semáforo). Explique a lógica.",
     "min_chars": 49,
     "keywords": [
-      "sequência",
-      "sensores",
-      "tempo",
-      "decisão",
-      "automático"
+      "YzJWeGRjT3FibU5wWVE9PQ==",
+      "YzJWdWMyOXlaWE09",
+      "ZEdWdGNHOD0=",
+      "WkdWamFYUERvMjg9",
+      "WVhWMGIyM0RvWFJwWTI4PQ=="
     ]
   },
   "108": {
@@ -232,11 +232,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "O que acontece se invertermos a ordem de dois passos em um algoritmo de 'fazer café'? Como isso afeta o resultado?",
     "min_chars": 44,
     "keywords": [
-      "sequência",
-      "erro",
-      "lógica",
-      "passos",
-      "resultado"
+      "YzJWeGRjT3FibU5wWVE9PQ==",
+      "WlhKeWJ3PT0=",
+      "Yk1PeloybGpZUT09",
+      "Y0dGemMyOXo=",
+      "Y21WemRXeDBZV1J2"
     ]
   },
   "109": {
@@ -245,11 +245,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Por que um algoritmo não pode ter instruções ambíguas (duvidosas)? O que acontece se o computador não entender um passo?",
     "min_chars": 51,
     "keywords": [
-      "precisão",
-      "clareza",
-      "interpretação",
-      "erro",
-      "instrução"
+      "Y0hKbFkybHp3Nk52",
+      "WTJ4aGNtVjZZUT09",
+      "YVc1MFpYSndjbVYwWWNPbnc2TnY=",
+      "WlhKeWJ3PT0=",
+      "YVc1emRISjF3NmZEbzI4PQ=="
     ]
   },
   "201": {
@@ -258,11 +258,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "O que acontece quando você digita apenas 'python' no terminal? Como você faz para sair desse modo?",
     "min_chars": 52,
     "keywords": [
-      "modo interativo",
-      "comandos",
-      "testar",
-      "exit()",
-      "terminal"
+      "Ylc5a2J5QnBiblJsY21GMGFYWnY=",
+      "WTI5dFlXNWtiM009",
+      "ZEdWemRHRnk=",
+      "WlhocGRDZ3A=",
+      "ZEdWeWJXbHVZV3c9"
     ]
   },
   "202": {
@@ -271,11 +271,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "O que o computador faz quando encontra um erro de sintaxe no seu código? Ele executa o resto do programa?",
     "min_chars": 56,
     "keywords": [
-      "interrupção",
-      "gramática",
-      "interpretação",
-      "falha",
-      "correção"
+      "YVc1MFpYSnlkWEREcDhPamJ3PT0=",
+      "WjNKaGJjT2hkR2xqWVE9PQ==",
+      "YVc1MFpYSndjbVYwWWNPbnc2TnY=",
+      "Wm1Gc2FHRT0=",
+      "WTI5eWNtWERwOE9qYnc9PQ=="
     ]
   },
   "203": {
@@ -284,11 +284,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Por que os arquivos de código Python devem terminar com a extensão '.py'? O que o sistema operacional faz com essa informação?",
     "min_chars": 59,
     "keywords": [
-      "extensão",
-      "identificação",
-      "interpretador",
-      "formato",
-      "execução"
+      "WlhoMFpXNXp3Nk52",
+      "YVdSbGJuUnBabWxqWWNPbnc2TnY=",
+      "YVc1MFpYSndjbVYwWVdSdmNnPT0=",
+      "Wm05eWJXRjBidz09",
+      "WlhobFkzWERwOE9qYnc9PQ=="
     ]
   },
   "204": {
@@ -297,11 +297,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Para que serve o comando `print()`? O que acontece se você esquecer de colocar as aspas em volta de um texto dentro do print?",
     "min_chars": 35,
     "keywords": [
-      "exibir",
-      "tela",
-      "erro",
-      "aspas",
-      "string"
+      "WlhocFltbHk=",
+      "ZEdWc1lRPT0=",
+      "WlhKeWJ3PT0=",
+      "WVhOd1lYTT0=",
+      "YzNSeWFXNW4="
     ]
   },
   "205": {
@@ -310,11 +310,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Por que usamos o símbolo `#` no código? O computador lê o que está escrito depois desse símbolo?",
     "min_chars": 53,
     "keywords": [
-      "documentação",
-      "explicação",
-      "ignorar",
-      "leitura",
-      "clareza"
+      "Wkc5amRXMWxiblJodzZmRG8yOD0=",
+      "Wlhod2JHbGpZY09udzZOdg==",
+      "YVdkdWIzSmhjZz09",
+      "YkdWcGRIVnlZUT09",
+      "WTJ4aGNtVjZZUT09"
     ]
   },
   "206": {
@@ -323,11 +323,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Embora usemos o Python 3, por que é importante saber que versões antigas existem? Cite uma diferença básica (ex: print).",
     "min_chars": 52,
     "keywords": [
-      "compatibilidade",
-      "evolução",
-      "versão",
-      "sintaxe",
-      "legado"
+      "WTI5dGNHRjBhV0pwYkdsa1lXUmw=",
+      "WlhadmJIWERwOE9qYnc9PQ==",
+      "ZG1WeWM4T2pidz09",
+      "YzJsdWRHRjRaUT09",
+      "YkdWbllXUnY="
     ]
   },
   "207": {
@@ -336,11 +336,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Python é 'Case Sensitive'. O que isso significa se você criar uma variável chamada `Nome` e tentar usar `nome`?",
     "min_chars": 51,
     "keywords": [
-      "maiúsculas",
-      "minúsculas",
-      "diferença",
-      "erro",
-      "variável"
+      "YldGcHc3cHpZM1ZzWVhNPQ==",
+      "YldsdXc3cHpZM1ZzWVhNPQ==",
+      "WkdsbVpYSmxic09uWVE9PQ==",
+      "WlhKeWJ3PT0=",
+      "ZG1GeWFjT2hkbVZz"
     ]
   },
   "208": {
@@ -349,11 +349,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Explique brevemente o papel do 'Interpretador Python' na execução de um arquivo de código.",
     "min_chars": 52,
     "keywords": [
-      "tradução",
-      "execução",
-      "linha por linha",
-      "máquina",
-      "código"
+      "ZEhKaFpIWERwOE9qYnc9PQ==",
+      "WlhobFkzWERwOE9qYnc9PQ==",
+      "YkdsdWFHRWdjRzl5SUd4cGJtaGg=",
+      "YmNPaGNYVnBibUU9",
+      "WThPelpHbG5idz09"
     ]
   },
   "209": {
@@ -362,11 +362,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Diferente de outras linguagens, o Python usa espaços para organizar blocos. O que acontece se o alinhamento estiver errado?",
     "min_chars": 48,
     "keywords": [
-      "estrutura",
-      "identação",
-      "erro",
-      "bloco",
-      "organização"
+      "WlhOMGNuVjBkWEpo",
+      "YVdSbGJuUmh3NmZEbzI4PQ==",
+      "WlhKeWJ3PT0=",
+      "WW14dlkyOD0=",
+      "YjNKbllXNXBlbUhEcDhPamJ3PT0="
     ]
   },
   "301": {
@@ -375,11 +375,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Em Python, não precisamos dizer que uma variável é 'inteira' ao criá-la. Explique como o Python descobre o tipo do dado.",
     "min_chars": 44,
     "keywords": [
-      "atribuição",
-      "valor",
-      "dinâmico",
-      "tipo",
-      "memória"
+      "WVhSeWFXSjFhY09udzZOdg==",
+      "ZG1Gc2IzST0=",
+      "WkdsdXc2SnRhV052",
+      "ZEdsd2J3PT0=",
+      "YldWdHc3TnlhV0U9"
     ]
   },
   "302": {
@@ -388,11 +388,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Por que o comando `input()` sempre retorna um texto (str), mesmo que o usuário digite um número?",
     "min_chars": 48,
     "keywords": [
-      "entrada",
-      "padrão",
-      "conversão",
-      "caractere",
-      "teclado"
+      "Wlc1MGNtRmtZUT09",
+      "Y0dGa2NzT2pidz09",
+      "WTI5dWRtVnljOE9qYnc9PQ==",
+      "WTJGeVlXTjBaWEps",
+      "ZEdWamJHRmtidz09"
     ]
   },
   "303": {
@@ -401,11 +401,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Qual a diferença técnica entre o tipo `int` e o tipo `float`? Dê um exemplo de quando usar cada um.",
     "min_chars": 52,
     "keywords": [
-      "inteiro",
-      "decimal",
-      "casas decimais",
-      "precisão",
-      "números"
+      "YVc1MFpXbHlidz09",
+      "WkdWamFXMWhiQT09",
+      "WTJGellYTWdaR1ZqYVcxaGFYTT0=",
+      "Y0hKbFkybHp3Nk52",
+      "YnNPNmJXVnliM009"
     ]
   },
   "304": {
@@ -414,11 +414,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "O que é o tipo de dado Booleano? Quais são os dois únicos valores que ele pode assumir?",
     "min_chars": 40,
     "keywords": [
-      "True",
-      "False",
-      "lógico",
-      "verdadeiro",
-      "falso"
+      "VkhKMVpRPT0=",
+      "Um1Gc2MyVT0=",
+      "Yk1PeloybGpidz09",
+      "ZG1WeVpHRmtaV2x5Ync9PQ==",
+      "Wm1Gc2MyOD0="
     ]
   },
   "305": {
@@ -427,11 +427,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Quais são as regras para dar nome a uma variável em Python? (Pode começar com número? Pode ter espaço?)",
     "min_chars": 48,
     "keywords": [
-      "regras",
-      "início",
-      "caracteres",
-      "espaço",
-      "sublinhado"
+      "Y21WbmNtRno=",
+      "YVc3RHJXTnBidz09",
+      "WTJGeVlXTjBaWEpsY3c9PQ==",
+      "WlhOd1ljT25idz09",
+      "YzNWaWJHbHVhR0ZrYnc9PQ=="
     ]
   },
   "306": {
@@ -440,11 +440,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Para que serve o comando `type()`? Dê um exemplo de como ele ajudaria a descobrir um erro no código.",
     "min_chars": 53,
     "keywords": [
-      "identificar",
-      "tipo",
-      "depuração",
-      "verificação",
-      "variável"
+      "YVdSbGJuUnBabWxqWVhJPQ==",
+      "ZEdsd2J3PT0=",
+      "WkdWd2RYSmh3NmZEbzI4PQ==",
+      "ZG1WeWFXWnBZMkhEcDhPamJ3PT0=",
+      "ZG1GeWFjT2hkbVZz"
     ]
   },
   "307": {
@@ -453,11 +453,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Como transformamos um texto \"10\" em um número real 10.0? Use o nome da função correta na explicação.",
     "min_chars": 41,
     "keywords": [
-      "float()",
-      "conversão",
-      "casting",
-      "tipo",
-      "real"
+      "Wm14dllYUW9LUT09",
+      "WTI5dWRtVnljOE9qYnc9PQ==",
+      "WTJGemRHbHVadz09",
+      "ZEdsd2J3PT0=",
+      "Y21WaGJBPT0="
     ]
   },
   "308": {
@@ -466,11 +466,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Embora o Python não tenha 'constantes' fixas por padrão, qual a diferença conceitual entre uma variável e uma constante?",
     "min_chars": 56,
     "keywords": [
-      "alteração",
-      "valor fixo",
-      "semântica",
-      "padrão",
-      "armazenamento"
+      "WVd4MFpYSmh3NmZEbzI4PQ==",
+      "ZG1Gc2IzSWdabWw0Ync9PQ==",
+      "YzJWdHc2SnVkR2xqWVE9PQ==",
+      "Y0dGa2NzT2pidz09",
+      "WVhKdFlYcGxibUZ0Wlc1MGJ3PT0="
     ]
   },
   "309": {
@@ -479,11 +479,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "O que acontece quando usamos o sinal de `+` entre duas Strings? Como isso é diferente de usar o `+` com números?",
     "min_chars": 39,
     "keywords": [
-      "juntar",
-      "somar",
-      "texto",
-      "tipos",
-      "operador"
+      "YW5WdWRHRnk=",
+      "YzI5dFlYST0=",
+      "ZEdWNGRHOD0=",
+      "ZEdsd2IzTT0=",
+      "YjNCbGNtRmtiM0k9"
     ]
   },
   "401": {
@@ -492,11 +492,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Qual a importância do 'espaço' (Tab) logo abaixo de um comando `if`? O que acontece se esquecermos dele?",
     "min_chars": 43,
     "keywords": [
-      "bloco",
-      "recuo",
-      "erro",
-      "estrutura",
-      "hierarquia"
+      "WW14dlkyOD0=",
+      "Y21WamRXOD0=",
+      "WlhKeWJ3PT0=",
+      "WlhOMGNuVjBkWEpo",
+      "YUdsbGNtRnljWFZwWVE9PQ=="
     ]
   },
   "402": {
@@ -505,11 +505,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Explique como o operador `%` (resto da divisão) pode ser usado para descobrir se um número é Par ou Ímpar.",
     "min_chars": 44,
     "keywords": [
-      "resto",
-      "divisão",
-      "zero",
-      "comparação",
-      "paridade"
+      "Y21WemRHOD0=",
+      "WkdsMmFYUERvMjg9",
+      "ZW1WeWJ3PT0=",
+      "WTI5dGNHRnlZY09udzZOdg==",
+      "Y0dGeWFXUmhaR1U9"
     ]
   },
   "403": {
@@ -518,11 +518,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Por que usamos `==` para comparar valores e não apenas `=`? Qual a função do `=` sozinho?",
     "min_chars": 51,
     "keywords": [
-      "comparação",
-      "atribuição",
-      "igualdade",
-      "erro",
-      "operador"
+      "WTI5dGNHRnlZY09udzZOdg==",
+      "WVhSeWFXSjFhY09udzZOdg==",
+      "YVdkMVlXeGtZV1Js",
+      "WlhKeWJ3PT0=",
+      "YjNCbGNtRmtiM0k9"
     ]
   },
   "404": {
@@ -531,11 +531,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Em uma estrutura de decisão com 5 opções diferentes, por que usar `elif` é melhor do que usar vários `if` seguidos?",
     "min_chars": 48,
     "keywords": [
-      "eficiência",
-      "exclusivo",
-      "ordem",
-      "caminhos",
-      "lógica"
+      "WldacFkybkRxbTVqYVdFPQ==",
+      "WlhoamJIVnphWFp2",
+      "YjNKa1pXMD0=",
+      "WTJGdGFXNW9iM009",
+      "Yk1PeloybGpZUT09"
     ]
   },
   "405": {
@@ -544,11 +544,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Quando usamos o `and` em uma condição? O que deve acontecer com as duas partes para o resultado ser Verdadeiro?",
     "min_chars": 48,
     "keywords": [
-      "ambos",
-      "verdadeiro",
-      "conjunção",
-      "condição",
-      "lógica"
+      "WVcxaWIzTT0=",
+      "ZG1WeVpHRmtaV2x5Ync9PQ==",
+      "WTI5dWFuVnV3NmZEbzI4PQ==",
+      "WTI5dVpHbkRwOE9qYnc9PQ==",
+      "Yk1PeloybGpZUT09"
     ]
   },
   "406": {
@@ -557,11 +557,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Explique o funcionamento do `or`. Basta uma condição ser verdadeira para o bloco ser executado?",
     "min_chars": 50,
     "keywords": [
-      "ou",
-      "pelo menos um",
-      "verdadeiro",
-      "alternativa",
-      "lógica"
+      "YjNVPQ==",
+      "Y0dWc2J5QnRaVzV2Y3lCMWJRPT0=",
+      "ZG1WeVpHRmtaV2x5Ync9PQ==",
+      "WVd4MFpYSnVZWFJwZG1FPQ==",
+      "Yk1PeloybGpZUT09"
     ]
   },
   "407": {
@@ -570,11 +570,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "O comando `else` precisa de uma condição (ex: `else x > 10`)? Explique quando o bloco do `else` é executado.",
     "min_chars": 48,
     "keywords": [
-      "padrão",
-      "negação",
-      "contrário",
-      "opcional",
-      "execução"
+      "Y0dGa2NzT2pidz09",
+      "Ym1WblljT253Nk52",
+      "WTI5dWRITERvWEpwYnc9PQ==",
+      "YjNCamFXOXVZV3c9",
+      "WlhobFkzWERwOE9qYnc9PQ=="
     ]
   },
   "408": {
@@ -583,11 +583,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Em um programa que aprova alunos com nota >= 6.0, por que a nota 6.0 é chamada de 'valor de borda'?",
     "min_chars": 51,
     "keywords": [
-      "limite",
-      "teste",
-      "comparação",
-      "precisão",
-      "erro de lógica"
+      "YkdsdGFYUmw=",
+      "ZEdWemRHVT0=",
+      "WTI5dGNHRnlZY09udzZOdg==",
+      "Y0hKbFkybHp3Nk52",
+      "WlhKeWJ5QmtaU0JzdzdObmFXTmg="
     ]
   },
   "409": {
@@ -596,11 +596,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Como verificamos se o nome de um usuário **não** é 'admin'? Explique o uso do operador `!=`.",
     "min_chars": 50,
     "keywords": [
-      "diferente",
-      "negação",
-      "comparação",
-      "operador",
-      "lógica"
+      "WkdsbVpYSmxiblJs",
+      "Ym1WblljT253Nk52",
+      "WTI5dGNHRnlZY09udzZOdg==",
+      "YjNCbGNtRmtiM0k9",
+      "Yk1PeloybGpZUT09"
     ]
   },
   "501": {
@@ -609,11 +609,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "O que causa um loop infinito em um comando `while`? Como podemos garantir que o loop um dia termine?",
     "min_chars": 49,
     "keywords": [
-      "condição",
-      "parada",
-      "incremento",
-      "atualização",
-      "erro"
+      "WTI5dVpHbkRwOE9qYnc9PQ==",
+      "Y0dGeVlXUmg=",
+      "YVc1amNtVnRaVzUwYnc9PQ==",
+      "WVhSMVlXeHBlbUhEcDhPamJ3PT0=",
+      "WlhKeWJ3PT0="
     ]
   },
   "502": {
@@ -622,11 +622,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "No comando `for i in range(5)`, quais são os valores que a variável `i` assumirá? Explique o início e o fim.",
     "min_chars": 50,
     "keywords": [
-      "sequência",
-      "zero",
-      "incremento",
-      "iteração",
-      "intervalo"
+      "YzJWeGRjT3FibU5wWVE9PQ==",
+      "ZW1WeWJ3PT0=",
+      "YVc1amNtVnRaVzUwYnc9PQ==",
+      "YVhSbGNtSERwOE9qYnc9PQ==",
+      "YVc1MFpYSjJZV3h2"
     ]
   },
   "503": {
@@ -635,11 +635,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Para que serve uma variável contadora (ex: `cont = cont + 1`) dentro de um loop `while`?",
     "min_chars": 50,
     "keywords": [
-      "contagem",
-      "controle",
-      "incremento",
-      "iteração",
-      "limite"
+      "WTI5dWRHRm5aVzA9",
+      "WTI5dWRISnZiR1U9",
+      "YVc1amNtVnRaVzUwYnc9PQ==",
+      "YVhSbGNtSERwOE9qYnc9PQ==",
+      "YkdsdGFYUmw="
     ]
   },
   "504": {
@@ -648,11 +648,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Qual a diferença entre um 'contador' e um 'acumulador' (ex: `soma = soma + preco`)?",
     "min_chars": 43,
     "keywords": [
-      "total",
-      "soma",
-      "valores",
-      "variável",
-      "diferença"
+      "ZEc5MFlXdz0=",
+      "YzI5dFlRPT0=",
+      "ZG1Gc2IzSmxjdz09",
+      "ZG1GeWFjT2hkbVZz",
+      "WkdsbVpYSmxic09uWVE9PQ=="
     ]
   },
   "505": {
@@ -661,11 +661,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Em que situação é melhor usar o `for` e em qual é melhor usar o `while`?",
     "min_chars": 56,
     "keywords": [
-      "determinado",
-      "indeterminado",
-      "repetição",
-      "escolha",
-      "lógica"
+      "WkdWMFpYSnRhVzVoWkc4PQ==",
+      "YVc1a1pYUmxjbTFwYm1Ga2J3PT0=",
+      "Y21Wd1pYUnB3NmZEbzI4PQ==",
+      "WlhOamIyeG9ZUT09",
+      "Yk1PeloybGpZUT09"
     ]
   },
   "506": {
@@ -674,11 +674,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Para que serve o comando `break`? Ele encerra o programa inteiro ou apenas o loop atual?",
     "min_chars": 50,
     "keywords": [
-      "interrupção",
-      "saída",
-      "loop",
-      "encerramento",
-      "controle"
+      "YVc1MFpYSnlkWEREcDhPamJ3PT0=",
+      "YzJIRHJXUmg=",
+      "Ykc5dmNBPT0=",
+      "Wlc1alpYSnlZVzFsYm5Sdg==",
+      "WTI5dWRISnZiR1U9"
     ]
   },
   "507": {
@@ -687,11 +687,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Qual a diferença entre o `break` e o `continue` dentro de uma repetição?",
     "min_chars": 54,
     "keywords": [
-      "pular",
-      "interromper",
-      "próxima iteração",
-      "controle",
-      "fluxo"
+      "Y0hWc1lYST0=",
+      "YVc1MFpYSnliMjF3WlhJPQ==",
+      "Y0hMRHMzaHBiV0VnYVhSbGNtSERwOE9qYnc9PQ==",
+      "WTI5dWRISnZiR1U9",
+      "Wm14MWVHOD0="
     ]
   },
   "508": {
@@ -700,11 +700,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "No comando `range(0, 10, 2)`, o que o número 2 representa? Qual será a sequência de números gerada?",
     "min_chars": 48,
     "keywords": [
-      "passo",
-      "salto",
-      "intervalo",
-      "sequência",
-      "incremento"
+      "Y0dGemMyOD0=",
+      "YzJGc2RHOD0=",
+      "YVc1MFpYSjJZV3h2",
+      "YzJWeGRjT3FibU5wWVE9PQ==",
+      "YVc1amNtVnRaVzUwYnc9PQ=="
     ]
   },
   "509": {
@@ -713,11 +713,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "O que acontece quando colocamos um `for` dentro de outro `for`? Dê um exemplo prático (ex: relógio).",
     "min_chars": 69,
     "keywords": [
-      "repetição dupla",
-      "horas e minutos",
-      "coordenadas",
-      "estrutura",
-      "complexidade"
+      "Y21Wd1pYUnB3NmZEbzI4Z1pIVndiR0U9",
+      "YUc5eVlYTWdaU0J0YVc1MWRHOXo=",
+      "WTI5dmNtUmxibUZrWVhNPQ==",
+      "WlhOMGNuVjBkWEpo",
+      "WTI5dGNHeGxlR2xrWVdSbA=="
     ]
   },
   "601": {
@@ -726,11 +726,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Qual a vantagem de usar uma Lista (`list`) em vez de criar 50 variáveis differentes (ex: nota1, nota2...)?",
     "min_chars": 51,
     "keywords": [
-      "organização",
-      "índice",
-      "loop",
-      "coleção",
-      "flexibilidade"
+      "YjNKbllXNXBlbUhEcDhPamJ3PT0=",
+      "dzYxdVpHbGpaUT09",
+      "Ykc5dmNBPT0=",
+      "WTI5c1pjT253Nk52",
+      "Wm14bGVHbGlhV3hwWkdGa1pRPT0="
     ]
   },
   "602": {
@@ -739,11 +739,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Para acessar um valor em uma matriz, usamos dois colchetes `matriz[x][y]`. O que o primeiro e o segundo índice representam?",
     "min_chars": 51,
     "keywords": [
-      "linha",
-      "coluna",
-      "coordenada",
-      "bidimensional",
-      "posição"
+      "YkdsdWFHRT0=",
+      "WTI5c2RXNWg=",
+      "WTI5dmNtUmxibUZrWVE9PQ==",
+      "WW1sa2FXMWxibk5wYjI1aGJBPT0=",
+      "Y0c5emFjT253Nk52"
     ]
   },
   "603": {
@@ -752,11 +752,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "O que causa o erro 'list index out of range'? Como evitar acessar um índice que não existe?",
     "min_chars": 44,
     "keywords": [
-      "erro",
-      "limite",
-      "tamanho",
-      "inexistente",
-      "acesso"
+      "WlhKeWJ3PT0=",
+      "YkdsdGFYUmw=",
+      "ZEdGdFlXNW9idz09",
+      "YVc1bGVHbHpkR1Z1ZEdVPQ==",
+      "WVdObGMzTnY="
     ]
   },
   "604": {
@@ -765,11 +765,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Para que serve o comando `.append()`? Onde o novo elemento é colocado na lista?",
     "min_chars": 44,
     "keywords": [
-      "adicionar",
-      "final",
-      "elemento",
-      "inserir",
-      "lista"
+      "WVdScFkybHZibUZ5",
+      "Wm1sdVlXdz0=",
+      "Wld4bGJXVnVkRzg9",
+      "YVc1elpYSnBjZz09",
+      "YkdsemRHRT0="
     ]
   },
   "605": {
@@ -778,11 +778,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Como removemos o último elemento de uma lista? Explique o funcionamento básico do `.pop()`.",
     "min_chars": 42,
     "keywords": [
-      "remover",
-      "excluir",
-      "último",
-      "retorno",
-      "lista"
+      "Y21WdGIzWmxjZz09",
+      "WlhoamJIVnBjZz09",
+      "dzdwc2RHbHRidz09",
+      "Y21WMGIzSnVidz09",
+      "YkdsemRHRT0="
     ]
   },
   "606": {
@@ -791,11 +791,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Como usamos o `for` para imprimir todos os nomes de uma lista um por um?",
     "min_chars": 43,
     "keywords": [
-      "iteração",
-      "elemento",
-      "lista",
-      "exibição",
-      "loop"
+      "YVhSbGNtSERwOE9qYnc9PQ==",
+      "Wld4bGJXVnVkRzg9",
+      "YkdsemRHRT0=",
+      "WlhocFltbkRwOE9qYnc9PQ==",
+      "Ykc5dmNBPT0="
     ]
   },
   "607": {
@@ -804,11 +804,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "O que a função `len()` nos diz sobre uma lista? Por que ela é útil em loops?",
     "min_chars": 49,
     "keywords": [
-      "tamanho",
-      "comprimento",
-      "quantidade",
-      "limite",
-      "total"
+      "ZEdGdFlXNW9idz09",
+      "WTI5dGNISnBiV1Z1ZEc4PQ==",
+      "Y1hWaGJuUnBaR0ZrWlE9PQ==",
+      "YkdsdGFYUmw=",
+      "ZEc5MFlXdz0="
     ]
   },
   "608": {
@@ -817,11 +817,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Por que às vezes começamos um programa criando uma lista vazia `lista = []`?",
     "min_chars": 63,
     "keywords": [
-      "inicialização",
-      "preenchimento",
-      "dinâmico",
-      "armazenamento",
-      "futuro"
+      "YVc1cFkybGhiR2w2WWNPbnc2TnY=",
+      "Y0hKbFpXNWphR2x0Wlc1MGJ3PT0=",
+      "WkdsdXc2SnRhV052",
+      "WVhKdFlYcGxibUZ0Wlc1MGJ3PT0=",
+      "Wm5WMGRYSnY="
     ]
   },
   "609": {
@@ -830,11 +830,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Dê um exemplo de dado do mundo real que se comporta como uma matriz (ex: cinema, excel, batalha naval).",
     "min_chars": 52,
     "keywords": [
-      "linhas",
-      "colunas",
-      "grade",
-      "bidimensional",
-      "organização"
+      "YkdsdWFHRno=",
+      "WTI5c2RXNWhjdz09",
+      "WjNKaFpHVT0=",
+      "WW1sa2FXMWxibk5wYjI1aGJBPT0=",
+      "YjNKbllXNXBlbUhEcDhPamJ3PT0="
     ]
   },
   "701": {
@@ -843,11 +843,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "No cálculo de consumo (km/L), por que usamos f-strings para limitar as casas decimais? Como o excesso de números após a vírgula afeta a leitura do usuário?",
     "min_chars": 55,
     "keywords": [
-      "f-string",
-      "formatação",
-      "clareza",
-      "precisão",
-      "visualização"
+      "WmkxemRISnBibWM9",
+      "Wm05eWJXRjBZY09udzZOdg==",
+      "WTJ4aGNtVjZZUT09",
+      "Y0hKbFkybHp3Nk52",
+      "ZG1semRXRnNhWHBodzZmRG8yOD0="
     ]
   },
   "702": {
@@ -856,11 +856,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Na calculadora, por que é obrigatório verificar se o divisor é zero antes da conta? O que é um \"crash\" de programa e como evitá-lo?",
     "min_chars": 57,
     "keywords": [
-      "divisão por zero",
-      "validação",
-      "erro",
-      "interrupção",
-      "segurança"
+      "WkdsMmFYUERvMjhnY0c5eUlIcGxjbTg9",
+      "ZG1Gc2FXUmh3NmZEbzI4PQ==",
+      "WlhKeWJ3PT0=",
+      "YVc1MFpYSnlkWEREcDhPamJ3PT0=",
+      "YzJWbmRYSmhic09uWVE9PQ=="
     ]
   },
   "703": {
@@ -869,11 +869,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Por que um sistema de aprovação deve informar o motivo exato da reprovação (nota vs. frequência) em vez de apenas dizer \"Reprovado\"?",
     "min_chars": 63,
     "keywords": [
-      "experiência do usuário",
-      "clareza",
-      "feedback",
-      "informação",
-      "contexto"
+      "Wlhod1pYSnB3NnB1WTJsaElHUnZJSFZ6ZGNPaGNtbHY=",
+      "WTJ4aGNtVjZZUT09",
+      "Wm1WbFpHSmhZMnM9",
+      "YVc1bWIzSnRZY09udzZOdg==",
+      "WTI5dWRHVjRkRzg9"
     ]
   },
   "704": {
@@ -882,11 +882,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "No simulador de loja, qual a diferença lógica entre aplicar um desconto de 15% direto e aplicar 10% seguido de 5% sobre o novo valor?",
     "min_chars": 55,
     "keywords": [
-      "sequência",
-      "cálculo",
-      "subtotal",
-      "porcentagem",
-      "matemática"
+      "YzJWeGRjT3FibU5wWVE9PQ==",
+      "WThPaGJHTjFiRzg9",
+      "YzNWaWRHOTBZV3c9",
+      "Y0c5eVkyVnVkR0ZuWlcwPQ==",
+      "YldGMFpXM0RvWFJwWTJFPQ=="
     ]
   },
   "705": {
@@ -895,11 +895,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Por que convertemos o valor da conta para `float` e o número de pessoas para `int`? O que aconteceria se usássemos `int` para o valor da conta?",
     "min_chars": 50,
     "keywords": [
-      "tipos de dados",
-      "precisão",
-      "inteiro",
-      "real",
-      "conversão"
+      "ZEdsd2IzTWdaR1VnWkdGa2IzTT0=",
+      "Y0hKbFkybHp3Nk52",
+      "YVc1MFpXbHlidz09",
+      "Y21WaGJBPT0=",
+      "WTI5dWRtVnljOE9qYnc9PQ=="
     ]
   },
   "706": {
@@ -908,11 +908,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "No classificador de notas, por que a ordem das condições (ex: >= 6.0 antes de >= 5.0) é crucial para o resultado correto?",
     "min_chars": 50,
     "keywords": [
-      "ordem",
-      "exclusão",
-      "hierarquia",
-      "lógica",
-      "verificação"
+      "YjNKa1pXMD0=",
+      "WlhoamJIVnp3Nk52",
+      "YUdsbGNtRnljWFZwWVE9PQ==",
+      "Yk1PeloybGpZUT09",
+      "ZG1WeWFXWnBZMkhEcDhPamJ3PT0="
     ]
   },
   "707": {
@@ -921,11 +921,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "No verificador de acesso, como os operadores `and` e `or` permitem diferenciar um convidado comum de um VIP com ingresso?",
     "min_chars": 51,
     "keywords": [
-      "lógica",
-      "combinação",
-      "condições",
-      "prioridade",
-      "acesso"
+      "Yk1PeloybGpZUT09",
+      "WTI5dFltbHVZY09udzZOdg==",
+      "WTI5dVpHbkRwOE8xWlhNPQ==",
+      "Y0hKcGIzSnBaR0ZrWlE9PQ==",
+      "WVdObGMzTnY="
     ]
   },
   "708": {
@@ -934,11 +934,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Qual a função do `import random` no jogo Pedra, Papel e Tesoura? Como a falta de aleatoriedade afetaria a experiência do jogador?",
     "min_chars": 54,
     "keywords": [
-      "módulo",
-      "sorteio",
-      "imprevisibilidade",
-      "biblioteca",
-      "jogo"
+      "YmNPelpIVnNidz09",
+      "YzI5eWRHVnBidz09",
+      "YVcxd2NtVjJhWE5wWW1sc2FXUmhaR1U9",
+      "WW1saWJHbHZkR1ZqWVE9PQ==",
+      "YW05bmJ3PT0="
     ]
   },
   "709": {
@@ -947,11 +947,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Por que usamos métodos como `.lower()` nas entradas de texto do usuário? Como isso evita que o programa falhe por causa de letras maiúsculas?",
     "min_chars": 49,
     "keywords": [
-      "padronização",
-      "tratamento",
-      "string",
-      "erro",
-      "entrada"
+      "Y0dGa2NtOXVhWHBodzZmRG8yOD0=",
+      "ZEhKaGRHRnRaVzUwYnc9PQ==",
+      "YzNSeWFXNW4=",
+      "WlhKeWJ3PT0=",
+      "Wlc1MGNtRmtZUT09"
     ]
   },
   "801": {
@@ -960,11 +960,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Uma variável criada dentro de uma função pode ser usada fora dela? Explique o conceito de variáveis locais.",
     "min_chars": 45,
     "keywords": [
-      "escopo",
-      "local",
-      "global",
-      "visibilidade",
-      "função"
+      "WlhOamIzQnY=",
+      "Ykc5allXdz0=",
+      "WjJ4dlltRnM=",
+      "ZG1semFXSnBiR2xrWVdSbA==",
+      "Wm5WdXc2ZkRvMjg9"
     ]
   },
   "802": {
@@ -973,11 +973,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Para que servem os parâmetros de uma função? Dê um exemplo de uma função que recebe dados para processar.",
     "min_chars": 58,
     "keywords": [
-      "entrada",
-      "argumentos",
-      "flexibilidade",
-      "processamento",
-      "reuso"
+      "Wlc1MGNtRmtZUT09",
+      "WVhKbmRXMWxiblJ2Y3c9PQ==",
+      "Wm14bGVHbGlhV3hwWkdGa1pRPT0=",
+      "Y0hKdlkyVnpjMkZ0Wlc1MGJ3PT0=",
+      "Y21WMWMyOD0="
     ]
   },
   "803": {
@@ -986,11 +986,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Qual a diferença entre uma função que dá um `print()` e uma função que dá um `return`?",
     "min_chars": 46,
     "keywords": [
-      "resultado",
-      "exibir",
-      "devolver",
-      "variável",
-      "saída"
+      "Y21WemRXeDBZV1J2",
+      "WlhocFltbHk=",
+      "WkdWMmIyeDJaWEk9",
+      "ZG1GeWFjT2hkbVZz",
+      "YzJIRHJXUmg="
     ]
   },
   "804": {
@@ -999,11 +999,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Por que dividimos um programa grande em várias funções pequenas? Cite duas vantagens.",
     "min_chars": 55,
     "keywords": [
-      "organização",
-      "reuso",
-      "manutenção",
-      "legibilidade",
-      "divisão"
+      "YjNKbllXNXBlbUhEcDhPamJ3PT0=",
+      "Y21WMWMyOD0=",
+      "YldGdWRYUmxic09udzZOdg==",
+      "YkdWbmFXSnBiR2xrWVdSbA==",
+      "WkdsMmFYUERvMjg9"
     ]
   },
   "805": {
@@ -1012,11 +1012,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "O que é uma docstring (texto entre três aspas) logo abaixo da definição da função? Para que serve?",
     "min_chars": 57,
     "keywords": [
-      "documentação",
-      "ajuda",
-      "explicação",
-      "desenvolvedor",
-      "clareza"
+      "Wkc5amRXMWxiblJodzZmRG8yOD0=",
+      "WVdwMVpHRT0=",
+      "Wlhod2JHbGpZY09udzZOdg==",
+      "WkdWelpXNTJiMngyWldSdmNnPT0=",
+      "WTJ4aGNtVjZZUT09"
     ]
   },
   "806": {
@@ -1025,11 +1025,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Como definimos um valor padrão para um parâmetro (ex: `f(x=10)`)? O que acontece se o usuário não enviar o valor?",
     "min_chars": 53,
     "keywords": [
-      "padrão",
-      "default",
-      "opcional",
-      "argumento",
-      "flexibilidade"
+      "Y0dGa2NzT2pidz09",
+      "WkdWbVlYVnNkQT09",
+      "YjNCamFXOXVZV3c9",
+      "WVhKbmRXMWxiblJ2",
+      "Wm14bGVHbGlhV3hwWkdGa1pRPT0="
     ]
   },
   "807": {
@@ -1038,11 +1038,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Como você 'executa' uma função que já foi definida? O que acontece se você esquecer dos parênteses `()`?",
     "min_chars": 54,
     "keywords": [
-      "chamada",
-      "invocação",
-      "parênteses",
-      "execução",
-      "referência"
+      "WTJoaGJXRmtZUT09",
+      "YVc1MmIyTmh3NmZEbzI4PQ==",
+      "Y0dGeXc2cHVkR1Z6WlhNPQ==",
+      "WlhobFkzWERwOE9qYnc9PQ==",
+      "Y21WbVpYTERxbTVqYVdFPQ=="
     ]
   },
   "808": {
@@ -1051,11 +1051,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Explique o conceito de DRY na programação e como as funções ajudam a evitar a repetição de código.",
     "min_chars": 47,
     "keywords": [
-      "repetição",
-      "reuso",
-      "padrão",
-      "manutenção",
-      "limpeza"
+      "Y21Wd1pYUnB3NmZEbzI4PQ==",
+      "Y21WMWMyOD0=",
+      "Y0dGa2NzT2pidz09",
+      "YldGdWRYUmxic09udzZOdg==",
+      "YkdsdGNHVjZZUT09"
     ]
   },
   "809": {
@@ -1064,11 +1064,11 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "enunciado": "Qual a relação entre funções e o comando `import`? O que estamos trazendo para o nosso código?",
     "min_chars": 66,
     "keywords": [
-      "módulos",
-      "bibliotecas",
-      "ferramentas prontas",
-      "reuso",
-      "functionalities"
+      "YmNPelpIVnNiM009",
+      "WW1saWJHbHZkR1ZqWVhNPQ==",
+      "Wm1WeWNtRnRaVzUwWVhNZ2NISnZiblJoY3c9PQ==",
+      "Y21WMWMyOD0=",
+      "Wm5WdVkzUnBiMjVoYkdsMGFXVno="
     ]
   }
 };

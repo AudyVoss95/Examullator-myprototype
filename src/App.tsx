@@ -185,15 +185,25 @@ export default function App() {
     }
 
     const textLower = text.toLowerCase();
-    const foundKeywords = currentLevelData.keywords.filter(kw => 
+    
+    // Decoding keywords from Base64 for the evaluation logic
+    const decodedKeywords = currentLevelData.keywords.map(kw => {
+      try {
+        return atob(kw);
+      } catch (e) {
+        return kw; // Fallback if not encoded
+      }
+    });
+
+    const foundKeywords = decodedKeywords.filter(kw => 
       textLower.includes(kw.toLowerCase())
     );
     
-    const missingKeys = currentLevelData.keywords.filter(kw => 
+    const missingKeys = decodedKeywords.filter(kw => 
       !textLower.includes(kw.toLowerCase())
     );
 
-    const keywordsRatio = foundKeywords.length / currentLevelData.keywords.length;
+    const keywordsRatio = foundKeywords.length / decodedKeywords.length;
     const rawScore = (keywordsRatio / APP_CONFIG.percentualPalavrasParaNotaMaxima) * 10;
     const finalScore = Number(Math.min(10, rawScore).toFixed(1));
 
@@ -514,15 +524,6 @@ export default function App() {
               >
                 <RotateCcw size={14} />
                 Reset
-              </button>
-
-              <button 
-                onClick={() => window.location.href = 'https://www.google.com'}
-                className="bg-white text-gray-500 border border-gray-200 px-3 py-2 rounded-md text-xs font-bold hover:bg-gray-50 transition-all flex items-center gap-1.5 uppercase tracking-tighter"
-                title="Sair para Google"
-              >
-                <LogOut size={14} />
-                Sair
               </button>
               
               <button 
