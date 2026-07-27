@@ -4,6 +4,7 @@ export interface Prova {
   enunciado: string;
   min_chars: number;
   keywords: string[];
+  bloquearVoltar?: boolean;
 }
 
 export interface AppConfig {
@@ -49,6 +50,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     "titulo": "Bloco de Notas (.txt)",
     "enunciado": "O Bloco de Notas é um editor de 'texto simples'. Qual a principal característica de um arquivo .txt e por que ele é muito usado por programadores?",
     "min_chars": 57,
+    "bloquearVoltar": true,
     "keywords": [
       "ZEdWNGRHOGdjMmx0Y0d4bGN3PT0=",
       "Wm05eWJXRjBZY09udzZOdg==",
