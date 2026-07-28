@@ -8,12 +8,21 @@ Um simulador interativo web desenvolvido para criar, executar e monitorar avalia
 
 ## 📌 Visão Geral (Overview)
 
-O **Examullator** é uma plataforma completa desenvolvida para suprir as necessidades de ambientes educacionais e de avaliação técnica (ex: exames de lógica, hardware, Python e programação). Ele oferece uma interface intuitiva e segura baseada na **Trilha Linear de Aprendizado**, onde o estudante consome leituras explicativas prévias de forma progressiva antes de responder a cada pergunta relacionada.
+O **Examullator** é uma plataforma completa desenvolvida para suprir as necessidades de ambientes educacionais e de avaliação técnica (ex: exames de lógica, hardware, Python e programação). Ele oferece uma interface intuitiva e segura baseada em **Trilhas Guiadas de Aprendizado**, onde o estudante progride através de módulos encadeados contendo leituras preparatórias e perguntas relacionadas.
 
 ---
 
 ## ✨ Funcionalidades Principais (Key Features)
 
+* 🛣️ **Trilhas Guiadas de Aprendizado (Learning Tracks Hub)**:
+  * 5 Trilhas pedagógicas pré-configuradas para teste e visualização:
+    1. **Trilha 1: Fundamentos de Hardware & Sistemas Operacionais**
+    2. **Trilha 2: Raciocínio Lógico & Algoritmos**
+    3. **Trilha 3: Python Fundamentos & Tipagem**
+    4. **Trilha 4: Controle de Fluxo & Repetições em Python**
+    5. **Trilha 5: Listas, Matrizes & Funções Modulares**
+  * Visualizador de mapa de módulos com estimativa de tempo e sequência de questões atreladas.
+  * Aba de testes de **Trilhas de Aprendizado** no Painel do Professor.
 * 📄 **Modelo de Montagem de Questões (`models_content.txt`)**:
   * Arquivo padronizado para professores e educadores elaborarem novas perguntas, textos explicativos e palavras-chave prontas para copiar, preencher e integrar ao sistema.
 * 🔄 **Trilha Linear de Aprendizado (`Texto 1 -> Texto 2 -> Pergunta Relacionada`)**:
@@ -21,23 +30,21 @@ O **Examullator** é uma plataforma completa desenvolvida para suprir as necessi
     1. 📖 **Texto Explicativo 1**: Apresenta o conceito básico ou a introdução teórica.
     2. 💡 **Texto Explicativo 2**: Fornece o aprofundamento, regras de sintaxe e exemplos de código.
     3. ✍️ **Pergunta Relacionada**: Apresenta o desafio dissertativo prático diretamente vinculado aos textos lidos anteriormente.
-  * Estrutura visualizada e testada tanto pelo aluno quanto no **Painel do Professor**.
 * 📖 **Telas de Materiais Explicativos & Guia Teórico (Study Hub)**:
   * Telas dedicadas para os alunos lerem resumos conceituais, exemplos práticos de código, dicas e glossários de termos chave antes ou durante os exames.
   * Botão de consulta rápida **"💡 Consultar Teoria"** no cabeçalho durante a realização dos desafios práticos.
-  * Aba de gestão de **Materiais Explicativos** no Painel do Professor.
 * 📊 **Interface & Script de Análise no Localhost (`http://localhost:3001`)**:
   * **Dashboard Web Localhost**: Interface gráfica interativa para analisar o desempenho da turma, filtrar por aluno ou disciplina, consultar dissertações completas e verificar estatísticas em tempo real.
   * **Script CLI de Terminal (`npm run analyze`)**: Ferramenta de linha de comando para gerar relatórios instantâneos de notas, status e respostas gravadas no servidor local.
-* 📚 **Menu Interativo de Escolha de Disciplina**:
-  * O aluno pode selecionar a disciplina específica que deseja praticar (ex: *Hardware & Sistemas*, *Lógica de Programação*, *Python Fundamentos*, *Estruturas de Controle*, *Estruturas de Dados*, *Funções*) ou escolher o **Simulado Geral**.
+* 📚 **Menu Interativo de Escolha de Disciplina & Trilhas**:
+  * O aluno pode navegar entre as **Trilhas Guiadas** ou praticar disciplinas individuais e simulado geral.
 * 🔒 **Navegação Flexível e Restrição de Retorno por Questão**: Os alunos podem navegar e revisar questões anteriores por padrão, porém determinadas questões podem ser configuradas individualmente pelo professor para **bloquear o retorno** (`bloquearVoltar`).
 * 🛡️ **Sistema Anti-Cópia e Cola (Anti-Cheat)**: 
   * Bloqueio ativo de atalhos de teclado (`Ctrl+C`, `Ctrl+V`, `Ctrl+X`), menu de contexto (botão direito) e seleção de texto nos enunciados.
 * 📡 **Coleta Remota de Respostas (Live Remote Monitoring)**:
   * Servidor backend nativo em Node.js com Express para receber submissões remotas dos alunos (`POST /api/responses`).
 * 📁 **Arquitetura Modular de Questões (`src/questions/`)**:
-  * Fonte de perguntas organizada na subpasta `src/questions/bancoProvas.ts`, facilitando a manutenção e adição de novos módulos.
+  * Fonte de perguntas e trilhas organizada na subpasta `src/questions/`, facilitando a manutenção e expansão.
 
 ---
 
@@ -88,7 +95,7 @@ No campo de **Identificação (Nome Completo)** da tela inicial, digite o códig
 ```
 ADMIN2026
 ```
-Isso liberará o **Painel do Professor**, onde você pode monitorar submissões remotas, consultar relatórios e testar a sequência de perguntas.
+Isso liberará o **Painel do Professor**, onde você pode monitorar submissões remotas, testar as trilhas de aprendizado e consultar relatórios.
 
 ---
 

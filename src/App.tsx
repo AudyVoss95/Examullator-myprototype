@@ -27,14 +27,27 @@ import {
   Sparkles,
   Check,
   X,
-  HelpCircle
+  HelpCircle,
+  Compass,
+  Route,
+  MapPin,
+  Award
 } from 'lucide-react';
-import { BANCO_DE_PROVAS, Prova, APP_CONFIG, MATERIAIS_EXPLICATIVOS, MaterialExplicativo } from './data';
+import { 
+  BANCO_DE_PROVAS, 
+  Prova, 
+  APP_CONFIG, 
+  MATERIAIS_EXPLICATIVOS, 
+  MaterialExplicativo,
+  TRILHAS_DE_TESTE,
+  TrilhaAprendizado
+} from './data';
 
 interface UserProgress {
   sequence: string[];
   userName: string;
   selectedDisciplina: string;
+  selectedTrilhaId?: string;
   currentLevel: string;
   responses: Record<string, string>;
   scores: Record<string, number>;
@@ -45,6 +58,7 @@ interface RemoteStudentSubmission {
   studentId: string;
   userName: string;
   selectedDisciplina?: string;
+  selectedTrilhaId?: string;
   sequence: string[];
   responses: Record<string, string>;
   scores: Record<string, number>;
@@ -173,9 +187,12 @@ export default function App() {
 
   const [tempName, setTempName] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
-  const [adminTab, setAdminTab] = useState<'bank' | 'remote' | 'theory'>('remote');
+  const [adminTab, setAdminTab] = useState<'bank' | 'remote' | 'theory' | 'trilhas'>('remote');
   const [adminDisciplinaFilter, setAdminDisciplinaFilter] = useState<string>('Todas');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  // Menu View Mode: 'trilhas' or 'disciplinas'
+  const [menuTab, setMenuTab] = useState<'trilhas' | 'disciplinas'>('trilhas');
 
   // Educational Explanatory Material States
   const [viewingTheoryDisciplina, setViewingTheoryDisciplina] = useState<string | null>(null);
@@ -235,6 +252,7 @@ export default function App() {
         studentId,
         userName: progress.userName,
         selectedDisciplina: progress.selectedDisciplina,
+        selectedTrilhaId: progress.selectedTrilhaId,
         sequence: progress.sequence,
         responses: progress.responses,
         scores: progress.scores,
@@ -497,8 +515,35 @@ export default function App() {
     setProgress(prev => ({
       ...prev,
       selectedDisciplina: discId,
+      selectedTrilhaId: undefined,
       sequence: newSeq,
       currentLevel: newSeq[0],
+      responses: {},
+      scores: {},
+      completed: false
+    }));
+    setFeedback(null);
+  };
+
+  const handleSelectTrilha = (trilha: TrilhaAprendizado) => {
+    // Gather all question IDs from all steps of the learning track
+    const trackQuestionIds: string[] = [];
+    trilha.etapas.forEach(e => {
+      e.questoesIds.forEach(qId => {
+        if (bancoProvas[qId] && !trackQuestionIds.includes(qId)) {
+          trackQuestionIds.push(qId);
+        }
+      });
+    });
+
+    const finalSeq = trackQuestionIds.length > 0 ? trackQuestionIds : Object.keys(bancoProvas).slice(0, 9);
+
+    setProgress(prev => ({
+      ...prev,
+      selectedDisciplina: trilha.categoria,
+      selectedTrilhaId: trilha.id,
+      sequence: finalSeq,
+      currentLevel: finalSeq[0],
       responses: {},
       scores: {},
       completed: false
@@ -510,7 +555,7 @@ export default function App() {
     let content = "RELATÓRIO FINAL DE DESEMPENHO - EXAMULLATOR\n";
     content += "============================================\n";
     content += `Estudante: ${progress.userName}\n`;
-    content += `Disciplina: ${progress.selectedDisciplina || 'Simulado Geral'}\n`;
+    content += `Trilha / Disciplina: ${progress.selectedTrilhaId ? 'Trilha ' + progress.selectedTrilhaId : progress.selectedDisciplina || 'Simulado Geral'}\n`;
     content += `Data: ${new Date().toLocaleString()}\n\n`;
     
     levels.forEach(lvl => {
@@ -534,13 +579,14 @@ export default function App() {
   const resetProgress = () => {
     showConfirm(
       "Resetar Progresso", 
-      "Tem certeza que deseja apagar todo o progresso? Isso limpará o nome, disciplina escolhida e todas as respostas.",
+      "Tem certeza que deseja apagar todo o progresso? Isso limpará o nome, disciplina/trilha escolhida e todas as respostas.",
       () => {
         const newSequence = generateSequence('Todas', bancoProvas);
         setProgress({
           sequence: newSequence,
           userName: '',
           selectedDisciplina: '',
+          selectedTrilhaId: undefined,
           currentLevel: newSequence[0],
           responses: {},
           scores: {},
@@ -590,7 +636,7 @@ export default function App() {
     let content = `RELATÓRIO REMOTO DE DESEMPENHO - EXAMULLATOR\n`;
     content += `============================================\n`;
     content += `Estudante: ${student.userName}\n`;
-    content += `Disciplina: ${student.selectedDisciplina || 'Simulado Geral'}\n`;
+    content += `Disciplina/Trilha: ${student.selectedTrilhaId ? 'Trilha ' + student.selectedTrilhaId : student.selectedDisciplina || 'Simulado Geral'}\n`;
     content += `ID: ${student.studentId}\n`;
     content += `Status: ${student.completed ? 'CONCLUÍDO' : 'EM ANDAMENTO'}\n`;
     content += `Última Atualização: ${new Date(student.updatedAt).toLocaleString()}\n\n`;
@@ -673,6 +719,14 @@ export default function App() {
                   }`}
                 >
                   <Wifi size={14} /> Respostas Remotas ({remoteStudents.length})
+                </button>
+                <button
+                  onClick={() => setAdminTab('trilhas')}
+                  className={`px-4 py-2 rounded-lg font-bold text-xs flex items-center gap-2 transition-all ${
+                    adminTab === 'trilhas' ? 'bg-blue-600 text-white shadow' : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <Route size={14} /> Trilhas de Aprendizado
                 </button>
                 <button
                   onClick={() => setAdminTab('bank')}
@@ -794,7 +848,7 @@ export default function App() {
                               <div>
                                 <h4 className="font-bold text-white text-base truncate">{st.userName}</h4>
                                 <span className="text-[10px] text-blue-400 font-bold flex items-center gap-1 mt-0.5">
-                                  <BookOpen size={10} /> {st.selectedDisciplina || 'Simulado Geral'}
+                                  <BookOpen size={10} /> {st.selectedTrilhaId ? 'Trilha: ' + st.selectedTrilhaId : st.selectedDisciplina || 'Simulado Geral'}
                                 </span>
                               </div>
                               <span className={`text-[10px] px-2 py-0.5 rounded font-black uppercase tracking-wider shrink-0 ${
@@ -842,6 +896,66 @@ export default function App() {
                     })}
                   </div>
                 )}
+              </div>
+            </div>
+          )}
+
+          {/* ADMIN TAB: LEARNING TRACKS (TRILHAS DE APRENDIZADO) */}
+          {adminTab === 'trilhas' && (
+            <div className="space-y-6">
+              <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-2">
+                <h3 className="font-bold text-white text-lg flex items-center gap-2">
+                  <Route className="text-blue-400" size={20} /> Trilhas Guiadas de Aprendizado (Preview de Teste)
+                </h3>
+                <p className="text-xs text-slate-400">
+                  Visualização das rotas didáticas encadeadas por módulos e níveis para testes pedagógicos dos estudantes.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {Object.values(TRILHAS_DE_TESTE).map((trilha) => (
+                  <div key={trilha.id} className="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4 flex flex-col justify-between">
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-start">
+                        <span className="text-3xl">{trilha.icone}</span>
+                        <span className="bg-blue-500/20 text-blue-400 border border-blue-500/30 text-[10px] font-black uppercase px-2.5 py-1 rounded-full">
+                          {trilha.nivelRecomendado}
+                        </span>
+                      </div>
+
+                      <div>
+                        <h4 className="font-black text-white text-lg">{trilha.nome}</h4>
+                        <span className="text-[10px] text-slate-400 font-bold uppercase block mt-0.5">{trilha.categoria}</span>
+                        <p className="text-xs text-slate-400 leading-relaxed mt-2">{trilha.descricao}</p>
+                      </div>
+
+                      <div className="space-y-2 pt-2">
+                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Módulos da Trilha ({trilha.etapas.length}):</span>
+                        {trilha.etapas.map((etapa, idx) => (
+                          <div key={etapa.id} className="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 flex justify-between items-center gap-2">
+                            <div>
+                              <p className="font-bold text-slate-200 text-xs">{etapa.titulo}</p>
+                              <p className="text-[10px] text-slate-400">{etapa.questoesIds.length} questões • {etapa.tempoEstimado}</p>
+                            </div>
+                            <span className="text-xs">{etapa.icone}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="pt-2 border-t border-slate-700">
+                      <button
+                        onClick={() => {
+                          handleSelectTrilha(trilha);
+                          setIsAdmin(false);
+                        }}
+                        className="w-full bg-blue-600 hover:bg-blue-500 text-white py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2"
+                      >
+                        <Compass size={14} /> Testar Trilha no Modo Aluno
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           )}
@@ -1057,7 +1171,7 @@ export default function App() {
                       <GraduationCap className="text-blue-400" size={24} /> Respostas de {selectedStudent.userName}
                     </h3>
                     <p className="text-xs text-slate-400 font-mono mt-0.5">
-                      Disciplina: <strong className="text-emerald-400">{selectedStudent.selectedDisciplina || 'Simulado Geral'}</strong> • ID: {selectedStudent.studentId} • Atualizado em: {new Date(selectedStudent.updatedAt).toLocaleString()}
+                      Disciplina: <strong className="text-emerald-400">{selectedStudent.selectedTrilhaId ? 'Trilha: ' + selectedStudent.selectedTrilhaId : selectedStudent.selectedDisciplina || 'Simulado Geral'}</strong> • ID: {selectedStudent.studentId} • Atualizado em: {new Date(selectedStudent.updatedAt).toLocaleString()}
                     </p>
                   </div>
                   <button
@@ -1359,7 +1473,7 @@ export default function App() {
               onClick={handleStartName}
               className="w-full bg-[#111827] text-white py-4 rounded-xl font-bold hover:bg-[#374151] transition-all shadow-lg shadow-gray-200 active:scale-[0.98] flex items-center justify-center gap-2"
             >
-              Avançar para Seleção de Disciplina <ChevronRight size={18} />
+              Avançar para Seleção de Trilhas <ChevronRight size={18} />
             </button>
           </div>
           <p className="text-[10px] text-center text-gray-400 font-medium">Seu progresso será salvo e sincronizado automaticamente.</p>
@@ -1427,95 +1541,180 @@ export default function App() {
     );
   }
 
-  // STEP 2: MENU DE ESCOLHA DE DISCIPLINA (DISCIPLINE SELECTION MENU)
+  // STEP 2: MENU DE TRILHAS & DISCIPLINAS (LEARNING HUB)
   if (!progress.selectedDisciplina) {
     return (
-      <div className="min-h-screen bg-[#F8FAFC] py-12 px-6 font-sans select-none flex items-center justify-center">
-        <div className="max-w-4xl w-full mx-auto space-y-8">
+      <div className="min-h-screen bg-[#F8FAFC] py-10 px-6 font-sans select-none flex items-center justify-center">
+        <div className="max-w-5xl w-full mx-auto space-y-8">
           <div className="text-center space-y-3">
             <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-700 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm">
               <GraduationCap size={16} /> Bem-vindo(a), {progress.userName}!
             </div>
             <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-              Escolha a Disciplina para a Avaliação
+              Trilhas Guiadas de Aprendizado & Avaliação
             </h1>
             <p className="text-slate-500 text-sm max-w-xl mx-auto">
-              Selecione o módulo de ensino para iniciar seu teste prático focado ou consulte o material de explicação teórico.
+              Escolha uma **Trilha de Aprendizado Guiada** para evoluir por módulos ou selecione uma **Disciplina Individual**.
             </p>
           </div>
 
-          {/* Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {DISCIPLINAS_DISPONIVEIS.map((d) => {
-              const count = (Object.values(bancoProvas) as Prova[]).filter(q => d.id === 'Todas' || q.disciplina === d.id).length;
-              const hasTheory = MATERIAIS_EXPLICATIVOS[d.id] !== undefined;
-
-              return (
-                <motion.div
-                  key={d.id}
-                  whileHover={{ scale: 1.015, y: -2 }}
-                  className={`p-6 rounded-2xl border transition-all flex flex-col justify-between space-y-4 shadow-sm ${
-                    d.id === 'Todas'
-                      ? 'bg-gradient-to-br from-slate-900 to-slate-800 text-white border-slate-700 hover:shadow-xl'
-                      : 'bg-white text-slate-900 border-slate-200 hover:border-blue-400 hover:shadow-md'
-                  }`}
-                >
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-start">
-                      <span className="text-3xl">{d.icone}</span>
-                      <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider ${
-                        d.id === 'Todas'
-                          ? 'bg-blue-500/20 text-blue-300 border border-blue-400/30'
-                          : 'bg-slate-100 text-slate-600 border border-slate-200'
-                      }`}>
-                        {count} Questões Práticas
-                      </span>
-                    </div>
-
-                    <div>
-                      <h3 className={`text-lg font-bold ${d.id === 'Todas' ? 'text-white' : 'text-slate-900'}`}>
-                        {d.nome}
-                      </h3>
-                      <p className={`text-xs mt-1.5 leading-relaxed ${d.id === 'Todas' ? 'text-slate-300' : 'text-slate-500'}`}>
-                        {d.descricao}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
-                    {hasTheory && (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setViewingTheoryDisciplina(d.id);
-                        }}
-                        className={`px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-                          d.id === 'Todas'
-                            ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700'
-                            : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200'
-                        }`}
-                        title="Ler resumo explicativo e teoria"
-                      >
-                        <BookOpen size={14} className="text-blue-500" /> Ler Teoria
-                      </button>
-                    )}
-
-                    <button
-                      onClick={() => handleSelectDisciplina(d.id)}
-                      className={`flex-1 py-2 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
-                        d.id === 'Todas'
-                          ? 'bg-blue-600 hover:bg-blue-500 text-white shadow'
-                          : 'bg-[#111827] hover:bg-[#374151] text-white shadow-sm'
-                      }`}
-                    >
-                      <span>Praticar Desafios</span>
-                      <ChevronRight size={14} />
-                    </button>
-                  </div>
-                </motion.div>
-              );
-            })}
+          {/* Mode Switcher Tabs */}
+          <div className="flex justify-center">
+            <div className="bg-slate-200/70 p-1.5 rounded-2xl flex gap-1 border border-slate-300/50">
+              <button
+                onClick={() => setMenuTab('trilhas')}
+                className={`px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all ${
+                  menuTab === 'trilhas'
+                    ? 'bg-slate-900 text-white shadow-md'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <Route size={16} className={menuTab === 'trilhas' ? 'text-amber-400' : ''} />
+                <span>Trilhas Guiadas de Aprendizado (Recomendado)</span>
+              </button>
+              <button
+                onClick={() => setMenuTab('disciplinas')}
+                className={`px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all ${
+                  menuTab === 'disciplinas'
+                    ? 'bg-slate-900 text-white shadow-md'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <BookOpen size={16} className={menuTab === 'disciplinas' ? 'text-blue-400' : ''} />
+                <span>Módulos por Disciplina</span>
+              </button>
+            </div>
           </div>
+
+          {/* TAB 1: TRILHAS DE APRENDIZADO */}
+          {menuTab === 'trilhas' && (
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {Object.values(TRILHAS_DE_TESTE).map((trilha) => (
+                  <motion.div
+                    key={trilha.id}
+                    whileHover={{ scale: 1.015, y: -2 }}
+                    className="bg-white rounded-2xl border border-slate-200 hover:border-blue-400 p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-lg transition-all"
+                  >
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-start">
+                        <span className="text-3xl p-3 bg-slate-50 rounded-2xl border border-slate-100">{trilha.icone}</span>
+                        <span className="bg-blue-50 text-blue-700 border border-blue-200 text-[10px] font-black uppercase px-2.5 py-1 rounded-full">
+                          {trilha.nivelRecomendado}
+                        </span>
+                      </div>
+
+                      <div>
+                        <h3 className="text-lg font-black text-slate-900">{trilha.nome}</h3>
+                        <span className="text-[10px] text-blue-600 font-bold uppercase tracking-wider block mt-0.5">{trilha.categoria}</span>
+                        <p className="text-xs text-slate-500 leading-relaxed mt-2">{trilha.descricao}</p>
+                      </div>
+
+                      {/* Steps Roadmap */}
+                      <div className="space-y-2 pt-2 border-t border-slate-100">
+                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Módulos Encadeados ({trilha.etapas.length}):</span>
+                        {trilha.etapas.map((etapa, idx) => (
+                          <div key={etapa.id} className="bg-slate-50 p-2.5 rounded-xl border border-slate-100 flex items-center justify-between gap-2">
+                            <div className="flex items-center gap-2">
+                              <span className="w-5 h-5 bg-blue-600 text-white rounded-full text-[10px] font-bold flex items-center justify-center">
+                                {idx + 1}
+                              </span>
+                              <p className="text-xs font-bold text-slate-700 truncate max-w-[180px]">{etapa.titulo}</p>
+                            </div>
+                            <span className="text-[10px] text-slate-400 font-mono">{etapa.tempoEstimado}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="pt-2">
+                      <button
+                        onClick={() => handleSelectTrilha(trilha)}
+                        className="w-full bg-[#111827] hover:bg-[#374151] text-white py-3 rounded-xl text-xs font-bold transition-all shadow flex items-center justify-center gap-2"
+                      >
+                        <Compass size={16} /> Iniciar Trilha de Aprendizado <ChevronRight size={14} />
+                      </button>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 2: DISCIPLINAS INDIVIDUAIS */}
+          {menuTab === 'disciplinas' && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {DISCIPLINAS_DISPONIVEIS.map((d) => {
+                const count = (Object.values(bancoProvas) as Prova[]).filter(q => d.id === 'Todas' || q.disciplina === d.id).length;
+                const hasTheory = MATERIAIS_EXPLICATIVOS[d.id] !== undefined;
+
+                return (
+                  <motion.div
+                    key={d.id}
+                    whileHover={{ scale: 1.015, y: -2 }}
+                    className={`p-6 rounded-2xl border transition-all flex flex-col justify-between space-y-4 shadow-sm ${
+                      d.id === 'Todas'
+                        ? 'bg-gradient-to-br from-slate-900 to-slate-800 text-white border-slate-700 hover:shadow-xl'
+                        : 'bg-white text-slate-900 border-slate-200 hover:border-blue-400 hover:shadow-md'
+                    }`}
+                  >
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-start">
+                        <span className="text-3xl">{d.icone}</span>
+                        <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider ${
+                          d.id === 'Todas'
+                            ? 'bg-blue-500/20 text-blue-300 border border-blue-400/30'
+                            : 'bg-slate-100 text-slate-600 border border-slate-200'
+                        }`}>
+                          {count} Questões Práticas
+                        </span>
+                      </div>
+
+                      <div>
+                        <h3 className={`text-lg font-bold ${d.id === 'Todas' ? 'text-white' : 'text-slate-900'}`}>
+                          {d.nome}
+                        </h3>
+                        <p className={`text-xs mt-1.5 leading-relaxed ${d.id === 'Todas' ? 'text-slate-300' : 'text-slate-500'}`}>
+                          {d.descricao}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+                      {hasTheory && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setViewingTheoryDisciplina(d.id);
+                          }}
+                          className={`px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+                            d.id === 'Todas'
+                              ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700'
+                              : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200'
+                          }`}
+                          title="Ler resumo explicativo e teoria"
+                        >
+                          <BookOpen size={14} className="text-blue-500" /> Ler Teoria
+                        </button>
+                      )}
+
+                      <button
+                        onClick={() => handleSelectDisciplina(d.id)}
+                        className={`flex-1 py-2 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+                          d.id === 'Todas'
+                            ? 'bg-blue-600 hover:bg-blue-500 text-white shadow'
+                            : 'bg-[#111827] hover:bg-[#374151] text-white shadow-sm'
+                        }`}
+                      >
+                        <span>Praticar Desafios</span>
+                        <ChevronRight size={14} />
+                      </button>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          )}
 
           <div className="text-center pt-4">
             <button
@@ -1548,7 +1747,7 @@ export default function App() {
               Obrigado por participar, <strong className="text-slate-800">{progress.userName}</strong>.
             </p>
             <span className="inline-block text-[11px] bg-blue-50 text-blue-700 border border-blue-200 px-3 py-1 rounded-full font-bold">
-              Disciplina: {progress.selectedDisciplina}
+              {progress.selectedTrilhaId ? 'Trilha: ' + progress.selectedTrilhaId : 'Disciplina: ' + progress.selectedDisciplina}
             </span>
           </div>
 
@@ -1585,7 +1784,7 @@ export default function App() {
               />
               <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
                 className="relative bg-white rounded-2xl shadow-2xl border border-slate-100 max-w-sm w-full overflow-hidden"
               >
@@ -1664,6 +1863,11 @@ export default function App() {
               <span className="text-[10px] bg-slate-100 text-slate-700 border border-slate-200 px-2 py-0.5 rounded font-bold flex items-center gap-1">
                 <BookOpen size={10} className="text-blue-500" /> {currentDiscName}
               </span>
+              {progress.selectedTrilhaId && (
+                <span className="text-[10px] bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded font-bold flex items-center gap-1">
+                  <Route size={10} className="text-emerald-600" /> Trilha Guiada
+                </span>
+              )}
               {currentTheory && (
                 <button
                   onClick={() => setShowExamTheoryDrawer(true)}
@@ -1983,8 +2187,8 @@ export default function App() {
             />
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
               className="relative bg-white rounded-2xl shadow-2xl border border-slate-100 max-w-sm w-full overflow-hidden"
             >
               <div className="p-6 text-center space-y-4">
