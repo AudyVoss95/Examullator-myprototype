@@ -1,0 +1,93 @@
+===============================================================================
+🎓 EXAMULLATOR - MODELO DE MONTAGEM DE PERGUNTAS E TEXTOS EXPLICATIVOS
+===============================================================================
+Arquivo de Template: models_content.txt
+Finalidade: Guia e modelo padronizado para professores e educadores criarem
+            novas questões e trilhas lineares de estudo para a plataforma.
+
+-------------------------------------------------------------------------------
+📌 ESTRUTURA LINEAR PADRÃO (CONCEITO DO ALUNO)
+-------------------------------------------------------------------------------
+Cada questão no Examullator segue a estrutura pedagógica linear em 3 passos:
+
+  [Passo 1] 📖 Texto Explicativo 1 (Conceito Inicial / Introdução)
+  [Passo 2] 💡 Texto Explicativo 2 (Aprofundamento & Exemplo de Código)
+  [Passo 3] ✍️ Pergunta Relacionada aos Textos Acima (Desafio Dissertativo)
+
+===============================================================================
+📝 TEMPLATE DE MONTAGEM (COPIE E PREENCHA)
+===============================================================================
+
+ID_QUESTAO: [Ex: 901]
+DISCIPLINA: [Hardware & Sistemas | Lógica de Programação | Python Fundamentos | Estruturas de Controle & Repetição | Estruturas de Dados & Algoritmos | Funções & Modularização]
+NIVEL: [0 = Iniciante | 1 = Intermediário | 2 = Avançado]
+TITULO: [Título curto da questão]
+
+TEXTO_EXPLICATIVO_1_TITULO: [Ex: Conceito 1: Introdução ao Tópico]
+TEXTO_EXPLICATIVO_1_CONTEUDO: [Texto explicativo limpo e didático apresentando o conceito inicial.]
+
+TEXTO_EXPLICATIVO_2_TITULO: [Ex: Conceito 2: Aplicação Prática & Código]
+TEXTO_EXPLICATIVO_2_CONTEUDO: [Texto de aprofundamento explicando regras ou sintaxe.]
+TEXTO_EXPLICATIVO_2_EXEMPLO_CODIGO: [Opcional: Exemplo de código formatado]
+
+PERGUNTA_ENUNCIADO: [Pergunta dissertativa clara diretamente relacionada aos textos 1 e 2 lidos acima.]
+MIN_CHARS: [Mínimo de caracteres exigidos na resposta dissertativa, ex: 45]
+KEYWORDS: [palavra1, palavra2, palavra3, palavra4]
+RESUMO_CURTO: [1 a 2 frases com a dica curta explicativa principal]
+BLOQUEAR_VOLTAR: [false | true]
+
+===============================================================================
+📋 EXEMPLO PREENCHIDO (PRONTO PARA USO)
+===============================================================================
+
+ID_QUESTAO: 901
+DISCIPLINA: Python Fundamentos
+NIVEL: 0
+TITULO: Manipulação de Strings com .upper() e .lower()
+
+TEXTO_EXPLICATIVO_1_TITULO: Conceito 1: Métodos de String em Python
+TEXTO_EXPLICATIVO_1_CONTEUDO: Strings em Python possuem métodos embutidos para transformar caracteres sem alterar o texto original de forma destrutiva.
+
+TEXTO_EXPLICATIVO_2_TITULO: Conceito 2: Sintaxe de .upper() e .lower()
+TEXTO_EXPLICATIVO_2_CONTEUDO: O método .upper() converte todas as letras para maiúsculas e .lower() para minúsculas.
+TEXTO_EXPLICATIVO_2_EXEMPLO_CODIGO: texto = "Python"\nprint(texto.upper()) # Exibe: PYTHON\nprint(texto.lower()) # Exibe: python
+
+PERGUNTA_ENUNCIADO: Explique para que servem os métodos .upper() e .lower() em Python e forneça um exemplo de uso para padronização de dados de entrada.
+MIN_CHARS: 50
+KEYWORDS: maiúsculas, minúsculas, métodos, padronização
+RESUMO_CURTO: .upper() converte o texto para maiúsculas e .lower() para minúsculas, sendo essenciais para uniformizar dados.
+BLOQUEAR_VOLTAR: false
+
+===============================================================================
+💻 FORMATO CÓDIGO TYPESCRIPT (PARA INSERIR EM src/questions/bancoProvas.ts)
+===============================================================================
+
+  "901": {
+    "textosPreparatorios": [
+      {
+        "titulo": "Conceito 1: Métodos de String em Python",
+        "conteudo": "Strings em Python possuem métodos embutidos para transformar caracteres sem alterar o texto original de forma destrutiva."
+      },
+      {
+        "titulo": "Conceito 2: Sintaxe de .upper() e .lower()",
+        "conteudo": "O método .upper() converte todas as letras para maiúsculas e .lower() para minúsculas.",
+        "exemploCodigo": "texto = \"Python\"\nprint(texto.upper()) # Exibe: PYTHON\nprint(texto.lower()) # Exibe: python"
+      }
+    ],
+    "disciplina": "Python Fundamentos",
+    "nivel": 0,
+    "titulo": "Manipulação de Strings com .upper() e .lower()",
+    "enunciado": "Explique para que servem os métodos .upper() e .lower() em Python e forneça um exemplo de uso para padronização de dados de entrada.",
+    "min_chars": 50,
+    "keywords": [
+      "maiúsculas",
+      "minúsculas",
+      "métodos",
+      "padronização"
+    ],
+    "resumoCurto": ".upper() converte o texto para maiúsculas e .lower() para minúsculas, sendo essenciais para uniformizar dados.",
+    "bloquearVoltar": false
+  }
+
+===============================================================================
+EOF (End of Template)
