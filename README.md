@@ -2,7 +2,7 @@
 
 Um simulador interativo web desenvolvido para criar, executar e monitorar avaliações técnicas e provas de programação para alunos e cursos de tecnologia.
 
-🚀 **Live Demo / Deploy:** [examullator-myprototype.vercel.app](https://examullator-myprototype.vercel.app)
+🚀 **Live Demo / Deploy:** [examullator-myprototype-audyvoss95s-projects.vercel.app](https://examullator-myprototype-audyvoss95s-projects.vercel.app/)
 
 ---
 
