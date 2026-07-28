@@ -8,12 +8,16 @@ Um simulador interativo web desenvolvido para criar, executar e monitorar avalia
 
 ## 📌 Visão Geral (Overview)
 
-O **Examullator** é uma plataforma completa desenvolvida para suprir as necessidades de ambientes educacionais e de avaliação técnica (ex: exames de lógica, hardware, Python e programação). Ele oferece uma interface intuitiva e segura para os estudantes realizarem avaliações sob condições simuladas, com escolha de disciplinas, feedback imediato de termos técnicos e sincronização remota com ferramentas de análise local.
+O **Examullator** é uma plataforma completa desenvolvida para suprir as necessidades de ambientes educacionais e de avaliação técnica (ex: exames de lógica, hardware, Python e programação). Ele oferece uma interface intuitiva e segura para os estudantes realizarem avaliações sob condições simuladas, com escolha de disciplinas, leitura de materiais teóricos explicativos, feedback imediato de termos técnicos e sincronização remota.
 
 ---
 
 ## ✨ Funcionalidades Principais (Key Features)
 
+* 📖 **Telas de Materiais Explicativos & Guia Teórico (Study Hub)**:
+  * Telas dedicadas para os alunos lerem resumos conceituais, exemplos práticos de código, dicas e glossários de termos chave antes ou durante os exames.
+  * Botão de consulta rápida **"💡 Consultar Teoria"** no cabeçalho durante a realização dos desafios práticos.
+  * Aba de gestão de **Materiais Explicativos** no Painel do Professor.
 * 📊 **Interface & Script de Análise no Localhost (`http://localhost:3001`)**:
   * **Dashboard Web Localhost**: Interface gráfica interativa para analisar o desempenho da turma, filtrar por aluno ou disciplina, consultar dissertações completas e verificar estatísticas em tempo real.
   * **Script CLI de Terminal (`npm run analyze`)**: Ferramenta de linha de comando para gerar relatórios instantâneos de notas, status e respostas gravadas no servidor local.
@@ -85,6 +89,7 @@ ADMIN2026
 ```
 Isso liberará o **Painel do Professor**, onde você pode:
 - **Puxar e monitorar respostas remotas dos alunos em tempo real**.
+- Consultar e gerenciar materiais explicativos e teorias por disciplina.
 - Filtrar questões por disciplina.
 - Visualizar a disciplina escolhida pelo aluno, suas dissertações e notas por questão.
 - Configurar travas de retorno por questão (`bloquearVoltar`).

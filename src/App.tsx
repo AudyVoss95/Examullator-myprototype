@@ -21,9 +21,15 @@ import {
   Trash2,
   BookOpen,
   Filter,
-  Layers
+  Layers,
+  Lightbulb,
+  FileCode,
+  Sparkles,
+  Check,
+  X,
+  HelpCircle
 } from 'lucide-react';
-import { BANCO_DE_PROVAS, Prova, APP_CONFIG } from './data';
+import { BANCO_DE_PROVAS, Prova, APP_CONFIG, MATERIAIS_EXPLICATIVOS, MaterialExplicativo } from './data';
 
 interface UserProgress {
   sequence: string[];
@@ -167,9 +173,13 @@ export default function App() {
 
   const [tempName, setTempName] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
-  const [adminTab, setAdminTab] = useState<'bank' | 'remote'>('remote');
+  const [adminTab, setAdminTab] = useState<'bank' | 'remote' | 'theory'>('remote');
   const [adminDisciplinaFilter, setAdminDisciplinaFilter] = useState<string>('Todas');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  // Educational Explanatory Material States
+  const [viewingTheoryDisciplina, setViewingTheoryDisciplina] = useState<string | null>(null);
+  const [showExamTheoryDrawer, setShowExamTheoryDrawer] = useState<boolean>(false);
   
   // Remote sync states
   const [remoteUrl, setRemoteUrl] = useState(() => {
@@ -232,7 +242,6 @@ export default function App() {
         updatedAt: new Date().toISOString()
       };
 
-      // 1. LocalStorage Broadcast Cache for multi-tab
       try {
         const cachedStr = localStorage.getItem('examullator_all_remote_cache') || '{}';
         const cachedObj = JSON.parse(cachedStr);
@@ -242,7 +251,6 @@ export default function App() {
         console.error("Local remote cache error", e);
       }
 
-      // 2. BroadcastChannel for active browser tabs
       if ('BroadcastChannel' in window) {
         try {
           const bc = new BroadcastChannel('examullator_channel');
@@ -253,7 +261,6 @@ export default function App() {
         }
       }
 
-      // 3. HTTP Sync to Remote Server
       const sendRemote = async () => {
         try {
           await fetch(remoteUrl, {
@@ -262,7 +269,7 @@ export default function App() {
             body: JSON.stringify(payload)
           });
         } catch (e) {
-          // Quiet fallback if server is offline
+          // Quiet fallback
         }
       };
       sendRemote();
@@ -499,6 +506,62 @@ export default function App() {
     setFeedback(null);
   };
 
+  const downloadReport = () => {
+    let content = "RELATÓRIO FINAL DE DESEMPENHO - EXAMULLATOR\n";
+    content += "============================================\n";
+    content += `Estudante: ${progress.userName}\n`;
+    content += `Disciplina: ${progress.selectedDisciplina || 'Simulado Geral'}\n`;
+    content += `Data: ${new Date().toLocaleString()}\n\n`;
+    
+    levels.forEach(lvl => {
+      const p = bancoProvas[lvl] || BANCO_DE_PROVAS[lvl];
+      content += `[Nível ${lvl} - ${p ? p.disciplina : 'Geral'}]: ${p ? p.titulo : lvl}\n`;
+      content += `Nota Final: ${progress.scores[lvl] || 0}\n`;
+      content += `Resposta do Aluno:\n${progress.responses[lvl] || "(Sem resposta)"}\n`;
+      content += "--------------------------------------------\n\n";
+    });
+
+    const safeName = progress.userName.replace(/[^a-z0-9]/gi, '_').toUpperCase();
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `PROVAS_ENVIADAS/${safeName}_RELATORIO.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const resetProgress = () => {
+    showConfirm(
+      "Resetar Progresso", 
+      "Tem certeza que deseja apagar todo o progresso? Isso limpará o nome, disciplina escolhida e todas as respostas.",
+      () => {
+        const newSequence = generateSequence('Todas', bancoProvas);
+        setProgress({
+          sequence: newSequence,
+          userName: '',
+          selectedDisciplina: '',
+          currentLevel: newSequence[0],
+          responses: {},
+          scores: {},
+          completed: false
+        });
+        setTempName('');
+        setFeedback(null);
+      }
+    );
+  };
+
+  const finishExam = () => {
+    showConfirm(
+      "Encerrar Prova",
+      "Deseja encerrar a prova agora?",
+      () => {
+        setProgress(prev => ({ ...prev, completed: true }));
+      }
+    );
+  };
+
   const exportData = () => {
     const content = `export const BANCO_DE_PROVAS: Record<string, Prova> = ${JSON.stringify(bancoProvas, null, 2)};`;
     const blob = new Blob([content], { type: 'text/plain' });
@@ -602,7 +665,7 @@ export default function App() {
             </div>
             
             <div className="flex items-center gap-3">
-              <div className="bg-slate-800 p-1.5 rounded-xl border border-slate-700 flex gap-1">
+              <div className="bg-slate-800 p-1.5 rounded-xl border border-slate-700 flex flex-wrap gap-1">
                 <button
                   onClick={() => setAdminTab('remote')}
                   className={`px-4 py-2 rounded-lg font-bold text-xs flex items-center gap-2 transition-all ${
@@ -618,6 +681,14 @@ export default function App() {
                   }`}
                 >
                   <FileText size={14} /> Banco de Questões
+                </button>
+                <button
+                  onClick={() => setAdminTab('theory')}
+                  className={`px-4 py-2 rounded-lg font-bold text-xs flex items-center gap-2 transition-all ${
+                    adminTab === 'theory' ? 'bg-blue-600 text-white shadow' : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <BookOpen size={14} /> Materiais Explicativos
                 </button>
               </div>
 
@@ -892,6 +963,55 @@ export default function App() {
               </div>
             </div>
           )}
+
+          {/* ADMIN TAB: EXPLANATORY MATERIALS (THEORY) */}
+          {adminTab === 'theory' && (
+            <div className="space-y-6">
+              <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-2">
+                <h3 className="font-bold text-white text-lg flex items-center gap-2">
+                  <BookOpen className="text-blue-400" size={20} /> Materiais Explicativos & Guia de Estudo dos Alunos
+                </h3>
+                <p className="text-xs text-slate-400">
+                  Consulte abaixo todo o conteúdo teórico, resumos conceituais e exemplos práticos fornecidos aos estudantes por disciplina.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {Object.values(MATERIAIS_EXPLICATIVOS).map((mat) => (
+                  <div key={mat.disciplinaId} className="bg-slate-800/80 p-6 rounded-2xl border border-slate-700 space-y-4">
+                    <div className="flex items-center gap-3">
+                      <span className="text-3xl">{mat.icone}</span>
+                      <div>
+                        <h4 className="font-bold text-white text-lg">{mat.titulo}</h4>
+                        <span className="text-[10px] text-blue-400 font-bold uppercase tracking-wider">{mat.disciplinaId}</span>
+                      </div>
+                    </div>
+
+                    <p className="text-xs text-slate-400 leading-relaxed">{mat.subtitulo}</p>
+
+                    <div className="space-y-3 pt-2">
+                      <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Tópicos Teóricos:</h5>
+                      {mat.secoes.map((sec, idx) => (
+                        <div key={idx} className="bg-slate-900/60 p-3 rounded-xl border border-slate-700/50 space-y-1">
+                          <p className="font-bold text-slate-200 text-xs">{sec.titulo}</p>
+                          <p className="text-[11px] text-slate-400 leading-relaxed">{sec.conteudo.slice(0, 100)}...</p>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="pt-2">
+                      <button
+                        onClick={() => setViewingTheoryDisciplina(mat.disciplinaId)}
+                        className="w-full bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 border border-blue-500/20"
+                      >
+                        <Eye size={14} /> Visualizar Material Completo
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Modal for Student Remote Details */}
@@ -1072,61 +1192,118 @@ export default function App() {
     );
   }
 
-  const downloadReport = () => {
-    let content = "RELATÓRIO FINAL DE DESEMPENHO - EXAMULLATOR\n";
-    content += "============================================\n";
-    content += `Estudante: ${progress.userName}\n`;
-    content += `Disciplina: ${progress.selectedDisciplina || 'Simulado Geral'}\n`;
-    content += `Data: ${new Date().toLocaleString()}\n\n`;
-    
-    levels.forEach(lvl => {
-      const p = bancoProvas[lvl] || BANCO_DE_PROVAS[lvl];
-      content += `[Nível ${lvl} - ${p ? p.disciplina : 'Geral'}]: ${p ? p.titulo : lvl}\n`;
-      content += `Nota Final: ${progress.scores[lvl] || 0}\n`;
-      content += `Resposta do Aluno:\n${progress.responses[lvl] || "(Sem resposta)"}\n`;
-      content += "--------------------------------------------\n\n";
-    });
+  // SCREEN: FULL EXPLANATORY STUDY MATERIAL VIEW FOR A DISCIPLINE
+  if (viewingTheoryDisciplina) {
+    const mat = MATERIAIS_EXPLICATIVOS[viewingTheoryDisciplina] || MATERIAIS_EXPLICATIVOS["Python Fundamentos"];
 
-    const safeName = progress.userName.replace(/[^a-z0-9]/gi, '_').toUpperCase();
-    const blob = new Blob([content], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `PROVAS_ENVIADAS/${safeName}_RELATORIO.txt`;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
+    return (
+      <div className="min-h-screen bg-slate-950 text-slate-100 py-10 px-6 font-sans select-none flex justify-center">
+        <div className="max-w-4xl w-full mx-auto space-y-8">
+          {/* Header */}
+          <div className="bg-slate-900 p-8 rounded-3xl border border-slate-800 space-y-4 shadow-xl">
+            <div className="flex justify-between items-start flex-wrap gap-4">
+              <div className="flex items-center gap-4">
+                <span className="text-4xl p-3 bg-slate-800 rounded-2xl border border-slate-700">{mat?.icone || '📖'}</span>
+                <div>
+                  <span className="text-xs font-bold text-blue-400 uppercase tracking-widest">Guia Teórico & Material Explicativo</span>
+                  <h1 className="text-2xl sm:text-3xl font-black text-white">{mat?.titulo}</h1>
+                </div>
+              </div>
 
-  const resetProgress = () => {
-    showConfirm(
-      "Resetar Progresso", 
-      "Tem certeza que deseja apagar todo o progresso? Isso limpará o nome, disciplina escolhida e todas as respostas.",
-      () => {
-        const newSequence = generateSequence('Todas', bancoProvas);
-        setProgress({
-          sequence: newSequence,
-          userName: '',
-          selectedDisciplina: '',
-          currentLevel: newSequence[0],
-          responses: {},
-          scores: {},
-          completed: false
-        });
-        setTempName('');
-        setFeedback(null);
-      }
+              <button
+                onClick={() => setViewingTheoryDisciplina(null)}
+                className="bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white px-4 py-2.5 rounded-xl text-xs font-bold transition-all border border-slate-700 flex items-center gap-2"
+              >
+                <ChevronLeft size={16} /> Voltar ao Menu
+              </button>
+            </div>
+
+            <p className="text-slate-400 text-sm leading-relaxed border-t border-slate-800/80 pt-4">
+              {mat?.subtitulo}
+            </p>
+          </div>
+
+          {/* Secoes Teóricas */}
+          <div className="space-y-6">
+            <h3 className="text-xs font-black uppercase text-slate-400 tracking-widest flex items-center gap-2">
+              <BookOpen size={16} className="text-blue-400" /> Conteúdo Conceitual & Exemplos Práticos
+            </h3>
+
+            {mat?.secoes.map((sec, idx) => (
+              <motion.div 
+                key={idx}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1 }}
+                className="bg-slate-900 p-7 rounded-2xl border border-slate-800 space-y-4 shadow-md"
+              >
+                <h4 className="text-lg font-bold text-white flex items-center gap-2">
+                  <Sparkles size={18} className="text-amber-400" /> {sec.titulo}
+                </h4>
+
+                <p className="text-sm text-slate-300 leading-relaxed whitespace-pre-wrap">
+                  {sec.conteudo}
+                </p>
+
+                {sec.exemploCodigo && (
+                  <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                    <span className="text-[10px] font-bold text-blue-400 uppercase tracking-wider block flex items-center gap-1">
+                      <FileCode size={12} /> Exemplo de Código / Sintaxe:
+                    </span>
+                    <pre className="font-mono text-xs text-emerald-400 leading-relaxed whitespace-pre-wrap overflow-x-auto">
+                      {sec.exemploCodigo}
+                    </pre>
+                  </div>
+                )}
+
+                {sec.dica && (
+                  <div className="bg-blue-500/10 border border-blue-500/20 p-4 rounded-xl flex items-start gap-3 text-xs text-blue-300">
+                    <Lightbulb size={18} className="text-amber-400 shrink-0 mt-0.5" />
+                    <div>
+                      <strong className="block font-bold text-blue-200 mb-0.5">Dica de Estudo:</strong>
+                      {sec.dica}
+                    </div>
+                  </div>
+                )}
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Glossário de Termos Chave */}
+          {mat?.termosChave && mat.termosChave.length > 0 && (
+            <div className="bg-slate-900 p-8 rounded-3xl border border-slate-800 space-y-6">
+              <h3 className="text-xs font-black uppercase text-slate-400 tracking-widest flex items-center gap-2">
+                <HelpCircle size={16} className="text-emerald-400" /> Glossário de Termos Chave Avaliados
+              </h3>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {mat.termosChave.map((t, idx) => (
+                  <div key={idx} className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-1">
+                    <span className="text-xs font-bold text-emerald-400 block">{t.termo}</span>
+                    <p className="text-xs text-slate-400 leading-relaxed">{t.explicacao}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Footer Action */}
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-900 p-6 rounded-2xl border border-slate-800">
+            <span className="text-xs text-slate-400 font-medium">Pronto para praticar e testar seus conhecimentos?</span>
+            <button
+              onClick={() => {
+                handleSelectDisciplina(viewingTheoryDisciplina);
+                setViewingTheoryDisciplina(null);
+              }}
+              className="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs px-6 py-3 rounded-xl transition-all shadow-lg flex items-center gap-2"
+            >
+              🚀 Iniciar Desafios Práticos desta Disciplina <ChevronRight size={16} />
+            </button>
+          </div>
+        </div>
+      </div>
     );
-  };
-
-  const finishExam = () => {
-    showConfirm(
-      "Encerrar Prova",
-      "Deseja encerrar a prova agora?",
-      () => {
-        setProgress(prev => ({ ...prev, completed: true }));
-      }
-    );
-  };
+  }
 
   // STEP 1: IDENTIFICATION VIEW (NAME ENTRY)
   if (!progress.userName) {
@@ -1243,7 +1420,7 @@ export default function App() {
               Escolha a Disciplina para a Avaliação
             </h1>
             <p className="text-slate-500 text-sm max-w-xl mx-auto">
-              Selecione o módulo de ensino para iniciar seu teste prático focado ou escolha o simulado geral.
+              Selecione o módulo de ensino para iniciar seu teste prático focado ou consulte o material de explicação teórico.
             </p>
           </div>
 
@@ -1251,14 +1428,13 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {DISCIPLINAS_DISPONIVEIS.map((d) => {
               const count = (Object.values(bancoProvas) as Prova[]).filter(q => d.id === 'Todas' || q.disciplina === d.id).length;
+              const hasTheory = MATERIAIS_EXPLICATIVOS[d.id] !== undefined;
 
               return (
                 <motion.div
                   key={d.id}
-                  whileHover={{ scale: 1.02, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => handleSelectDisciplina(d.id)}
-                  className={`p-6 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between space-y-4 shadow-sm ${
+                  whileHover={{ scale: 1.015, y: -2 }}
+                  className={`p-6 rounded-2xl border transition-all flex flex-col justify-between space-y-4 shadow-sm ${
                     d.id === 'Todas'
                       ? 'bg-gradient-to-br from-slate-900 to-slate-800 text-white border-slate-700 hover:shadow-xl'
                       : 'bg-white text-slate-900 border-slate-200 hover:border-blue-400 hover:shadow-md'
@@ -1272,7 +1448,7 @@ export default function App() {
                           ? 'bg-blue-500/20 text-blue-300 border border-blue-400/30'
                           : 'bg-slate-100 text-slate-600 border border-slate-200'
                       }`}>
-                        {count} Questões
+                        {count} Questões Práticas
                       </span>
                     </div>
 
@@ -1286,11 +1462,35 @@ export default function App() {
                     </div>
                   </div>
 
-                  <div className={`pt-3 border-t flex items-center justify-between text-xs font-bold ${
-                    d.id === 'Todas' ? 'border-slate-700/60 text-blue-400' : 'border-slate-100 text-blue-600'
-                  }`}>
-                    <span>Iniciar Prova nesta Disciplina</span>
-                    <ChevronRight size={16} />
+                  <div className="flex items-center gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+                    {hasTheory && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setViewingTheoryDisciplina(d.id);
+                        }}
+                        className={`px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+                          d.id === 'Todas'
+                            ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700'
+                            : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200'
+                        }`}
+                        title="Ler resumo explicativo e teoria"
+                      >
+                        <BookOpen size={14} className="text-blue-500" /> Ler Teoria
+                      </button>
+                    )}
+
+                    <button
+                      onClick={() => handleSelectDisciplina(d.id)}
+                      className={`flex-1 py-2 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+                        d.id === 'Todas'
+                          ? 'bg-blue-600 hover:bg-blue-500 text-white shadow'
+                          : 'bg-[#111827] hover:bg-[#374151] text-white shadow-sm'
+                      }`}
+                    >
+                      <span>Praticar Desafios</span>
+                      <ChevronRight size={14} />
+                    </button>
                   </div>
                 </motion.div>
               );
@@ -1418,6 +1618,8 @@ export default function App() {
   const completedLevelsCount = levels.filter(lvl => (progress.scores[lvl] || 0) >= 5).length;
   const progressPercent = (completedLevelsCount / (levels.length || 1)) * 100;
   const canGoBackInfo = checkCanGoBack();
+  const currentDiscName = currentLevelData?.disciplina || progress.selectedDisciplina;
+  const currentTheory = MATERIAIS_EXPLICATIVOS[currentDiscName];
 
   return (
     <div 
@@ -1440,8 +1642,17 @@ export default function App() {
                 Level {progress.currentLevel} ({levels.indexOf(progress.currentLevel) + 1}/{levels.length})
               </span>
               <span className="text-[10px] bg-slate-100 text-slate-700 border border-slate-200 px-2 py-0.5 rounded font-bold flex items-center gap-1">
-                <BookOpen size={10} className="text-blue-500" /> {currentLevelData?.disciplina || progress.selectedDisciplina}
+                <BookOpen size={10} className="text-blue-500" /> {currentDiscName}
               </span>
+              {currentTheory && (
+                <button
+                  onClick={() => setShowExamTheoryDrawer(true)}
+                  className="text-[10px] bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded font-bold hover:bg-amber-100 transition-colors flex items-center gap-1"
+                  title="Consultar resumo teórico e exemplos da disciplina"
+                >
+                  <Lightbulb size={10} className="text-amber-500" /> Consultar Teoria
+                </button>
+              )}
               {currentLevelData?.bloquearVoltar && (
                 <span className="text-[10px] bg-amber-50 text-amber-700 border border-amber-200 px-2 py-0.5 rounded font-bold flex items-center gap-1">
                   <Lock size={10} /> Retorno Restrito
@@ -1486,8 +1697,8 @@ export default function App() {
         <main className="flex-1 grid grid-cols-1 md:grid-cols-2 overflow-hidden border-t border-gray-100">
           {/* Left Side: Enunciado */}
           <section className="p-8 bg-gray-50 overflow-y-auto border-r border-gray-100 flex flex-col select-none">
-            <div className="max-w-prose">
-              <div className="flex items-center justify-between mb-4">
+            <div className="max-w-prose space-y-4">
+              <div className="flex items-center justify-between">
                 <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Enunciado do Desafio</h3>
                 <span className="text-[10px] text-slate-400 flex items-center gap-1 font-mono">
                   <ShieldAlert size={12} className="text-amber-500" /> Protegido contra cópia
@@ -1621,6 +1832,69 @@ export default function App() {
           </div>
         </footer>
       </div>
+
+      {/* Slide-over Theory Drawer during Exam */}
+      <AnimatePresence>
+        {showExamTheoryDrawer && currentTheory && (
+          <div className="fixed inset-0 z-50 flex justify-end">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowExamTheoryDrawer(false)}
+              className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="relative bg-slate-900 text-white max-w-lg w-full h-full shadow-2xl overflow-y-auto p-6 space-y-6 border-l border-slate-800"
+            >
+              <div className="flex justify-between items-center border-b border-slate-800 pb-4">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">{currentTheory.icone}</span>
+                  <div>
+                    <h3 className="font-bold text-white text-base">{currentTheory.titulo}</h3>
+                    <span className="text-[10px] text-blue-400 font-bold uppercase">{currentDiscName}</span>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowExamTheoryDrawer(false)}
+                  className="p-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              <div className="space-y-4 text-xs text-slate-300">
+                {currentTheory.secoes.map((sec, idx) => (
+                  <div key={idx} className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                    <h4 className="font-bold text-white text-sm flex items-center gap-1.5">
+                      <Sparkles size={14} className="text-amber-400" /> {sec.titulo}
+                    </h4>
+                    <p className="leading-relaxed">{sec.conteudo}</p>
+                    {sec.exemploCodigo && (
+                      <pre className="bg-slate-900 p-3 rounded font-mono text-[11px] text-emerald-400 leading-relaxed whitespace-pre-wrap border border-slate-800">
+                        {sec.exemploCodigo}
+                      </pre>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              <div className="pt-4">
+                <button
+                  onClick={() => setShowExamTheoryDrawer(false)}
+                  className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl transition-all shadow"
+                >
+                  Voltar à Avaliação
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       <div className="py-2 text-center text-[10px] text-gray-400 font-bold uppercase tracking-[0.3em] opacity-50">
         Engine Examullator &trade; 2026
