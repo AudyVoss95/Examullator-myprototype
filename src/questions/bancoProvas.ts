@@ -1,4 +1,5 @@
 export interface Prova {
+  resumoCurto?: string;
   disciplina: string;
   nivel: number;
   titulo: string;
@@ -10,6 +11,7 @@ export interface Prova {
 
 export const BANCO_DE_PROVAS: Record<string, Prova> = {
   "001": {
+    "resumoCurto": "Hardware é a parte física tangível (peças, circuitos). Software são os programas lógicos executados pelo sistema.",
     "disciplina": "Hardware & Sistemas",
     "nivel": 0,
     "titulo": "Hardware vs Software",
@@ -23,6 +25,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "002": {
+    "resumoCurto": "Ctrl+C duplica o item para a memória. Ctrl+V cola o item. Ctrl+X remove do local original e move para a memória.",
     "disciplina": "Hardware & Sistemas",
     "nivel": 0,
     "titulo": "Comandos Ctrl+C, V e X",
@@ -37,6 +40,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "003": {
+    "resumoCurto": "Arquivos .txt guardam caracteres puros sem formatação gráfica ou oculta, sendo leves e compatíveis com qualquer sistema.",
     "disciplina": "Hardware & Sistemas",
     "nivel": 0,
     "titulo": "Bloco de Notas (.txt)",
@@ -52,6 +56,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "004": {
+    "resumoCurto": "O VS Code destaca sintaxes com cores e indica erros em tempo real, aumentando a velocidade e segurança na escrita de código.",
     "disciplina": "Hardware & Sistemas",
     "nivel": 0,
     "titulo": "VS Code vs Bloco de Notas",
@@ -66,6 +71,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "005": {
+    "resumoCurto": "Salvar frequentemente (Ctrl+S) garante a persistência dos dados no disco rígido antes que uma falha de energia limpe a memória RAM.",
     "disciplina": "Hardware & Sistemas",
     "nivel": 0,
     "titulo": "Salvar Arquivos (Ctrl+S)",
@@ -80,6 +86,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "006": {
+    "resumoCurto": "O atalho Alt+Tab alterna instantaneamente entre as janelas ativas do sistema, otimizando o fluxo de trabalho multitarefa.",
     "disciplina": "Hardware & Sistemas",
     "nivel": 0,
     "titulo": "Atalho Alt + Tab",
@@ -94,6 +101,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "007": {
+    "resumoCurto": "Salvar na nuvem armazena dados em servidores remotos seguros via internet, permitindo acesso de qualquer lugar com backup automático.",
     "disciplina": "Hardware & Sistemas",
     "nivel": 0,
     "titulo": "Nuvem e Backup",
@@ -108,6 +116,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "008": {
+    "resumoCurto": "Pastas organizam o sistema de arquivos. Nomeá-las com clareza evita perda de documentos e facilita buscas futuras.",
     "disciplina": "Hardware & Sistemas",
     "nivel": 0,
     "titulo": "Criação de Pastas",
@@ -122,6 +131,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "009": {
+    "resumoCurto": "Nomes padronizados fornecem contexto imediato sobre o conteúdo do arquivo, evitando ambiguidades e substituições acidentais.",
     "disciplina": "Hardware & Sistemas",
     "nivel": 0,
     "titulo": "Renomear e Organizar",
@@ -136,6 +146,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "101": {
+    "resumoCurto": "Algoritmo é uma sequência finita de passos lógicos e ordenados para solucionar um problema ou atingir um objetivo.",
     "disciplina": "Lógica de Programação",
     "nivel": 1,
     "titulo": "O que é Algoritmo",
@@ -150,6 +161,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "102": {
+    "resumoCurto": "Fluxogramas ilustram graficamente o fluxo de execução. O retângulo representa ações e o losango representa decisões lógicas.",
     "disciplina": "Lógica de Programação",
     "nivel": 1,
     "titulo": "Fluxogramas",
@@ -164,6 +176,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "103": {
+    "resumoCurto": "Entrada recebe dados externos, Processamento transforma as informações lógicas e Saída exibe o resultado final.",
     "disciplina": "Lógica de Programação",
     "nivel": 1,
     "titulo": "Entrada e Saída",
@@ -178,6 +191,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "104": {
+    "resumoCurto": "Pseudocódigo permite praticar a lógica de programação em português estruturado sem a rigidez sintática das linguagens.",
     "disciplina": "Lógica de Programação",
     "nivel": 1,
     "titulo": "Pseudocódigo",
@@ -192,6 +206,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "105": {
+    "resumoCurto": "O retângulo no fluxograma indica tarefas ativas ou operações matemáticas, como cálculos e atribuição de valores.",
     "disciplina": "Lógica de Programação",
     "nivel": 1,
     "titulo": "Símbolo de Processo",
@@ -206,6 +221,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "106": {
+    "resumoCurto": "Todo algoritmo deve ter início e fim definidos para garantir a execução finita e evitar loops infinitos.",
     "disciplina": "Lógica de Programação",
     "nivel": 1,
     "titulo": "Símbolo de Início/Fim",
@@ -220,6 +236,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "107": {
+    "resumoCurto": "Sistemas automáticos seguem regras condicionais contínuas baseadas em tempo ou leitura de sensores.",
     "disciplina": "Lógica de Programação",
     "nivel": 1,
     "titulo": "Automação no Cotidiano",
@@ -234,6 +251,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "108": {
+    "resumoCurto": "Alterar a ordem de passos em um algoritmo modifica o fluxo de execução e pode gerar resultados incorretos ou erros.",
     "disciplina": "Lógica de Programação",
     "nivel": 1,
     "titulo": "Ordem de Execução",
@@ -248,6 +266,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "109": {
+    "resumoCurto": "Instruções devem ser precisas e inequívocas para que o computador as interprete e execute sem falhas.",
     "disciplina": "Lógica de Programação",
     "nivel": 1,
     "titulo": "Clareza de Instruções",
@@ -262,6 +281,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "201": {
+    "resumoCurto": "O terminal interativo do Python executa comandos linha por linha instantaneamente. Digite exit() ou quit() para sair.",
     "disciplina": "Python Fundamentos",
     "nivel": 2,
     "titulo": "Python Interativo",
@@ -276,6 +296,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "202": {
+    "resumoCurto": "Erros de sintaxe ocorrem quando as regras gramaticais da linguagem são violadas, interrompendo a execução antes do fim.",
     "disciplina": "Python Fundamentos",
     "nivel": 2,
     "titulo": "Erros de Sintaxe",
@@ -290,6 +311,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "203": {
+    "resumoCurto": "A extensão .py sinaliza ao sistema operacional e ao interpretador que o arquivo contém código-fonte Python executável.",
     "disciplina": "Python Fundamentos",
     "nivel": 2,
     "titulo": "Extensão .py",
@@ -304,6 +326,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "204": {
+    "resumoCurto": "print() exibe informações no console. Textos (strings) devem obrigatoriamente estar envolvidos por aspas.",
     "disciplina": "Python Fundamentos",
     "nivel": 2,
     "titulo": "Função Print",
@@ -318,6 +341,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "205": {
+    "resumoCurto": "O símbolo # cria comentários que são ignorados pelo interpretador, servindo exclusivamente para documentar o código.",
     "disciplina": "Python Fundamentos",
     "nivel": 2,
     "titulo": "Comentários (#)",
@@ -332,6 +356,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "206": {
+    "resumoCurto": "Conhecer versões antigas do Python é importante para manter códigos legados e compreender a evolução da sintaxe.",
     "disciplina": "Python Fundamentos",
     "nivel": 2,
     "titulo": "Diferença Python 2 e 3",
@@ -346,6 +371,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "207": {
+    "resumoCurto": "Python é case-sensitive: variáveis com maiúsculas e minúsculas (como Nome e nome) são tratadas como distintas.",
     "disciplina": "Python Fundamentos",
     "nivel": 2,
     "titulo": "Case Sensitive",
@@ -360,6 +386,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "208": {
+    "resumoCurto": "O interpretador lê o código-fonte em alto nível e o traduz para linguagem de máquina durante a execução.",
     "disciplina": "Python Fundamentos",
     "nivel": 2,
     "titulo": "O Interpretador",
@@ -374,6 +401,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "209": {
+    "resumoCurto": "A identação (espaçamento) em Python delimita o início e o fim de blocos de código; alinhamentos errados causam erros de sintaxe.",
     "disciplina": "Python Fundamentos",
     "nivel": 2,
     "titulo": "Identação (Espaçamento)",
@@ -388,6 +416,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "301": {
+    "resumoCurto": "A tipagem dinâmica define o tipo de dado automaticamente no momento da atribuição de um valor à variável.",
     "disciplina": "Python Fundamentos",
     "nivel": 3,
     "titulo": "Tipagem Dinâmica",
@@ -402,6 +431,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "302": {
+    "resumoCurto": "input() captura entradas do teclado sempre como texto (str), exigindo conversão caso números sejam necessários.",
     "disciplina": "Python Fundamentos",
     "nivel": 3,
     "titulo": "Input e String",
@@ -416,6 +446,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "303": {
+    "resumoCurto": "int armazena números inteiros sem vírgula (ex: 10), enquanto float armazena números com casas decimais (ex: 10.5).",
     "disciplina": "Python Fundamentos",
     "nivel": 3,
     "titulo": "Inteiro vs Float",
@@ -430,6 +461,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "304": {
+    "resumoCurto": "O tipo Booleano representa valores lógicos de verdade, assumindo apenas dois estados: True (Verdadeiro) ou False (Falso).",
     "disciplina": "Python Fundamentos",
     "nivel": 3,
     "titulo": "Booleano (bool)",
@@ -444,6 +476,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "305": {
+    "resumoCurto": "Nomes de variáveis não podem começar com números nem conter espaços; use letras, números e sublinhados (snake_case).",
     "disciplina": "Python Fundamentos",
     "nivel": 3,
     "titulo": "Nomes de Variáveis",
@@ -458,6 +491,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "306": {
+    "resumoCurto": "type() retorna o tipo de dado atual de uma variável, ajudando a depurar inconsistências durante a execução.",
     "disciplina": "Python Fundamentos",
     "nivel": 3,
     "titulo": "Função Type()",
@@ -472,6 +506,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "307": {
+    "resumoCurto": "Casting é a conversão explícita de tipos; a função float('10') transforma o texto '10' no número real 10.0.",
     "disciplina": "Python Fundamentos",
     "nivel": 3,
     "titulo": "Conversão (Casting)",
@@ -486,6 +521,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "308": {
+    "resumoCurto": "Variáveis podem mudar de valor durante a execução, enquanto constantes mantêm valores fixos por convenção semântica.",
     "disciplina": "Python Fundamentos",
     "nivel": 3,
     "titulo": "Variável vs Constante",
@@ -500,6 +536,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "309": {
+    "resumoCurto": "O operador + entre strings realiza concatenação (junta os textos), enquanto entre números realiza soma aritmética.",
     "disciplina": "Python Fundamentos",
     "nivel": 3,
     "titulo": "Concatenação",
@@ -514,6 +551,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "401": {
+    "resumoCurto": "O recuo (Tab) abaixo do if indica as instruções que pertencem exclusivamente àquele bloco condicional.",
     "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 4,
     "titulo": "Identação no IF",
@@ -528,6 +566,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "402": {
+    "resumoCurto": "O operador % calcula o resto da divisão inteira. Se numero % 2 == 0, o número é par; caso contrário, é ímpar.",
     "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 4,
     "titulo": "Operador de Módulo (%)",
@@ -542,6 +581,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "403": {
+    "resumoCurto": "= atribui um valor a uma variável, enquanto == compara se dois valores são iguais retornando um booleano.",
     "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 4,
     "titulo": "Operador de Igualdade (==)",
@@ -556,6 +596,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "404": {
+    "resumoCurto": "elif encadeia testes condicionais mutuamente exclusivos de forma mais eficiente do que múltiplos ifs independentes.",
     "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 4,
     "titulo": "Função do ELIF",
@@ -570,6 +611,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "405": {
+    "resumoCurto": "O operador and exige que todas as condições sejam verdadeiras para que o resultado final seja True.",
     "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 4,
     "titulo": "Operador lógico AND",
@@ -584,6 +626,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "406": {
+    "resumoCurto": "O operador or requer que ao menos uma das condições seja verdadeira para que o bloco seja executado.",
     "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 4,
     "titulo": "Operador lógico OR",
@@ -598,6 +641,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "407": {
+    "resumoCurto": "else define o bloco de código padrão a ser executado caso nenhuma das condições anteriores seja atendida.",
     "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 4,
     "titulo": "O papel do ELSE",
@@ -612,6 +656,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "408": {
+    "resumoCurto": "Valores de borda são os pontos limites de uma condição (ex: 6.0 em >= 6.0), fundamentais para testes de precisão.",
     "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 4,
     "titulo": "Valores de Borda",
@@ -626,6 +671,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "409": {
+    "resumoCurto": "O operador != verifica a desigualdade entre dois elementos, retornando True se os valores forem diferentes.",
     "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 4,
     "titulo": "Operador Diferente (!=)",
@@ -640,6 +686,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "501": {
+    "resumoCurto": "Loops infinitos ocorrem quando a condição do while nunca se torna falsa; altere a variável de controle no laço.",
     "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 5,
     "titulo": "Loop Infinito",
@@ -654,6 +701,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "502": {
+    "resumoCurto": "for i in range(5) gera os valores 0, 1, 2, 3 e 4. O limite superior (5) não é incluído na sequência.",
     "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 5,
     "titulo": "Função Range",
@@ -668,6 +716,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "503": {
+    "resumoCurto": "Variáveis contadoras acumulam acréscimos constantes (ex: cont += 1) para controlar a quantidade de repetições.",
     "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 5,
     "titulo": "Variável Contadora",
@@ -682,6 +731,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "504": {
+    "resumoCurto": "Contadores somam valores fixos de contagem (ex: +1); acumuladores somam valores variáveis (ex: soma += preco).",
     "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 5,
     "titulo": "Variável Acumuladora",
@@ -696,6 +746,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "505": {
+    "resumoCurto": "Use for para iterações com número de vezes conhecido e while para repetições condicionais indeterminadas.",
     "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 5,
     "titulo": "For vs While",
@@ -710,6 +761,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "506": {
+    "resumoCurto": "break interrompe e encerra imediatamente a execução do laço de repetição atual, desviando o fluxo para fora.",
     "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 5,
     "titulo": "Comando Break",
@@ -724,6 +776,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "507": {
+    "resumoCurto": "continue pula o restante do código na repetição atual e avança diretamente para a próxima iteração do laço.",
     "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 5,
     "titulo": "Comando Continue",
@@ -738,6 +791,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "508": {
+    "resumoCurto": "range(0, 10, 2) gera a sequência 0, 2, 4, 6, 8. O terceiro parâmetro (2) indica o tamanho do passo de incremento.",
     "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 5,
     "titulo": "Range com Passo",
@@ -752,6 +806,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "509": {
+    "resumoCurto": "Loops aninhados executam um laço interno completo para cada iteração do laço externo (ex: horas e minutos).",
     "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 5,
     "titulo": "Loops Aninhados",
@@ -766,6 +821,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "601": {
+    "resumoCurto": "Listas agrupam múltiplos elementos ordenados sob uma única variável, facilitando o acesso e a iteração com laços.",
     "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 6,
     "titulo": "Listas vs Variáveis",
@@ -780,6 +836,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "602": {
+    "resumoCurto": "Em matrizes 2D matriz[x][y], o primeiro índice [x] representa a linha e o segundo índice [y] representa a coluna.",
     "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 6,
     "titulo": "Índices de Matriz",
@@ -794,6 +851,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "603": {
+    "resumoCurto": "Index Out of Range ocorre ao tentar acessar um elemento usando um índice maior ou igual ao tamanho da lista.",
     "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 6,
     "titulo": "Index Out of Range",
@@ -808,6 +866,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "604": {
+    "resumoCurto": ".append(valor) adiciona um novo elemento exatamente ao final de uma lista existente.",
     "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 6,
     "titulo": "Método Append()",
@@ -822,6 +881,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "605": {
+    "resumoCurto": ".pop() remove e retorna o último elemento de uma lista, reduzindo seu tamanho dinamicamente.",
     "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 6,
     "titulo": "Método Pop()",
@@ -836,6 +896,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "606": {
+    "resumoCurto": "for elemento in lista percorre todos os itens da coleção um a um, atribuindo o valor atual à variável temporária.",
     "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 6,
     "titulo": "Percorrendo Listas",
@@ -850,6 +911,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "607": {
+    "resumoCurto": "len(lista) retorna o número total de elementos contidos na lista.",
     "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 6,
     "titulo": "Função Len()",
@@ -864,6 +926,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "608": {
+    "resumoCurto": "Iniciar com lista = [] cria um recipiente vazio para ser preenchido dinamicamente durante a execução.",
     "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 6,
     "titulo": "Listas Vazias",
@@ -878,6 +941,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "609": {
+    "resumoCurto": "Matrizes representam dados dispostos em linhas e colunas (como planilhas, tabuleiros e mapas de coordenadas).",
     "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 6,
     "titulo": "Matrizes no Real",
@@ -892,6 +956,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "701": {
+    "resumoCurto": "f-strings com formatadores (ex: {:.2f}) padronizam a exibição de casas decimais em números de ponto flutuante.",
     "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 7,
     "titulo": "Precisão na Saída",
@@ -906,6 +971,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "702": {
+    "resumoCurto": "Tratar divisões por zero com checagens prévias evita exceções e interrupções inesperadas no sistema.",
     "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 7,
     "titulo": "Prevenção de Falhas",
@@ -920,6 +986,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "703": {
+    "resumoCurto": "Feedbacks claros explicam a causa exata de erros, melhorando a experiência e a orientação do usuário.",
     "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 7,
     "titulo": "Feedback Detalhado",
@@ -934,6 +1001,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "704": {
+    "resumoCurto": "Aplicar descontos compostos altera a base de cálculo a cada etapa, resultando em valores finais diferentes de descontos diretos.",
     "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 7,
     "titulo": "Lógica de Descontos",
@@ -948,6 +1016,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "705": {
+    "resumoCurto": "Utilize float para grandezas contínuas/monetárias e int para quantidades contáveis e discretas.",
     "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 7,
     "titulo": "Tipagem e Divisão",
@@ -962,6 +1031,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "706": {
+    "resumoCurto": "A ordem dos testes no elif deve seguir uma hierarquia lógica correta para evitar que faixas genéricas capturem valores.",
     "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 7,
     "titulo": "Hierarquia no Elif",
@@ -976,6 +1046,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "707": {
+    "resumoCurto": "Combinar and e or com parênteses permite construir regras lógicas complexas e personalizadas.",
     "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 7,
     "titulo": "Operadores Combinados",
@@ -990,6 +1061,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "708": {
+    "resumoCurto": "O módulo random introduz aleatoriedade e imprevisibilidade em sorteios, jogos e simulações.",
     "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 7,
     "titulo": "Aleatoriedade (Random)",
@@ -1004,6 +1076,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "709": {
+    "resumoCurto": "Higienizar entradas (ex: .lower() e .strip()) uniformiza os textos digitados prevenindo erros por formatação.",
     "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 7,
     "titulo": "Higienização de Dados",
@@ -1018,6 +1091,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "801": {
+    "resumoCurto": "Variáveis locais nascem e morrem dentro da função onde foram declaradas, não sendo acessíveis externamente.",
     "disciplina": "Funções & Modularização",
     "nivel": 8,
     "titulo": "Escopo de Variáveis",
@@ -1032,6 +1106,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "802": {
+    "resumoCurto": "Parâmetros recebem argumentos enviados de fora da função, permitindo processar dados dinâmicos.",
     "disciplina": "Funções & Modularização",
     "nivel": 8,
     "titulo": "Parâmetros",
@@ -1046,6 +1121,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "803": {
+    "resumoCurto": "print() exibe mensagens no console; return devolve o valor calculado para ser armazenado ou reutilizado no código.",
     "disciplina": "Funções & Modularização",
     "nivel": 8,
     "titulo": "Return vs Print",
@@ -1060,6 +1136,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "804": {
+    "resumoCurto": "Modularizar em funções pequenas melhora a legibilidade, facilita testes unitários e reduz a duplicação de código.",
     "disciplina": "Funções & Modularização",
     "nivel": 8,
     "titulo": "Vantagem de Modularizar",
@@ -1074,6 +1151,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "805": {
+    "resumoCurto": "Docstrings (aspas triplas) documentam o propósito, parâmetros e retorno de uma função diretamente no código.",
     "disciplina": "Funções & Modularização",
     "nivel": 8,
     "titulo": "Docstrings",
@@ -1088,6 +1166,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "806": {
+    "resumoCurto": "Parâmetros padrão (ex: def f(x=10)) definem valores default utilizados caso o argumento não seja enviado.",
     "disciplina": "Funções & Modularização",
     "nivel": 8,
     "titulo": "Parâmetros Opcionais",
@@ -1102,6 +1181,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "807": {
+    "resumoCurto": "Funções são invocadas pelo seu nome seguido de parênteses nome_funcao(); sem parênteses você obtém a referência.",
     "disciplina": "Funções & Modularização",
     "nivel": 8,
     "titulo": "Chamar uma Função",
@@ -1116,6 +1196,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "808": {
+    "resumoCurto": "O princípio DRY incentiva a criação de funções e abstrações para evitar repetição desnecessária de código.",
     "disciplina": "Funções & Modularização",
     "nivel": 8,
     "titulo": "DRY (Don't Repeat Yourself)",
@@ -1130,6 +1211,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "809": {
+    "resumoCurto": "O comando import carrega bibliotecas e módulos pré-existentes estendendo as funcionalidades do programa.",
     "disciplina": "Funções & Modularização",
     "nivel": 8,
     "titulo": "Bibliotecas (Import)",

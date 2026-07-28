@@ -8,12 +8,16 @@ Um simulador interativo web desenvolvido para criar, executar e monitorar avalia
 
 ## 📌 Visão Geral (Overview)
 
-O **Examullator** é uma plataforma completa desenvolvida para suprir as necessidades de ambientes educacionais e de avaliação técnica (ex: exames de lógica, hardware, Python e programação). Ele oferece uma interface intuitiva e segura para os estudantes realizarem avaliações sob condições simuladas, com escolha de disciplinas, leitura de materiais teóricos explicativos, feedback imediato de termos técnicos e sincronização remota.
+O **Examullator** é uma plataforma completa desenvolvida para suprir as necessidades de ambientes educacionais e de avaliação técnica (ex: exames de lógica, hardware, Python e programação). Ele oferece uma interface intuitiva e segura para os estudantes realizarem avaliações sob condições simuladas, com escolha de disciplinas, textos curtos explicativos (dicas rápidas), materiais de apoio teóricos, feedback imediato de termos técnicos e sincronização remota.
 
 ---
 
 ## ✨ Funcionalidades Principais (Key Features)
 
+* 💡 **Textos Curtos Explicativos (Dicas de Apoio por Questão)**:
+  * Propriedade `resumoCurto` adicionada a **todas** as questões do banco de provas (`src/questions/bancoProvas.ts`).
+  * Exibição de textos explicativos diretos e concisos (1 a 2 frases) no painel da questão durante o exame do aluno para apoio e reforço pedagógico.
+  * Card de pré-visualização e teste de textos curtos no **Painel do Professor**.
 * 📖 **Telas de Materiais Explicativos & Guia Teórico (Study Hub)**:
   * Telas dedicadas para os alunos lerem resumos conceituais, exemplos práticos de código, dicas e glossários de termos chave antes ou durante os exames.
   * Botão de consulta rápida **"💡 Consultar Teoria"** no cabeçalho durante a realização dos desafios práticos.
@@ -24,14 +28,11 @@ O **Examullator** é uma plataforma completa desenvolvida para suprir as necessi
 * 📚 **Menu Interativo de Escolha de Disciplina**:
   * O aluno pode selecionar a disciplina específica que deseja praticar (ex: *Hardware & Sistemas*, *Lógica de Programação*, *Python Fundamentos*, *Estruturas de Controle*, *Estruturas de Dados*, *Funções*) ou escolher o **Simulado Geral**.
   * Propriedade `disciplina` adicionada a todas as questões do banco de dados (`src/questions/bancoProvas.ts`).
-  * Filtro por disciplina disponível também no **Painel do Professor**.
 * 🔒 **Navegação Flexível e Restrição de Retorno por Questão**: Os alunos podem navegar e revisar questões anteriores por padrão, porém determinadas questões podem ser configuradas individualmente pelo professor para **bloquear o retorno** (`bloquearVoltar`).
 * 🛡️ **Sistema Anti-Cópia e Cola (Anti-Cheat)**: 
   * Bloqueio ativo de atalhos de teclado (`Ctrl+C`, `Ctrl+V`, `Ctrl+X`), menu de contexto (botão direito) e seleção de texto nos enunciados.
-  * Notificações visuais em tempo real caso ocorra tentativa de cópia/cola.
 * 📡 **Coleta Remota de Respostas (Live Remote Monitoring)**:
   * Servidor backend nativo em Node.js com Express para receber submissões remotas dos alunos (`POST /api/responses`).
-  * Sincronização automática em tempo real via HTTP e `BroadcastChannel` local.
   * **Painel do Professor (Admin Central)** para puxar respostas remotas, visualizar a disciplina escolhida e dissertações completas por aluno, gerar relatórios individuais em `.txt` ou relatórios gerais em `.json`.
 * 📁 **Arquitetura Modular de Questões (`src/questions/`)**:
   * Fonte de perguntas organizada na subpasta `src/questions/bancoProvas.ts`, facilitando a manutenção e adição de novos módulos.
@@ -89,6 +90,7 @@ ADMIN2026
 ```
 Isso liberará o **Painel do Professor**, onde você pode:
 - **Puxar e monitorar respostas remotas dos alunos em tempo real**.
+- Testar e visualizar os textos curtos explicativos (`resumoCurto`) de cada questão.
 - Consultar e gerenciar materiais explicativos e teorias por disciplina.
 - Filtrar questões por disciplina.
 - Visualizar a disciplina escolhida pelo aluno, suas dissertações e notas por questão.

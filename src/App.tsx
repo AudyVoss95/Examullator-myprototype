@@ -950,13 +950,21 @@ export default function App() {
                       </div>
                       <p className="font-bold text-slate-200 mb-2">{q.titulo}</p>
                       <p className="text-xs text-slate-400 leading-relaxed mb-3">{q.enunciado}</p>
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-wrap gap-2 mb-3">
                         {q.keywords.map((kw, idx) => (
                           <span key={idx} className="text-[9px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-1 rounded font-mono">
                             {getCleanKeyword(kw)}
                           </span>
                         ))}
                       </div>
+                      {q.resumoCurto && (
+                        <div className="bg-blue-950/60 p-2.5 rounded-lg border border-blue-800/60 text-xs text-blue-300 space-y-1">
+                          <span className="text-[10px] font-black uppercase text-blue-400 tracking-wider flex items-center gap-1">
+                            <Lightbulb size={12} className="text-amber-400" /> Texto Explicativo Curto (Dica Rápida):
+                          </span>
+                          <p className="leading-relaxed font-sans text-slate-300">{q.resumoCurto}</p>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -1713,6 +1721,18 @@ export default function App() {
                   className="text-lg leading-relaxed text-gray-700 font-normal"
                 >
                   {currentLevelData?.enunciado}
+
+                  {currentLevelData?.resumoCurto && (
+                    <div className="mt-6 bg-blue-50/80 border border-blue-200/90 p-4 rounded-xl space-y-1.5 text-xs shadow-sm">
+                      <div className="flex items-center gap-1.5 text-blue-800 font-bold">
+                        <Lightbulb size={14} className="text-amber-500 shrink-0" />
+                        <span className="uppercase tracking-wider text-[10px]">Texto Explicativo Curto (Dica de Apoio):</span>
+                      </div>
+                      <p className="text-slate-700 leading-relaxed font-medium">
+                        {currentLevelData.resumoCurto}
+                      </p>
+                    </div>
+                  )}
                 </motion.div>
               </AnimatePresence>
             </div>
