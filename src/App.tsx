@@ -518,15 +518,16 @@ export default function App() {
       return;
     }
 
-    const textLower = text.toLowerCase();
+    const normalizeText = (s: string) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const textNormalized = normalizeText(text);
     const decodedKeywords = currentLevelData.keywords.map(kw => getCleanKeyword(kw));
 
     const foundKeywords = decodedKeywords.filter(kw => 
-      textLower.includes(kw.toLowerCase())
+      textNormalized.includes(normalizeText(kw))
     );
     
     const missingKeys = decodedKeywords.filter(kw => 
-      !textLower.includes(kw.toLowerCase())
+      !textNormalized.includes(normalizeText(kw))
     );
 
     const keywordsRatio = foundKeywords.length / (decodedKeywords.length || 1);
