@@ -1,56 +1,87 @@
-# 🎓 Examullator (Prototype)
+# 🎓 Examullator - Plataforma de Avaliação Técnica Simulada
 
-An interactive web-based simulator designed to streamline exam creation, practice, and code evaluation for students and technical courses.
+Um simulador interativo web desenvolvido para criar, executar e monitorar avaliações técnicas e provas de programação para alunos e cursos de tecnologia.
 
 🚀 **Live Demo / Deploy:** [examullator-myprototype.vercel.app](https://examullator-myprototype.vercel.app)
 
 ---
 
-## 📌 Overview
+## 📌 Visão Geral (Overview)
 
-The **Examullator** is a prototype developed to address the needs of technical evaluation environments (such as coding exams and technical assessments). It provides an intuitive interface for students to practice and test their knowledge under simulated exam conditions.
-
----
-
-## 🤖 AI-Assisted Development
-
-This project was engineered using **AI-assisted development practices** (LLM prompting, AI pair-programming, and rapid prototyping workflows). 
-
-* **Role of AI:** Accelerated feature generation, UI component structuring, and logic boilerplate generation.
-* **Human-in-the-Loop:** Architecture definition, domain logic specification (educational/exam workflow), testing, and deployment orchestration.
-
-> *Demonstrates modern software engineering workflows by leveraging AI tools to build and deploy functional software rapidly.*
+O **Examullator** é uma plataforma completa desenvolvida para suprir as necessidades de ambientes educacionais e de avaliação técnica (ex: exames de lógica, hardware, Python e programação). Ele oferece uma interface intuitiva e segura para os estudantes realizarem avaliações sob condições simuladas, com feedback imediato de termos técnicos e sincronização remota.
 
 ---
 
-## 🛠️ Tech Stack & Deployment
+## ✨ Funcionalidades Principais (Key Features)
 
-- **Frontend / Framework:** JavaScript / React (ou HTML5/CSS3/JS — ajuste conforme a stack real)
-- **Deployment & Hosting:** [Vercel](https://vercel.com) (Continuous Deployment)
-- **Version Control:** Git & GitHub
+* 🔒 **Navegação Flexível e Restrição de Retorno por Questão**: Os alunos podem navegar e revisar questões anteriores por padrão, porém determinadas questões podem ser configuradas individualmente pelo professor para **bloquear o retorno** (`bloquearVoltar`).
+* 🛡️ **Sistema Anti-Cópia e Cola (Anti-Cheat)**: 
+  * Bloqueio ativo de atalhos de teclado (`Ctrl+C`, `Ctrl+V`, `Ctrl+X`), menu de contexto (botão direito) e seleção de texto nos enunciados.
+  * Notificações visuais em tempo real caso ocorra tentativa de cópia/cola.
+* 📡 **Coleta Remota de Respostas (Live Remote Monitoring)**:
+  * Servidor backend nativo em Node.js com Express para receber submissões remotas dos alunos (`POST /api/responses`).
+  * Sincronização automática em tempo real via HTTP e `BroadcastChannel` local.
+  * **Painel do Professor (Admin Central)** para puxar respostas remotas, visualizar dissertações completas por aluno, gerar relatórios individuais em `.txt` ou relatórios gerais em `.json`.
+* 📁 **Arquitetura Modular de Questões (`src/questions/`)**:
+  * Fonte de perguntas organizada de forma modular na subpasta `src/questions/bancoProvas.ts`, facilitando a manutenção e adição de novos bancos de prova.
+  * Palavras-chave limpas e legíveis em português com suporte a acentuação e validação precisa de conceitos técnicos.
+* 📊 **Avaliação e Feedback em Tempo Real**: Cálculo de pontuação baseado na verificação inteligente de conceitos chave e caracteres mínimos exigidos.
 
 ---
 
-## 🚀 Live Access
+## 🛠️ Tecnologias Utilizadas (Tech Stack)
 
-You can test the application live without local installation:
-👉 **[Click here to access Examullator on Vercel](https://examullator-myprototype.vercel.app/)** 
+- **Frontend / Interface:** React 19, TypeScript, Vite, Tailwind CSS v4, Motion (`motion/react`), Lucide React Icons
+- **Backend / Servidor Remoto:** Node.js, Express, CORS, TSX
+- **Controle de Versão & Hospedagem:** Git, GitHub, Vercel
 
 ---
 
-## 💻 Running Locally (Optional)
+## 💻 Executando o Projeto Localmente
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/AudyVoss95/Examullator-myprototype.git
-   cd Examullator-myprototype
-   ```
-2. Open index.html in your browser (or run npm install && npm run dev if using Node/React).
+### 1. Clonar o Repositório
+```bash
+git clone https://github.com/AudyVoss95/Examullator-myprototype.git
+cd Examullator-myprototype
+```
 
-## 👤 Author & Maintainer
+### 2. Instalar Dependências
+```bash
+npm install
+```
 
-**Audrey Giovanna Voss Giopato**
+### 3. Iniciar a Aplicação Frontend (Vite)
+```bash
+npm run dev
+```
+Acesse a aplicação em `http://localhost:3000`.
 
+### 4. Iniciar o Servidor de Coleta Remota de Respostas (Opcional)
+Para permitir que o Painel do Professor receba submissões de alunos na rede local ou remota:
+```bash
+npm run server
+```
+O servidor de coleta ficará ativo na porta **3001** (`http://localhost:3001/api/responses`).
+
+---
+
+## 🔑 Acesso ao Painel do Professor (Administrador)
+
+No campo de **Identificação (Nome Completo)** da tela inicial, digite o código de acesso:
+```
+ADMIN2026
+```
+Isso liberará o **Painel do Professor**, onde você pode:
+- **Puxar e monitorar respostas remotas dos alunos em tempo real**.
+- Visualizar dissertações completas e notas por questão.
+- Configurar travas de retorno por questão (`bloquearVoltar`).
+- Exportar o banco de questões ou relatórios gerais.
+
+---
+
+## 👤 Autora & Mantenedora
+
+**Audrey Giovanna Voss Giopato**  
 _Software Engineering Student @ 42 | Technical Educator & Course Coordinator_
 
 * GitHub: [@AudyVoss95](https://github.com/AudyVoss95)
