@@ -184,18 +184,18 @@ export default function App() {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        if (!parsed.sequence || parsed.sequence.includes("001")) {
-          const fixacaoIds = ["101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116"];
-          const eval10Ids = generateEvaluationSequence(BANCO_DE_PROVAS);
-          parsed.sequence = [...fixacaoIds, ...eval10Ids];
+        if (!parsed.sequence || parsed.sequence.includes("001") || !parsed.sequence.includes("101")) {
+          localStorage.removeItem('examullator_progress');
+          localStorage.removeItem('examullator_banco_provas');
+        } else {
+          if (parsed.userName === undefined) {
+            parsed.userName = '';
+          }
+          if (!parsed.selectedDisciplina) {
+            parsed.selectedDisciplina = '';
+          }
+          return parsed;
         }
-        if (parsed.userName === undefined) {
-          parsed.userName = '';
-        }
-        if (!parsed.selectedDisciplina) {
-          parsed.selectedDisciplina = '';
-        }
-        return parsed;
       } catch (e) {
         console.error("Failed to parse progress", e);
       }
