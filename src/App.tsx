@@ -1667,54 +1667,81 @@ export default function App() {
           {/* TAB 1: TRILHAS DE APRENDIZADO */}
           {menuTab === 'trilhas' && (
             <div className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {Object.values(TRILHAS_DE_TESTE).map((trilha) => (
-                  <motion.div
-                    key={trilha.id}
-                    whileHover={{ scale: 1.015, y: -2 }}
-                    className="bg-white rounded-2xl border border-slate-200 hover:border-blue-400 p-6 flex flex-col justify-between space-y-4 shadow-sm hover:shadow-lg transition-all"
-                  >
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-start">
-                        <span className="text-3xl p-3 bg-slate-50 rounded-2xl border border-slate-100">{trilha.icone}</span>
-                        <span className="bg-blue-50 text-blue-700 border border-blue-200 text-[10px] font-black uppercase px-2.5 py-1 rounded-full">
-                          {trilha.nivelRecomendado}
+              <div className="max-w-3xl mx-auto">
+                {Object.values(TRILHAS_DE_TESTE).map((trilha) => {
+                  const totalQuestions = trilha.etapas.reduce((acc, e) => acc + e.questoesIds.length, 0);
+
+                  return (
+                    <motion.div
+                      key={trilha.id}
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="bg-white rounded-3xl border border-slate-200 hover:border-blue-500/50 p-8 space-y-6 shadow-sm hover:shadow-xl transition-all relative overflow-hidden"
+                    >
+                      {/* Top Gradient Banner */}
+                      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b border-slate-100">
+                        <div className="flex items-center gap-4">
+                          <div className="text-4xl p-4 bg-blue-50 rounded-2xl border border-blue-100 shadow-inner">
+                            {trilha.icone}
+                          </div>
+                          <div>
+                            <span className="bg-blue-100 text-blue-800 text-[10px] font-black uppercase px-3 py-1 rounded-full tracking-wider">
+                              {trilha.categoria}
+                            </span>
+                            <h3 className="text-2xl font-black text-slate-900 mt-1">{trilha.nome}</h3>
+                          </div>
+                        </div>
+
+                        <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold px-3 py-1.5 rounded-full shrink-0">
+                          {totalQuestions} Desafios Práticos
                         </span>
                       </div>
 
-                      <div>
-                        <h3 className="text-lg font-black text-slate-900">{trilha.nome}</h3>
-                        <span className="text-[10px] text-blue-600 font-bold uppercase tracking-wider block mt-0.5">{trilha.categoria}</span>
-                        <p className="text-xs text-slate-500 leading-relaxed mt-2">{trilha.descricao}</p>
+                      <p className="text-sm text-slate-600 leading-relaxed font-medium">
+                        {trilha.descricao}
+                      </p>
+
+                      {/* Clean 3-Phase Roadmap Summary */}
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                        <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-1">
+                          <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest block flex items-center gap-1">
+                            📖 Fase 1: Teoria
+                          </span>
+                          <p className="text-xs font-bold text-slate-800">Instruções & Conceitos</p>
+                          <span className="text-[10px] text-slate-500 block">Orientação inicial e fundamentos</span>
+                        </div>
+
+                        <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-1">
+                          <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest block flex items-center gap-1">
+                            ⚡ Fase 2: Fixação
+                          </span>
+                          <p className="text-xs font-bold text-slate-800">16 Módulos Práticos</p>
+                          <span className="text-[10px] text-slate-500 block">Desafios 101 a 116 com código</span>
+                        </div>
+
+                        <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-1">
+                          <span className="text-[10px] font-black text-amber-600 uppercase tracking-widest block flex items-center gap-1">
+                            🏆 Fase 3: Avaliação
+                          </span>
+                          <p className="text-xs font-bold text-slate-800">Exame Final de Consolidação</p>
+                          <span className="text-[10px] text-slate-500 block">16 Questões de avaliação formal</span>
+                        </div>
                       </div>
 
-                      {/* Steps Roadmap */}
-                      <div className="space-y-2 pt-2 border-t border-slate-100">
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Módulos Encadeados ({trilha.etapas.length}):</span>
-                        {trilha.etapas.map((etapa, idx) => (
-                          <div key={etapa.id} className="bg-slate-50 p-2.5 rounded-xl border border-slate-100 flex items-center justify-between gap-2">
-                            <div className="flex items-center gap-2">
-                              <span className="w-5 h-5 bg-blue-600 text-white rounded-full text-[10px] font-bold flex items-center justify-center">
-                                {idx + 1}
-                              </span>
-                              <p className="text-xs font-bold text-slate-700 truncate max-w-[180px]">{etapa.titulo}</p>
-                            </div>
-                            <span className="text-[10px] text-slate-400 font-mono">{etapa.tempoEstimado}</span>
-                          </div>
-                        ))}
+                      {/* Action Button */}
+                      <div className="pt-2">
+                        <button
+                          onClick={() => handleSelectTrilha(trilha)}
+                          className="w-full bg-[#111827] hover:bg-[#374151] text-white py-4 rounded-2xl text-sm font-bold transition-all shadow-lg hover:shadow-xl active:scale-[0.99] flex items-center justify-center gap-3"
+                        >
+                          <Compass size={20} />
+                          <span>Iniciar Trilha Integrada com Desafios Práticos</span>
+                          <ChevronRight size={18} />
+                        </button>
                       </div>
-                    </div>
-
-                    <div className="pt-2">
-                      <button
-                        onClick={() => handleSelectTrilha(trilha)}
-                        className="w-full bg-[#111827] hover:bg-[#374151] text-white py-3 rounded-xl text-xs font-bold transition-all shadow flex items-center justify-center gap-2"
-                      >
-                        <Compass size={16} /> Iniciar Trilha de Aprendizado <ChevronRight size={14} />
-                      </button>
-                    </div>
-                  </motion.div>
-                ))}
+                    </motion.div>
+                  );
+                })}
               </div>
             </div>
           )}

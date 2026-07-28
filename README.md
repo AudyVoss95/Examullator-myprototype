@@ -8,32 +8,27 @@ Um simulador interativo web desenvolvido para criar, executar e monitorar avalia
 
 ## 📌 Visão Geral (Overview)
 
-O **Examullator** é uma plataforma completa desenvolvida para suprir as necessidades de ambientes educacionais e de avaliação técnica (ex: exames de lógica, hardware, Python e programação). Ele oferece uma **Trilha Completa e Única Disciplina de Lógica e Linguagem de Programação**, sem fragmentação em sub-módulos avulsos no menu de escolha.
+O **Examullator** é uma plataforma completa desenvolvida para suprir as necessidades de ambientes educacionais e de avaliação técnica (ex: exames de lógica, hardware, Python e programação). Ele oferece uma **Trilha Integrada de Lógica e Linguagem de Programação com Design Minimalista & Desafios Práticos**, sem poluções visuais ou listas de sub-módulos amontoadas.
 
 ---
 
 ## ✨ Funcionalidades Principais (Key Features)
 
+* 🎨 **Visualização Limpa & Premium da Trilha de Aprendizado**:
+  * Redesenho completo do card da trilha para um formato clean com visualização das 3 fases: **📖 Fase 1: Teoria**, **⚡ Fase 2: Fixação** e **🏆 Fase 3: Avaliação Final**.
+  * Destaque para a quantidade total de **Desafios Práticos** e o botão principal **"🚀 Iniciar Trilha Integrada com Desafios Práticos"**.
+* ⚡ **Desafios Práticos Encadeados**:
+  * **Fase 1**: Ambientação e instruções iniciais sobre hardware, software e conceito de algoritmos.
+  * **Fase 2**: 16 Módulos Práticos de Fixação (101 a 116) com exemplos de código Python, testes de entrada/saída, dicas e dissertações.
+  * **Fase 3**: 16 Desafios Práticos da Avaliação Final de Consolidação (201 a 216).
 * 📚 **Disciplina Única Integrada (`Lógica e Linguagem de Programação`)**:
-  * O menu de disciplinas exibe exclusivamente a disciplina oficial: **"Lógica e Linguagem de Programação"**.
-  * **Aba Disciplinas Disponíveis**: Apresenta diretamente a disciplina integrada para prática simples e direta, sem listagem de sub-módulos avulsos.
-* 🚀 **Trilha Única Integrada (`Trilha Completa: Lógica e Linguagem de Programação`)**:
-  * **Início com Instruções & Teoria**: Começa com a ambientação do aluno, apresentação das regras da plataforma e fundamentos teóricos.
-  * **Compilado de Atividades (101 a 116)**: 16 módulos didáticos contendo 2 textos preparatórios conceituais por questão, exemplos de código, dicas e `bloquearVoltar: false`.
-  * **Avaliação Final de Consolidação (201 a 216)**: Exame formal com 16 questões dissertativas de consolidação pedagógica e `bloquearVoltar: true`.
+  * O menu de disciplinas exibe exclusivamente a disciplina oficial de forma direta e limpa.
 * 🔑 **Tratamento de Palavras-Chave (`getCleanKeyword`)**:
-  * Função nativa que decodifica dinamicamente qualquer palavra-chave para termos em português limpos.
+  * Decodificação dinâmica de termos em português para auto-avaliação e auditoria.
 * 📋 **Controle de Presença & Registro de Acessos (`POST /api/register-login`)**:
-  * Registra automaticamente todos os estudantes que entram na plataforma no arquivo `student_registry.json`.
-  * Exportação da **Lista de Presença em CSV (`.csv`)**.
-* 🔄 **Troca Dinâmica de Disciplinas pelo Estudante**:
-  * Botão **"📚 Menu de Trilhas"** no cabeçalho superior para retornar à escolha de disciplinas/trilhas a qualquer momento.
+  * Registro automático de acessos e exportação de **Lista de Presença em CSV (`.csv`)**.
 * 📧 **Envio de Respostas por E-mail (`POST /api/send-email`)**:
-  * Envio de relatórios em formato HTML formatado para qualquer e-mail de professor via **Nodemailer**.
-* 🛡️ **Sistema Anti-Cópia e Cola (Anti-Cheat)**: 
-  * Bloqueio ativo de atalhos de teclado (`Ctrl+C`, `Ctrl+V`, `Ctrl+X`), menu de contexto e seleção de texto.
-* 📡 **Coleta Remota de Respostas (Live Remote Monitoring)**:
-  * Servidor backend nativo em Node.js com Express e funções Serverless na Vercel (`api/responses.ts` e `api/register-login.ts`).
+  * Relatórios formatados via **Nodemailer**.
 
 ---
 
