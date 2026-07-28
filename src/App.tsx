@@ -591,6 +591,18 @@ export default function App() {
     setFeedback(null);
   };
 
+  const changeDisciplinaOrTrilha = () => {
+    setProgress(prev => ({
+      ...prev,
+      selectedDisciplina: '',
+      selectedTrilhaId: undefined,
+      responses: {},
+      scores: {},
+      completed: false
+    }));
+    setFeedback(null);
+  };
+
   const downloadReport = () => {
     let content = "RELATÓRIO FINAL DE DESEMPENHO - EXAMULLATOR\n";
     content += "============================================\n";
@@ -1827,10 +1839,17 @@ export default function App() {
               O processamento final pode levar alguns instantes. Suas respostas foram armazenadas para análise do professor.
             </p>
             
-            <div className="pt-4 border-t border-gray-200 mt-4">
+            <div className="pt-4 border-t border-gray-200 mt-4 space-y-3">
+              <button 
+                onClick={changeDisciplinaOrTrilha}
+                className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl transition-all shadow flex items-center justify-center gap-2"
+              >
+                <BookOpen size={16} /> Escolher Outra Disciplina ou Trilha
+              </button>
+
               <button 
                 onClick={resetProgress}
-                className="text-[10px] font-bold text-red-400 uppercase tracking-widest hover:text-red-600 transition-colors flex items-center justify-center gap-1 mx-auto"
+                className="text-[10px] font-bold text-slate-400 uppercase tracking-widest hover:text-red-600 transition-colors flex items-center justify-center gap-1 mx-auto pt-1"
               >
                 <RotateCcw size={10} /> Reiniciar Sistema (Config)
               </button>

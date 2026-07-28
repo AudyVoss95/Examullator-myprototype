@@ -8,44 +8,36 @@ Um simulador interativo web desenvolvido para criar, executar e monitorar avalia
 
 ## 📌 Visão Geral (Overview)
 
-O **Examullator** é uma plataforma completa desenvolvida para suprir as necessidades de ambientes educacionais e de avaliação técnica (ex: exames de lógica, hardware, Python e programação). Ele oferece uma interface intuitiva e segura baseada em **Trilhas Guiadas de Aprendizado**, envio automático de relatórios por **E-mail** para o professor, e sincronização remota.
+O **Examullator** é uma plataforma completa desenvolvida para suprir as necessidades de ambientes educacionais e de avaliação técnica (ex: exames de lógica, hardware, Python e programação). Ele oferece controle completo de presença dos alunos, troca dinâmica de disciplinas, trilhas guiadas de aprendizado, envio automático de relatórios por e-mail e monitoramento remoto em tempo real.
 
 ---
 
 ## ✨ Funcionalidades Principais (Key Features)
 
+* 📋 **Controle de Presença & Registro de Acessos (`POST /api/register-login`)**:
+  * Registra automaticamente todos os estudantes que entram na plataforma no arquivo `student_registry.json`.
+  * Armazena data/hora do 1º acesso (login), última atividade, disciplinas tentadas, quantidade de questões respondidas e status de conclusão (🟢 *Concluído*, 🟡 *Em Andamento*, ⚪ *Apenas Entrou*).
+  * **Painel do Professor & Localhost (`http://localhost:3001`)**: Tabela completa de controle de chamada com exportação da **Lista de Presença dos Alunos em CSV (`.csv`)**.
+* 🔄 **Troca Dinâmica de Disciplinas pelo Estudante**:
+  * O aluno pode responder uma prova e, ao finalizar ou a qualquer momento, clicar no botão **"📚 Escolher Outra Disciplina / Trilha"** para iniciar novos desafios sem perder a sua identificação!
 * 📧 **Envio de Respostas por E-mail (`POST /api/send-email`)**:
   * Funcionalidade integrada com **Nodemailer** para enviar relatórios completos em formato HTML formatado para qualquer e-mail de professor especificado.
-  * O relatório por e-mail inclui: nome do estudante, disciplina/trilha realizada, status, média de notas e todas as dissertações detalhadas por questão.
   * Botão **"📧 E-mail"** no Painel do Professor (`ADMIN2026`) e no Dashboard Web em `http://localhost:3001`.
-  * Suporta servidores SMTP configuráveis (`SMTP_HOST`, `SMTP_USER`, `SMTP_PASS`) e conta de testes automática (Ethereal Email).
 * 🛣️ **Trilhas Guiadas de Aprendizado (Learning Tracks Hub)**:
-  * 5 Trilhas pedagógicas pré-configuradas para teste e visualização:
-    1. **Trilha 1: Fundamentos de Hardware & Sistemas Operacionais**
-    2. **Trilha 2: Raciocínio Lógico & Algoritmos**
-    3. **Trilha 3: Python Fundamentos & Tipagem**
-    4. **Trilha 4: Controle de Fluxo & Repetições em Python**
-    5. **Trilha 5: Listas, Matrizes & Funções Modulares**
+  * 5 Trilhas pedagógicas pré-configuradas encadeadas em módulos e níveis.
 * 📄 **Modelo de Montagem de Questões (`models_content.txt`)**:
   * Arquivo padronizado para professores e educadores elaborarem novas perguntas, textos explicativos e palavras-chave prontas para copiar, preencher e integrar ao sistema.
 * 🔄 **Trilha Linear de Aprendizado (`Texto 1 -> Texto 2 -> Pergunta Relacionada`)**:
-  * Cada desafio do questionário foi estruturado em uma **sequência linear de passos**:
-    1. 📖 **Texto Explicativo 1**: Apresenta o conceito básico ou a introdução teórica.
-    2. 💡 **Texto Explicativo 2**: Fornece o aprofundamento, regras de sintaxe e exemplos de código.
-    3. ✍️ **Pergunta Relacionada**: Apresenta o desafio dissertativo prático diretamente vinculado aos textos lidos anteriormente.
+  * Sequência pedagógica em 3 passos no painel do enunciado.
 * 📖 **Telas de Materiais Explicativos & Guia Teórico (Study Hub)**:
-  * Telas dedicadas para os alunos lerem resumos conceituais, exemplos práticos de código, dicas e glossários de termos chave antes ou durante os exames.
-  * Botão de consulta rápida **"💡 Consultar Teoria"** no cabeçalho durante a realização dos desafios práticos.
+  * Telas dedicadas para leitura conceitual antes do exame e drawer de consulta rápida durante a prova.
 * 📊 **Interface & Script de Análise no Localhost (`http://localhost:3001`)**:
-  * **Dashboard Web Localhost**: Interface gráfica interativa para analisar o desempenho da turma, disparar e-mails, filtrar por aluno ou disciplina e verificar estatísticas em tempo real.
-  * **Script CLI de Terminal (`npm run analyze`)**: Ferramenta de linha de comando para gerar relatórios instantâneos.
-* 📚 **Menu Interativo de Escolha de Disciplina & Trilhas**:
-  * O aluno pode navegar entre as **Trilhas Guiadas** ou praticar disciplinas individuais e simulado geral.
-* 🔒 **Navegação Flexível e Restrição de Retorno por Questão**: Os alunos podem navegar e revisar questões anteriores por padrão, porém determinadas questões podem ser configuradas individualmente pelo professor para **bloquear o retorno** (`bloquearVoltar`).
+  * **Dashboard Web Localhost**: Interface gráfica para analisar desempenho, controle de presença e disparar e-mails.
+  * **Script CLI de Terminal (`npm run analyze`)**: Ferramenta de linha de comando.
 * 🛡️ **Sistema Anti-Cópia e Cola (Anti-Cheat)**: 
-  * Bloqueio ativo de atalhos de teclado (`Ctrl+C`, `Ctrl+V`, `Ctrl+X`), menu de contexto (botão direito) e seleção de texto nos enunciados.
+  * Bloqueio ativo de atalhos de teclado (`Ctrl+C`, `Ctrl+V`, `Ctrl+X`), menu de contexto e seleção de texto.
 * 📡 **Coleta Remota de Respostas (Live Remote Monitoring)**:
-  * Servidor backend nativo em Node.js com Express para receber submissões remotas dos alunos (`POST /api/responses`).
+  * Servidor backend nativo em Node.js com Express (`POST /api/responses`).
 
 ---
 
@@ -76,11 +68,12 @@ npm run dev
 ```
 Acesse a aplicação em `http://localhost:3000`.
 
-### 4. Iniciar o Servidor de Coleta, E-mail & Dashboard Localhost
+### 4. Iniciar o Servidor de Coleta, Presença & Dashboard Localhost
 ```bash
 npm run server
 ```
-- 📊 **Dashboard Web de Análise & E-mail:** `http://localhost:3001/`
+- 📊 **Dashboard Web de Presença & E-mail:** `http://localhost:3001/`
+- 📡 **Endpoint Lista de Presença:** `http://localhost:3001/api/registry`
 - 📧 **Endpoint API de E-mail:** `http://localhost:3001/api/send-email`
 - 📡 **Endpoint API de Submissão:** `http://localhost:3001/api/responses`
 
@@ -98,9 +91,10 @@ No campo de **Identificação (Nome Completo)** da tela inicial, digite o códig
 ADMIN2026
 ```
 Isso liberará o **Painel do Professor**, onde você pode:
-- Configurar o **E-mail Destino do Professor**.
-- Disparar o envio das respostas de qualquer aluno diretamente por e-mail com um clique (**"📧 E-mail"**).
-- Monitorar submissões remotas, testar as trilhas de aprendizado e consultar relatórios.
+- Consultar a **Lista de Presença & Registro de Alunos** que acessaram a plataforma.
+- Baixar a lista de chamada em **CSV**.
+- Disparar o envio das respostas por e-mail.
+- Testar trilhas e filtrar questões por disciplina.
 
 ---
 
