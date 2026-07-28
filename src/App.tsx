@@ -85,35 +85,9 @@ const shuffleArray = <T,>(array: T[]): T[] => {
   return newArray;
 };
 
-const decodeUtf8Base64 = (str: string): string => {
-  try {
-    const binary = atob(str);
-    const bytes = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i++) {
-      bytes[i] = binary.charCodeAt(i);
-    }
-    return new TextDecoder('utf-8').decode(bytes);
-  } catch {
-    return str;
-  }
-};
-
 const getCleanKeyword = (kw: string): string => {
   if (!kw) return '';
-  const trimmed = kw.trim();
-  if (!/^[A-Za-z0-9+/=]+$/.test(trimmed) || trimmed.length < 4) {
-    return trimmed;
-  }
-  try {
-    const decoded = decodeUtf8Base64(trimmed);
-    if (/^[A-Za-z0-9+/=]+$/.test(decoded.trim()) && decoded !== trimmed) {
-      const doubleDecoded = decodeUtf8Base64(decoded);
-      return doubleDecoded.trim();
-    }
-    return decoded.trim();
-  } catch {
-    return trimmed;
-  }
+  return kw.trim();
 };
 
 const generateSequence = (disciplinaFilter: string = 'Todas', bancoSource: Record<string, Prova> = BANCO_DE_PROVAS): string[] => {
