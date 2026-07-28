@@ -175,15 +175,7 @@ export const generateEvaluationSequence = (bancoSource: Record<string, Prova> = 
 
 export default function App() {
   const [bancoProvas, setBancoProvas] = useState<Record<string, Prova>>(() => {
-    const saved = localStorage.getItem('examullator_banco_provas');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        return { ...BANCO_DE_PROVAS, ...parsed };
-      } catch (e) {
-        console.error("Failed to parse custom banco_provas", e);
-      }
-    }
+    localStorage.removeItem('examullator_banco_provas');
     return BANCO_DE_PROVAS;
   });
 
@@ -192,8 +184,10 @@ export default function App() {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        if (!parsed.sequence) {
-          parsed.sequence = Object.keys(BANCO_DE_PROVAS).sort();
+        if (!parsed.sequence || parsed.sequence.includes("001")) {
+          const fixacaoIds = ["101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116"];
+          const eval10Ids = generateEvaluationSequence(BANCO_DE_PROVAS);
+          parsed.sequence = [...fixacaoIds, ...eval10Ids];
         }
         if (parsed.userName === undefined) {
           parsed.userName = '';
@@ -206,7 +200,9 @@ export default function App() {
         console.error("Failed to parse progress", e);
       }
     }
-    const initialSequence = generateSequence('Todas', BANCO_DE_PROVAS);
+    const fixacaoIds = ["101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116"];
+    const eval10Ids = generateEvaluationSequence(BANCO_DE_PROVAS);
+    const initialSequence = [...fixacaoIds, ...eval10Ids];
     return {
       sequence: initialSequence,
       userName: '',
@@ -584,7 +580,7 @@ export default function App() {
   };
 
   const handleSelectDisciplina = (discId: string) => {
-    const fixacaoIds = ["001", "002", "003", "101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116"];
+    const fixacaoIds = ["101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116"];
     const eval10Ids = generateEvaluationSequence(bancoProvas);
     const newSeq = [...fixacaoIds, ...eval10Ids];
 
@@ -602,7 +598,7 @@ export default function App() {
   };
 
   const handleSelectTrilha = (trilha: TrilhaAprendizado) => {
-    const fixacaoIds = ["001", "002", "003", "101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116"];
+    const fixacaoIds = ["101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116"];
     const eval10Ids = generateEvaluationSequence(bancoProvas);
     const finalSeq = [...fixacaoIds, ...eval10Ids];
 
