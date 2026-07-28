@@ -8,12 +8,15 @@ Um simulador interativo web desenvolvido para criar, executar e monitorar avalia
 
 ## 📌 Visão Geral (Overview)
 
-O **Examullator** é uma plataforma completa desenvolvida para suprir as necessidades de ambientes educacionais e de avaliação técnica (ex: exames de lógica, hardware, Python e programação). Ele oferece uma interface intuitiva e segura para os estudantes realizarem avaliações sob condições simuladas, com escolha de disciplinas, feedback imediato de termos técnicos e sincronização remota.
+O **Examullator** é uma plataforma completa desenvolvida para suprir as necessidades de ambientes educacionais e de avaliação técnica (ex: exames de lógica, hardware, Python e programação). Ele oferece uma interface intuitiva e segura para os estudantes realizarem avaliações sob condições simuladas, com escolha de disciplinas, feedback imediato de termos técnicos e sincronização remota com ferramentas de análise local.
 
 ---
 
 ## ✨ Funcionalidades Principais (Key Features)
 
+* 📊 **Interface & Script de Análise no Localhost (`http://localhost:3001`)**:
+  * **Dashboard Web Localhost**: Interface gráfica interativa para analisar o desempenho da turma, filtrar por aluno ou disciplina, consultar dissertações completas e verificar estatísticas em tempo real.
+  * **Script CLI de Terminal (`npm run analyze`)**: Ferramenta de linha de comando para gerar relatórios instantâneos de notas, status e respostas gravadas no servidor local.
 * 📚 **Menu Interativo de Escolha de Disciplina**:
   * O aluno pode selecionar a disciplina específica que deseja praticar (ex: *Hardware & Sistemas*, *Lógica de Programação*, *Python Fundamentos*, *Estruturas de Controle*, *Estruturas de Dados*, *Funções*) ou escolher o **Simulado Geral**.
   * Propriedade `disciplina` adicionada a todas as questões do banco de dados (`src/questions/bancoProvas.ts`).
@@ -28,15 +31,13 @@ O **Examullator** é uma plataforma completa desenvolvida para suprir as necessi
   * **Painel do Professor (Admin Central)** para puxar respostas remotas, visualizar a disciplina escolhida e dissertações completas por aluno, gerar relatórios individuais em `.txt` ou relatórios gerais em `.json`.
 * 📁 **Arquitetura Modular de Questões (`src/questions/`)**:
   * Fonte de perguntas organizada na subpasta `src/questions/bancoProvas.ts`, facilitando a manutenção e adição de novos módulos.
-  * Palavras-chave limpas e legíveis em português com suporte a acentuação e validação precisa de conceitos técnicos.
-* 📊 **Avaliação e Feedback em Tempo Real**: Cálculo de pontuação baseado na verificação inteligente de conceitos chave e caracteres mínimos exigidos.
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas (Tech Stack)
 
 - **Frontend / Interface:** React 19, TypeScript, Vite, Tailwind CSS v4, Motion (`motion/react`), Lucide React Icons
-- **Backend / Servidor Remoto:** Node.js, Express, CORS, TSX
+- **Backend / Servidor Remoto & Analytics:** Node.js, Express, CORS, TSX
 - **Controle de Versão & Hospedagem:** Git, GitHub, Vercel
 
 ---
@@ -60,12 +61,19 @@ npm run dev
 ```
 Acesse a aplicação em `http://localhost:3000`.
 
-### 4. Iniciar o Servidor de Coleta Remota de Respostas (Opcional)
-Para permitir que o Painel do Professor receba submissões de alunos na rede local ou remota:
+### 4. Iniciar o Servidor de Coleta & Dashboard de Análise Localhost
+Para coletar respostas e acessar o painel de análise gráfica no navegador:
 ```bash
 npm run server
 ```
-O servidor de coleta ficará ativo na porta **3001** (`http://localhost:3001/api/responses`).
+- 📊 **Dashboard Web de Análise:** `http://localhost:3001/`
+- 📡 **Endpoint API de Submissão:** `http://localhost:3001/api/responses`
+
+### 5. Interpretar Dados via Linha de Comando (CLI)
+Para gerar uma análise estatística rápida diretamente no terminal:
+```bash
+npm run analyze
+```
 
 ---
 
