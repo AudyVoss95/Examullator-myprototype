@@ -1,3 +1,5 @@
+import { bancoQuestoesExamullator } from './trilha_de_estudos_e_avalia_o_no_modelo_examullator';
+
 export interface SecaoTexto {
   titulo: string;
   conteudo: string;
@@ -17,6 +19,7 @@ export interface Prova {
 }
 
 export const BANCO_DE_PROVAS: Record<string, Prova> = {
+  ...bancoQuestoesExamullator,
   "001": {
     "textosPreparatorios": [
       {
@@ -2122,5 +2125,6 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
       "reuso",
       "functionalities"
     ]
-  }
+  },
+  ...bancoQuestoesExamullator
 };
