@@ -8,26 +8,28 @@ Um simulador interativo web desenvolvido para criar, executar e monitorar avalia
 
 ## 📌 Visão Geral (Overview)
 
-O **Examullator** é uma plataforma completa desenvolvida para suprir as necessidades de ambientes educacionais e de avaliação técnica (ex: exames de lógica, hardware, Python e programação). Ele oferece uma **Trilha Única e Integrada de Lógica e Linguagem de Programação**, unificando a fixação guiada (questões 101 a 116) e a avaliação final de consolidação (questões 201 a 216) em uma sequência pedagógica contínua e sem divisão em sub-módulos.
+O **Examullator** é uma plataforma completa desenvolvida para suprir as necessidades de ambientes educacionais e de avaliação técnica (ex: exames de lógica, hardware, Python e programação). Ele oferece uma **Trilha Única e Integrada de Lógica e Linguagem de Programação**, estruturada cronologicamente em 3 grandes fases:
+1. 📖 **Módulo 0: Instruções Iniciais & Fundamentos Teóricos por Disciplina**.
+2. ✍️ **Compilado de Atividades e Práticas de Fixação por Disciplina (Questões 101 a 116)**.
+3. 🏆 **Módulo de Avaliação Final de Consolidação / Recuperação (Questões 201 a 216)**.
 
 ---
 
 ## ✨ Funcionalidades Principais (Key Features)
 
 * 🚀 **Trilha Única Integrada (`Trilha Completa: Lógica e Linguagem de Programação`)**:
-  * Unificação de todo o conteúdo em uma **trilha única contínua** da disciplina *Lógica e Linguagem de Programação*.
-  * **Jornada de Fixação Guiada (101 a 116)**: 16 questões com 2 textos preparatórios conceituais, exemplos práticos de código, resumos curtos e `bloquearVoltar: false`.
-  * **Avaliação Final de Consolidação / Recuperação (201 a 216)**: 16 questões dissertativas oficiais de consolidação com `bloquearVoltar: true`.
+  * **Início com Instruções & Teoria**: Começa com a ambientação do aluno, apresentação das regras da plataforma e fundamentos teóricos.
+  * **Compilado de Atividades (101 a 116)**: 16 módulos didáticos contendo 2 textos preparatórios conceituais por questão, exemplos de código, dicas e `bloquearVoltar: false`.
+  * **Avaliação Final de Consolidação (201 a 216)**: Exame formal com 16 questões dissertativas de consolidação pedagógica e `bloquearVoltar: true`.
+* 🔑 **Tratamento e Correção Automática de Palavras-Chave (`getCleanKeyword`)**:
+  * Função nativa que decodifica dinamicamente qualquer palavra-chave em Base64 ou string codificada para termos em português limpos para correção e inspeção.
 * 📋 **Controle de Presença & Registro de Acessos (`POST /api/register-login`)**:
   * Registra automaticamente todos os estudantes que entram na plataforma no arquivo `student_registry.json`.
-  * Armazena data/hora do 1º acesso (login), última atividade, disciplinas tentadas e status de conclusão (🟢 *Concluído*, 🟡 *Em Andamento*, ⚪ *Apenas Entrou*).
   * Exportação da **Lista de Presença em CSV (`.csv`)**.
 * 🔄 **Troca Dinâmica de Disciplinas pelo Estudante**:
-  * Botão **"📚 Escolher Outra Disciplina / Trilha"** para trocar de avaliação sem perder a identificação do aluno.
+  * Botão **"📚 Menu de Trilhas"** no cabeçalho superior para retornar à escolha de disciplinas/trilhas a qualquer momento.
 * 📧 **Envio de Respostas por E-mail (`POST /api/send-email`)**:
   * Envio de relatórios em formato HTML formatado para qualquer e-mail de professor via **Nodemailer**.
-* 📄 **Modelo de Montagem de Questões (`models_content.txt`)**:
-  * Arquivo padronizado para professores elaborarem novas perguntas, textos explicativos e palavras-chave.
 * 🛡️ **Sistema Anti-Cópia e Cola (Anti-Cheat)**: 
   * Bloqueio ativo de atalhos de teclado (`Ctrl+C`, `Ctrl+V`, `Ctrl+X`), menu de contexto e seleção de texto.
 * 📡 **Coleta Remota de Respostas (Live Remote Monitoring)**:
