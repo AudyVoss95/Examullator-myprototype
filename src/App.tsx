@@ -31,7 +31,8 @@ import {
   Compass,
   Route,
   MapPin,
-  Award
+  Award,
+  Mail
 } from 'lucide-react';
 import { 
   BANCO_DE_PROVAS, 
@@ -241,6 +242,45 @@ export default function App() {
   } | null>(null);
 
   const [isSaving, setIsSaving] = useState(false);
+
+  const [targetTeacherEmail, setTargetTeacherEmail] = useState(() => {
+    return localStorage.getItem('examullator_target_email') || 'professor@escola.com';
+  });
+  const [isSendingEmail, setIsSendingEmail] = useState(false);
+
+  const sendStudentEmail = async (student: RemoteStudentSubmission) => {
+    if (!targetTeacherEmail || !targetTeacherEmail.includes('@')) {
+      showAlert("Endereço de E-mail Inválido", "Por favor, digite um e-mail de destino válido.");
+      return;
+    }
+
+    setIsSendingEmail(true);
+    try {
+      const emailEndpoint = remoteUrl.replace(/\/api\/responses\/?$/, '/api/send-email');
+      const res = await fetch(emailEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          targetEmail: targetTeacherEmail,
+          studentId: student.studentId,
+          studentData: student
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast(`📧 Respostas de ${student.userName} enviadas para ${targetTeacherEmail}!`);
+        if (data.previewUrl) {
+          showAlert("E-mail Enviado com Sucesso", `E-mail de respostas gerado e enviado! Link de visualização (Ethereal test): ${data.previewUrl}`);
+        }
+      } else {
+        showAlert("Erro no Envio de E-mail", data.error || "Falha ao enviar e-mail.");
+      }
+    } catch (err: any) {
+      showAlert("Erro de Conexão com Servidor de E-mail", err.message);
+    } finally {
+      setIsSendingEmail(false);
+    }
+  };
 
   // Save progress and push sync remotely
   useEffect(() => {
@@ -811,6 +851,25 @@ export default function App() {
                     Execute <code className="bg-slate-900 px-1 py-0.5 rounded text-slate-300">npm run server</code> para ativar o servidor nativo na porta 3001.
                   </span>
                 </div>
+
+                <div className="pt-3 border-t border-slate-700/60 flex flex-col md:flex-row items-stretch md:items-center gap-3">
+                  <label className="text-xs font-bold text-slate-400 whitespace-nowrap flex items-center gap-1.5">
+                    <Mail size={14} className="text-emerald-400" /> E-mail Destino do Professor:
+                  </label>
+                  <input 
+                    type="email" 
+                    value={targetTeacherEmail}
+                    onChange={(e) => {
+                      setTargetTeacherEmail(e.target.value);
+                      localStorage.setItem('examullator_target_email', e.target.value);
+                    }}
+                    className="flex-1 bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl text-xs font-mono text-emerald-400 outline-none focus:border-blue-500"
+                    placeholder="professor@escola.com"
+                  />
+                  <span className="text-[10px] text-slate-400 font-medium">
+                    As respostas selecionadas serão enviadas em HTML para este e-mail.
+                  </span>
+                </div>
               </div>
 
               {/* Student Submissions List */}
@@ -877,6 +936,14 @@ export default function App() {
                           </div>
 
                           <div className="flex gap-2 pt-2">
+                            <button
+                              onClick={() => sendStudentEmail(st)}
+                              disabled={isSendingEmail}
+                              className="bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1"
+                              title="Enviar Relatório das Respostas por E-mail"
+                            >
+                              <Mail size={14} /> E-mail
+                            </button>
                             <button
                               onClick={() => setSelectedStudent(st)}
                               className="flex-1 bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5"
