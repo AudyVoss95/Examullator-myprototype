@@ -8,16 +8,16 @@ Um simulador interativo web desenvolvido para criar, executar e monitorar avalia
 
 ## 📌 Visão Geral (Overview)
 
-O **Examullator** é uma plataforma completa desenvolvida para suprir as necessidades de ambientes educacionais e de avaliação técnica (ex: exames de lógica, hardware, Python e programação). Ele oferece uma estrutura pedagógica baseada em **Trilhas de Fixação Guiada (101 a 116)** e **Avaliação Final de Consolidação / Recuperação (201 a 216)**.
+O **Examullator** é uma plataforma completa desenvolvida para suprir as necessidades de ambientes educacionais e de avaliação técnica (ex: exames de lógica, hardware, Python e programação). Ele oferece uma **Trilha Única e Integrada de Lógica e Linguagem de Programação**, unificando a fixação guiada (questões 101 a 116) e a avaliação final de consolidação (questões 201 a 216) em uma sequência pedagógica contínua e sem divisão em sub-módulos.
 
 ---
 
 ## ✨ Funcionalidades Principais (Key Features)
 
-* 📚 **Integração das Questões da Trilha de Estudos (`trilha_de_estudos_e_avalia_o_no_modelo_examullator.ts`)**:
-  * Conteúdo completo integrado ao `BANCO_DE_PROVAS` em `src/questions/bancoProvas.ts` e exportado via `src/questions/index.ts`.
-  * **Módulos de Fixação Guiada (IDs 101 a 116)**: 16 módulos com leitura preparatória em 2 passos conceituais e `bloquearVoltar: false`.
-  * **Avaliação Final / Recuperação (IDs 201 a 216)**: 16 questões dissertativas de consolidação pedagógica com `bloquearVoltar: true`.
+* 🚀 **Trilha Única Integrada (`Trilha Completa: Lógica e Linguagem de Programação`)**:
+  * Unificação de todo o conteúdo em uma **trilha única contínua** da disciplina *Lógica e Linguagem de Programação*.
+  * **Jornada de Fixação Guiada (101 a 116)**: 16 questões com 2 textos preparatórios conceituais, exemplos práticos de código, resumos curtos e `bloquearVoltar: false`.
+  * **Avaliação Final de Consolidação / Recuperação (201 a 216)**: 16 questões dissertativas oficiais de consolidação com `bloquearVoltar: true`.
 * 📋 **Controle de Presença & Registro de Acessos (`POST /api/register-login`)**:
   * Registra automaticamente todos os estudantes que entram na plataforma no arquivo `student_registry.json`.
   * Armazena data/hora do 1º acesso (login), última atividade, disciplinas tentadas e status de conclusão (🟢 *Concluído*, 🟡 *Em Andamento*, ⚪ *Apenas Entrou*).
@@ -26,8 +26,6 @@ O **Examullator** é uma plataforma completa desenvolvida para suprir as necessi
   * Botão **"📚 Escolher Outra Disciplina / Trilha"** para trocar de avaliação sem perder a identificação do aluno.
 * 📧 **Envio de Respostas por E-mail (`POST /api/send-email`)**:
   * Envio de relatórios em formato HTML formatado para qualquer e-mail de professor via **Nodemailer**.
-* 🛣️ **Trilhas Guiadas de Aprendizado (Learning Tracks Hub)**:
-  * Novas trilhas integradas: **Trilha de Fixação Guiada (101-116)** e **Avaliação Final (201-216)**.
 * 📄 **Modelo de Montagem de Questões (`models_content.txt`)**:
   * Arquivo padronizado para professores elaborarem novas perguntas, textos explicativos e palavras-chave.
 * 🛡️ **Sistema Anti-Cópia e Cola (Anti-Cheat)**: 
@@ -82,7 +80,7 @@ No campo de **Identificação (Nome Completo)** da tela inicial, digite o códig
 ADMIN2026
 ```
 Isso liberará o **Painel do Professor**, onde você pode:
-- Testar a **Trilha de Fixação Guiada (101-116)** e a **Avaliação Final (201-216)**.
+- Testar a **Trilha Completa: Lógica e Linguagem de Programação**.
 - Consultar o **Registro de Presença dos Alunos** e baixar em **CSV**.
 - Disparar relatórios das respostas diretamente para seu e-mail.
 
