@@ -103,13 +103,13 @@ export const TRILHAS_DE_TESTE: Record<string, TrilhaAprendizado> = {
       {
         id: "mod-llp-eval",
         titulo: "Módulo de Avaliação de Lógica e Linguagem de Programação: Exame Final de Consolidação",
-        descricao: "Avaliação final oficial cobrindo todo o programa da disciplina com navegação controlada.",
+        descricao: "Sorteio de 10 questões aleatórias de avaliação final com distribuição equilibrada por níveis (3 Nível 0, 4 Nível 1, 3 Nível 2) e navegação restrita.",
         questoesIds: [
           "201", "202", "203", "204", "205", "206", "207", "208",
           "209", "210", "211", "212", "213", "214", "215", "216"
         ],
         icone: "🏆",
-        tempoEstimado: "60 min"
+        tempoEstimado: "45 min"
       }
     ]
   }

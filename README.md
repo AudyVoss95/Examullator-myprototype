@@ -8,27 +8,32 @@ Um simulador interativo web desenvolvido para criar, executar e monitorar avalia
 
 ## 📌 Visão Geral (Overview)
 
-O **Examullator** é uma plataforma completa desenvolvida para suprir as necessidades de ambientes educacionais e de avaliação técnica (ex: exames de lógica, hardware, Python e programação). Ele oferece uma **Trilha Integrada de Lógica e Linguagem de Programação com Design Minimalista & Desafios Práticos**, sem poluções visuais ou listas de sub-módulos amontoadas.
+O **Examullator** é uma plataforma completa desenvolvida para suprir as necessidades de ambientes educacionais e de avaliação técnica (ex: exames de lógica, hardware, Python e programação). Ele oferece uma **Trilha Integrada de Lógica e Linguagem de Programação** e uma **Avaliação Final com Sorteio de 10 Questões Aleatórias Equilibradas por Nível**.
 
 ---
 
 ## ✨ Funcionalidades Principais (Key Features)
 
+* 🎲 **Avaliação Final com 10 Questões Aleatórias & Distribuição por Nível (`generateEvaluationSequence`)**:
+  * Das 16 questões de avaliação registradas no banco (IDs 201 a 216), o sistema sorteia dinamicamente **10 questões aleatórias** a cada novo exame.
+  * **Distribuição Equilibrada por Dificuldade**:
+    - **3 Questões de Nível 0 (Iniciante)**: Sorteadas aleatoriamente entre 201, 202, 203, 211, 212.
+    - **4 Questões de Nível 1 (Intermediário)**: Sorteadas aleatoriamente entre 204, 205, 206, 207, 213, 214.
+    - **3 Questões de Nível 2 (Avançado)**: Sorteadas aleatoriamente entre 208, 209, 210, 215, 216.
 * 🎨 **Visualização Limpa & Premium da Trilha de Aprendizado**:
-  * Redesenho completo do card da trilha para um formato clean com visualização das 3 fases: **📖 Fase 1: Teoria**, **⚡ Fase 2: Fixação** e **🏆 Fase 3: Avaliação Final**.
-  * Destaque para a quantidade total de **Desafios Práticos** e o botão principal **"🚀 Iniciar Trilha Integrada com Desafios Práticos"**.
+  * Redesenho elegante do card da trilha destacando as 3 fases: **📖 Fase 1: Teoria**, **⚡ Fase 2: Fixação** e **🏆 Fase 3: Avaliação Final**.
 * ⚡ **Desafios Práticos Encadeados**:
   * **Fase 1**: Ambientação e instruções iniciais sobre hardware, software e conceito de algoritmos.
   * **Fase 2**: 16 Módulos Práticos de Fixação (101 a 116) com exemplos de código Python, testes de entrada/saída, dicas e dissertações.
-  * **Fase 3**: 16 Desafios Práticos da Avaliação Final de Consolidação (201 a 216).
+  * **Fase 3**: 10 Desafios Práticos da Avaliação Final sorteados por nível.
 * 📚 **Disciplina Única Integrada (`Lógica e Linguagem de Programação`)**:
-  * O menu de disciplinas exibe exclusivamente a disciplina oficial de forma direta e limpa.
-* 🔑 **Tratamento de Palavras-Chave (`getCleanKeyword`)**:
-  * Decodificação dinâmica de termos em português para auto-avaliação e auditoria.
+  * O menu de disciplinas exibe exclusivamente a disciplina oficial.
 * 📋 **Controle de Presença & Registro de Acessos (`POST /api/register-login`)**:
   * Registro automático de acessos e exportação de **Lista de Presença em CSV (`.csv`)**.
 * 📧 **Envio de Respostas por E-mail (`POST /api/send-email`)**:
   * Relatórios formatados via **Nodemailer**.
+* 🛡️ **Sistema Anti-Cópia e Cola (Anti-Cheat)**: 
+  * Bloqueio ativo de atalhos de teclado (`Ctrl+C`, `Ctrl+V`, `Ctrl+X`), menu de contexto e seleção de texto.
 
 ---
 
@@ -77,7 +82,7 @@ No campo de **Identificação (Nome Completo)** da tela inicial, digite o códig
 ADMIN2026
 ```
 Isso liberará o **Painel do Professor**, onde você pode:
-- Testar a **Trilha Completa: Lógica e Linguagem de Programação**.
+- Testar o sorteio das **10 Questões Aleatórias da Avaliação Final**.
 - Consultar o **Registro de Presença dos Alunos** e baixar em **CSV**.
 - Disparar relatórios das respostas diretamente para seu e-mail.
 

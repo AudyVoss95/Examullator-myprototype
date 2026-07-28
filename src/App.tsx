@@ -141,6 +141,27 @@ const generateSequence = (disciplinaFilter: string = 'Todas', bancoSource: Recor
   return sequence.slice(0, APP_CONFIG.totalQuestoes);
 };
 
+export const generateEvaluationSequence = (bancoSource: Record<string, Prova> = BANCO_DE_PROVAS): string[] => {
+  const evalIds = ["201", "202", "203", "204", "205", "206", "207", "208", "209", "210", "211", "212", "213", "214", "215", "216"];
+
+  const byLevel: Record<number, string[]> = { 0: [], 1: [], 2: [] };
+  evalIds.forEach(id => {
+    const q = bancoSource[id];
+    if (q) {
+      const lvl = q.nivel;
+      if (!byLevel[lvl]) byLevel[lvl] = [];
+      byLevel[lvl].push(id);
+    }
+  });
+
+  // Select 3 from Nível 0, 4 from Nível 1, 3 from Nível 2 (Total = 10 questions)
+  const selectedLvl0 = shuffleArray(byLevel[0] && byLevel[0].length > 0 ? byLevel[0] : ["201", "202", "203", "211", "212"]).slice(0, 3);
+  const selectedLvl1 = shuffleArray(byLevel[1] && byLevel[1].length > 0 ? byLevel[1] : ["204", "205", "206", "207", "213", "214"]).slice(0, 4);
+  const selectedLvl2 = shuffleArray(byLevel[2] && byLevel[2].length > 0 ? byLevel[2] : ["208", "209", "210", "215", "216"]).slice(0, 3);
+
+  return [...selectedLvl0, ...selectedLvl1, ...selectedLvl2];
+};
+
 export default function App() {
   const [bancoProvas, setBancoProvas] = useState<Record<string, Prova>>(() => {
     const saved = localStorage.getItem('examullator_banco_provas');
@@ -550,7 +571,10 @@ export default function App() {
   };
 
   const handleSelectDisciplina = (discId: string) => {
-    const newSeq = generateSequence(discId, bancoProvas);
+    const fixacaoIds = ["001", "002", "003", "101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116"];
+    const eval10Ids = generateEvaluationSequence(bancoProvas);
+    const newSeq = [...fixacaoIds, ...eval10Ids];
+
     setProgress(prev => ({
       ...prev,
       selectedDisciplina: discId,
@@ -565,17 +589,9 @@ export default function App() {
   };
 
   const handleSelectTrilha = (trilha: TrilhaAprendizado) => {
-    // Gather all question IDs from all steps of the learning track
-    const trackQuestionIds: string[] = [];
-    trilha.etapas.forEach(e => {
-      e.questoesIds.forEach(qId => {
-        if (bancoProvas[qId] && !trackQuestionIds.includes(qId)) {
-          trackQuestionIds.push(qId);
-        }
-      });
-    });
-
-    const finalSeq = trackQuestionIds.length > 0 ? trackQuestionIds : Object.keys(bancoProvas).slice(0, 9);
+    const fixacaoIds = ["001", "002", "003", "101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116"];
+    const eval10Ids = generateEvaluationSequence(bancoProvas);
+    const finalSeq = [...fixacaoIds, ...eval10Ids];
 
     setProgress(prev => ({
       ...prev,
