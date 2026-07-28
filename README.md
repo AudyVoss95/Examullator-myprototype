@@ -8,21 +8,21 @@ Um simulador interativo web desenvolvido para criar, executar e monitorar avalia
 
 ## 📌 Visão Geral (Overview)
 
-O **Examullator** é uma plataforma completa desenvolvida para suprir as necessidades de ambientes educacionais e de avaliação técnica (ex: exames de lógica, hardware, Python e programação). Ele oferece uma **Trilha Única e Integrada de Lógica e Linguagem de Programação**, estruturada cronologicamente em 3 grandes fases:
-1. 📖 **Módulo 0: Instruções Iniciais & Fundamentos Teóricos por Disciplina**.
-2. ✍️ **Compilado de Atividades e Práticas de Fixação por Disciplina (Questões 101 a 116)**.
-3. 🏆 **Módulo de Avaliação Final de Consolidação / Recuperação (Questões 201 a 216)**.
+O **Examullator** é uma plataforma completa desenvolvida para suprir as necessidades de ambientes educacionais e de avaliação técnica (ex: exames de lógica, hardware, Python e programação). Ele oferece uma **Trilha Completa e Única Disciplina de Lógica e Linguagem de Programação**, sem fragmentação em sub-módulos avulsos no menu de escolha.
 
 ---
 
 ## ✨ Funcionalidades Principais (Key Features)
 
+* 📚 **Disciplina Única Integrada (`Lógica e Linguagem de Programação`)**:
+  * O menu de disciplinas exibe exclusivamente a disciplina oficial: **"Lógica e Linguagem de Programação"**.
+  * **Aba Disciplinas Disponíveis**: Apresenta diretamente a disciplina integrada para prática simples e direta, sem listagem de sub-módulos avulsos.
 * 🚀 **Trilha Única Integrada (`Trilha Completa: Lógica e Linguagem de Programação`)**:
   * **Início com Instruções & Teoria**: Começa com a ambientação do aluno, apresentação das regras da plataforma e fundamentos teóricos.
   * **Compilado de Atividades (101 a 116)**: 16 módulos didáticos contendo 2 textos preparatórios conceituais por questão, exemplos de código, dicas e `bloquearVoltar: false`.
   * **Avaliação Final de Consolidação (201 a 216)**: Exame formal com 16 questões dissertativas de consolidação pedagógica e `bloquearVoltar: true`.
-* 🔑 **Tratamento e Correção Automática de Palavras-Chave (`getCleanKeyword`)**:
-  * Função nativa que decodifica dinamicamente qualquer palavra-chave em Base64 ou string codificada para termos em português limpos para correção e inspeção.
+* 🔑 **Tratamento de Palavras-Chave (`getCleanKeyword`)**:
+  * Função nativa que decodifica dinamicamente qualquer palavra-chave para termos em português limpos.
 * 📋 **Controle de Presença & Registro de Acessos (`POST /api/register-login`)**:
   * Registra automaticamente todos os estudantes que entram na plataforma no arquivo `student_registry.json`.
   * Exportação da **Lista de Presença em CSV (`.csv`)**.

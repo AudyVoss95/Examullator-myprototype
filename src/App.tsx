@@ -68,13 +68,12 @@ interface RemoteStudentSubmission {
 }
 
 export const DISCIPLINAS_DISPONIVEIS = [
-  { id: 'Todas', nome: 'Todas as Disciplinas (Simulado Geral)', icone: '🌐', descricao: 'Avaliação abrangente com sorteio equilibrado de todos os módulos.' },
-  { id: 'Hardware & Sistemas', nome: 'Hardware & Sistemas', icone: '💻', descricao: 'Componentes físicos, software, sistema operacional, arquivos e comandos.' },
-  { id: 'Lógica de Programação', nome: 'Lógica de Programação', icone: '🧩', descricao: 'Conceito de algoritmos, fluxogramas, pseudocódigo, entrada e saída.' },
-  { id: 'Python Fundamentos', nome: 'Python Fundamentos', icone: '🐍', descricao: 'Sintaxe básica, modo interativo, print, variáveis, tipos de dados e casting.' },
-  { id: 'Estruturas de Controle & Repetição', nome: 'Estruturas de Controle & Repetição', icone: '🔁', descricao: 'Tomada de decisão (if/elif/else), operadores lógicos, loops for e while.' },
-  { id: 'Estruturas de Dados & Algoritmos', nome: 'Estruturas de Dados & Algoritmos', icone: '📦', descricao: 'Listas, índices, matrizes bidimensionais, manipulação com append e pop.' },
-  { id: 'Funções & Modularização', nome: 'Funções & Modularização', icone: '⚙️', descricao: 'Criação de funções (def), parâmetros, return, escopo e código modular.' },
+  { 
+    id: 'Lógica e Linguagem de Programação', 
+    nome: 'Lógica e Linguagem de Programação', 
+    icone: '💻', 
+    descricao: 'Disciplina única e integrada abrangendo fundamentos de hardware, algoritmos, fluxogramas, tipos de dados, estruturas condicionais e laços de repetição.' 
+  }
 ];
 
 const shuffleArray = <T,>(array: T[]): T[] => {
@@ -1660,7 +1659,7 @@ export default function App() {
                 }`}
               >
                 <BookOpen size={16} className={menuTab === 'disciplinas' ? 'text-blue-400' : ''} />
-                <span>Módulos por Disciplina</span>
+                <span>Disciplinas Disponíveis</span>
               </button>
             </div>
           </div>
