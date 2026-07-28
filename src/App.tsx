@@ -201,7 +201,7 @@ export default function App() {
   
   // Remote sync states
   const [remoteUrl, setRemoteUrl] = useState(() => {
-    return localStorage.getItem('examullator_remote_url') || 'http://localhost:3001/api/responses';
+    return localStorage.getItem('examullator_remote_url') || '/api/responses';
   });
   const [remoteStudents, setRemoteStudents] = useState<RemoteStudentSubmission[]>([]);
   const [isLoadingRemote, setIsLoadingRemote] = useState(false);
