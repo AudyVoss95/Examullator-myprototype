@@ -85,23 +85,34 @@ const shuffleArray = <T,>(array: T[]): T[] => {
   return newArray;
 };
 
+const decodeUtf8Base64 = (str: string): string => {
+  try {
+    const binary = atob(str);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+    return new TextDecoder('utf-8').decode(bytes);
+  } catch {
+    return str;
+  }
+};
+
 const getCleanKeyword = (kw: string): string => {
   if (!kw) return '';
-  if (!/^[A-Za-z0-9+/=]+$/.test(kw.trim()) || kw.length < 4) {
-    return kw;
+  const trimmed = kw.trim();
+  if (!/^[A-Za-z0-9+/=]+$/.test(trimmed) || trimmed.length < 4) {
+    return trimmed;
   }
   try {
-    const decoded = atob(kw);
-    if (/^[A-Za-z0-9+/=]+$/.test(decoded.trim())) {
-      try {
-        return atob(decoded);
-      } catch {
-        return decoded;
-      }
+    const decoded = decodeUtf8Base64(trimmed);
+    if (/^[A-Za-z0-9+/=]+$/.test(decoded.trim()) && decoded !== trimmed) {
+      const doubleDecoded = decodeUtf8Base64(decoded);
+      return doubleDecoded.trim();
     }
-    return decoded;
-  } catch (e) {
-    return kw;
+    return decoded.trim();
+  } catch {
+    return trimmed;
   }
 };
 
@@ -1710,7 +1721,7 @@ export default function App() {
                         </div>
 
                         <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold px-3 py-1.5 rounded-full shrink-0">
-                          {totalQuestions} Desafios Práticos
+                          29 Questões (3 Teoria, 16 Fixação, 10 Avaliação Final)
                         </span>
                       </div>
 
@@ -1740,8 +1751,8 @@ export default function App() {
                           <span className="text-[10px] font-black text-amber-600 uppercase tracking-widest block flex items-center gap-1">
                             🏆 Fase 3: Avaliação
                           </span>
-                          <p className="text-xs font-bold text-slate-800">Exame Final de Consolidação</p>
-                          <span className="text-[10px] text-slate-500 block">16 Questões de avaliação formal</span>
+                          <p className="text-xs font-bold text-slate-800">10 Questões da Avaliação Final</p>
+                          <span className="text-[10px] text-slate-500 block">Sorteio de 10 questões por nível (3 N0, 4 N1, 3 N2)</span>
                         </div>
                       </div>
 
