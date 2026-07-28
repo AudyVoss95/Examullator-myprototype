@@ -1,4 +1,5 @@
 export interface Prova {
+  disciplina: string;
   nivel: number;
   titulo: string;
   enunciado: string;
@@ -9,6 +10,7 @@ export interface Prova {
 
 export const BANCO_DE_PROVAS: Record<string, Prova> = {
   "001": {
+    "disciplina": "Hardware & Sistemas",
     "nivel": 0,
     "titulo": "Hardware vs Software",
     "enunciado": "Explique com suas palavras a diferença entre Hardware e Software e cite um exemplo de cada.",
@@ -21,6 +23,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "002": {
+    "disciplina": "Hardware & Sistemas",
     "nivel": 0,
     "titulo": "Comandos Ctrl+C, V e X",
     "enunciado": "Explique para que servem os comandos Ctrl+C, Ctrl+V e Ctrl+X e descreva a diferença entre 'copiar' e 'recortar'.",
@@ -34,6 +37,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "003": {
+    "disciplina": "Hardware & Sistemas",
     "nivel": 0,
     "titulo": "Bloco de Notas (.txt)",
     "enunciado": "O Bloco de Notas é um editor de 'texto simples'. Qual a principal característica de um arquivo .txt e por que ele é muito usado por programadores?",
@@ -48,6 +52,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "004": {
+    "disciplina": "Hardware & Sistemas",
     "nivel": 0,
     "titulo": "VS Code vs Bloco de Notas",
     "enunciado": "O VS Code possui recursos como cores no texto (syntax highlighting). Por que isso é uma vantagem em relação ao Bloco de Notas para quem está programando?",
@@ -61,6 +66,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "005": {
+    "disciplina": "Hardware & Sistemas",
     "nivel": 0,
     "titulo": "Salvar Arquivos (Ctrl+S)",
     "enunciado": "Por que é importante usar o comando Ctrl+S frequentemente ao trabalhar no VS Code? O que acontece se o computador desligar e o arquivo não estiver salvo?",
@@ -74,6 +80,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "006": {
+    "disciplina": "Hardware & Sistemas",
     "nivel": 0,
     "titulo": "Atalho Alt + Tab",
     "enunciado": "Para que serve o comando de teclado 'Alt + Tab' no Windows e em que situação ele ajuda na produtividade do desenvolvedor?",
@@ -87,6 +94,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "007": {
+    "disciplina": "Hardware & Sistemas",
     "nivel": 0,
     "titulo": "Nuvem e Backup",
     "enunciado": "O que significa salvar um arquivo 'na nuvem' (ex: Google Drive)? Qual a principal vantagem em relação ao pendrive?",
@@ -100,6 +108,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "008": {
+    "disciplina": "Hardware & Sistemas",
     "nivel": 0,
     "titulo": "Criação de Pastas",
     "enunciado": "Descreva o passo a passo para criar uma nova pasta no Windows e explique por que é importante nomeá-la corretamente.",
@@ -113,6 +122,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "009": {
+    "disciplina": "Hardware & Sistemas",
     "nivel": 0,
     "titulo": "Renomear e Organizar",
     "enunciado": "Como você renomeia um arquivo ou pasta? Por que não devemos usar nomes como 'trabalho1', 'trabalho final', 'agora vai'?",
@@ -126,6 +136,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "101": {
+    "disciplina": "Lógica de Programação",
     "nivel": 1,
     "titulo": "O que é Algoritmo",
     "enunciado": "Defina o conceito de algoritmo utilizando um exemplo do cotidiano (como uma receita ou trocar um pneu).",
@@ -139,6 +150,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "102": {
+    "disciplina": "Lógica de Programação",
     "nivel": 1,
     "titulo": "Fluxogramas",
     "enunciado": "Qual a utilidade de um fluxograma antes de começar a escrever o código? O que o símbolo de 'losango' representa?",
@@ -152,6 +164,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "103": {
+    "disciplina": "Lógica de Programação",
     "nivel": 1,
     "titulo": "Entrada e Saída",
     "enunciado": "Em lógica, o que representam os conceitos de Entrada, Processamento e Saída de dados?",
@@ -165,6 +178,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "104": {
+    "disciplina": "Lógica de Programação",
     "nivel": 1,
     "titulo": "Pseudocódigo",
     "enunciado": "Por que usamos pseudocódigo (Portugol) antes de passar para uma linguagem como Python?",
@@ -178,6 +192,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "105": {
+    "disciplina": "Lógica de Programação",
     "nivel": 1,
     "titulo": "Símbolo de Processo",
     "enunciado": "No fluxograma, o retângulo representa um processo. Dê dois exemplos de ações que seriam colocadas dentro de um retângulo.",
@@ -191,6 +206,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "106": {
+    "disciplina": "Lógica de Programação",
     "nivel": 1,
     "titulo": "Símbolo de Início/Fim",
     "enunciado": "Por que todo fluxograma deve obrigatoriamente ter um símbolo de Início e um de Fim?",
@@ -204,6 +220,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "107": {
+    "disciplina": "Lógica de Programação",
     "nivel": 1,
     "titulo": "Automação no Cotidiano",
     "enunciado": "Cite um exemplo de um processo automático no seu dia a dia que segue um algoritmo (ex: semáforo). Explique a lógica.",
@@ -217,6 +234,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "108": {
+    "disciplina": "Lógica de Programação",
     "nivel": 1,
     "titulo": "Ordem de Execução",
     "enunciado": "O que acontece se invertermos a ordem de dois passos em um algoritmo de 'fazer café'? Como isso afeta o resultado?",
@@ -230,6 +248,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "109": {
+    "disciplina": "Lógica de Programação",
     "nivel": 1,
     "titulo": "Clareza de Instruções",
     "enunciado": "Por que um algoritmo não pode ter instruções ambíguas (duvidosas)? O que acontece se o computador não entender um passo?",
@@ -243,6 +262,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "201": {
+    "disciplina": "Python Fundamentos",
     "nivel": 2,
     "titulo": "Python Interativo",
     "enunciado": "O que acontece quando você digita apenas 'python' no terminal? Como você faz para sair desse modo?",
@@ -256,6 +276,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "202": {
+    "disciplina": "Python Fundamentos",
     "nivel": 2,
     "titulo": "Erros de Sintaxe",
     "enunciado": "O que o computador faz quando encontra um erro de sintaxe no seu código? Ele executa o resto do programa?",
@@ -269,6 +290,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "203": {
+    "disciplina": "Python Fundamentos",
     "nivel": 2,
     "titulo": "Extensão .py",
     "enunciado": "Por que os arquivos de código Python devem terminar com a extensão '.py'? O que o sistema operacional faz com essa informação?",
@@ -282,6 +304,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "204": {
+    "disciplina": "Python Fundamentos",
     "nivel": 2,
     "titulo": "Função Print",
     "enunciado": "Para que serve o comando `print()`? O que acontece se você esquecer de colocar as aspas em volta de um texto dentro do print?",
@@ -295,6 +318,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "205": {
+    "disciplina": "Python Fundamentos",
     "nivel": 2,
     "titulo": "Comentários (#)",
     "enunciado": "Por que usamos o símbolo `#` no código? O computador lê o que está escrito depois desse símbolo?",
@@ -308,6 +332,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "206": {
+    "disciplina": "Python Fundamentos",
     "nivel": 2,
     "titulo": "Diferença Python 2 e 3",
     "enunciado": "Embora usemos o Python 3, por que é importante saber que versões antigas existem? Cite uma diferença básica (ex: print).",
@@ -321,6 +346,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "207": {
+    "disciplina": "Python Fundamentos",
     "nivel": 2,
     "titulo": "Case Sensitive",
     "enunciado": "Python é 'Case Sensitive'. O que isso significa se você criar uma variável chamada `Nome` e tentar usar `nome`?",
@@ -334,6 +360,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "208": {
+    "disciplina": "Python Fundamentos",
     "nivel": 2,
     "titulo": "O Interpretador",
     "enunciado": "Explique brevemente o papel do 'Interpretador Python' na execução de um arquivo de código.",
@@ -347,6 +374,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "209": {
+    "disciplina": "Python Fundamentos",
     "nivel": 2,
     "titulo": "Identação (Espaçamento)",
     "enunciado": "Diferente de outras linguagens, o Python usa espaços para organizar blocos. O que acontece se o alinhamento estiver errado?",
@@ -360,6 +388,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "301": {
+    "disciplina": "Python Fundamentos",
     "nivel": 3,
     "titulo": "Tipagem Dinâmica",
     "enunciado": "Em Python, não precisamos dizer que uma variável é 'inteira' ao criá-la. Explique como o Python descobre o tipo do dado.",
@@ -373,6 +402,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "302": {
+    "disciplina": "Python Fundamentos",
     "nivel": 3,
     "titulo": "Input e String",
     "enunciado": "Por que o comando `input()` sempre retorna um texto (str), mesmo que o usuário digite um número?",
@@ -386,6 +416,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "303": {
+    "disciplina": "Python Fundamentos",
     "nivel": 3,
     "titulo": "Inteiro vs Float",
     "enunciado": "Qual a diferença técnica entre o tipo `int` e o tipo `float`? Dê um exemplo de quando usar cada um.",
@@ -399,6 +430,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "304": {
+    "disciplina": "Python Fundamentos",
     "nivel": 3,
     "titulo": "Booleano (bool)",
     "enunciado": "O que é o tipo de dado Booleano? Quais são os dois únicos valores que ele pode assumir?",
@@ -412,6 +444,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "305": {
+    "disciplina": "Python Fundamentos",
     "nivel": 3,
     "titulo": "Nomes de Variáveis",
     "enunciado": "Quais são as regras para dar nome a uma variável em Python? (Pode começar com número? Pode ter espaço?)",
@@ -425,6 +458,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "306": {
+    "disciplina": "Python Fundamentos",
     "nivel": 3,
     "titulo": "Função Type()",
     "enunciado": "Para que serve o comando `type()`? Dê um exemplo de como ele ajudaria a descobrir um erro no código.",
@@ -438,6 +472,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "307": {
+    "disciplina": "Python Fundamentos",
     "nivel": 3,
     "titulo": "Conversão (Casting)",
     "enunciado": "Como transformamos um texto \"10\" em um número real 10.0? Use o nome da função correta na explicação.",
@@ -451,6 +486,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "308": {
+    "disciplina": "Python Fundamentos",
     "nivel": 3,
     "titulo": "Variável vs Constante",
     "enunciado": "Embora o Python não tenha 'constantes' fixas por padrão, qual a diferença conceitual entre uma variável e uma constante?",
@@ -464,6 +500,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "309": {
+    "disciplina": "Python Fundamentos",
     "nivel": 3,
     "titulo": "Concatenação",
     "enunciado": "O que acontece quando usamos o sinal de `+` entre duas Strings? Como isso é diferente de usar o `+` com números?",
@@ -477,6 +514,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "401": {
+    "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 4,
     "titulo": "Identação no IF",
     "enunciado": "Qual a importância do 'espaço' (Tab) logo abaixo de um comando `if`? O que acontece se esquecermos dele?",
@@ -490,6 +528,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "402": {
+    "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 4,
     "titulo": "Operador de Módulo (%)",
     "enunciado": "Explique como o operador `%` (resto da divisão) pode ser usado para descobrir se um número é Par ou Ímpar.",
@@ -503,6 +542,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "403": {
+    "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 4,
     "titulo": "Operador de Igualdade (==)",
     "enunciado": "Por que usamos `==` para comparar valores e não apenas `=`? Qual a função do `=` sozinho?",
@@ -516,6 +556,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "404": {
+    "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 4,
     "titulo": "Função do ELIF",
     "enunciado": "Em uma estrutura de decisão com 5 opções diferentes, por que usar `elif` é melhor do que usar vários `if` seguidos?",
@@ -529,6 +570,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "405": {
+    "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 4,
     "titulo": "Operador lógico AND",
     "enunciado": "Quando usamos o `and` em uma condição? O que deve acontecer com as duas partes para o resultado ser Verdadeiro?",
@@ -542,6 +584,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "406": {
+    "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 4,
     "titulo": "Operador lógico OR",
     "enunciado": "Explique o funcionamento do `or`. Basta uma condição ser verdadeira para o bloco ser executado?",
@@ -555,6 +598,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "407": {
+    "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 4,
     "titulo": "O papel do ELSE",
     "enunciado": "O comando `else` precisa de uma condição (ex: `else x > 10`)? Explique quando o bloco do `else` é executado.",
@@ -568,6 +612,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "408": {
+    "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 4,
     "titulo": "Valores de Borda",
     "enunciado": "Em um programa que aprova alunos com nota >= 6.0, por que a nota 6.0 é chamada de 'valor de borda'?",
@@ -581,6 +626,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "409": {
+    "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 4,
     "titulo": "Operador Diferente (!=)",
     "enunciado": "Como verificamos se o nome de um usuário **não** é 'admin'? Explique o uso do operador `!=`.",
@@ -594,6 +640,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "501": {
+    "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 5,
     "titulo": "Loop Infinito",
     "enunciado": "O que causa um loop infinito em um comando `while`? Como podemos garantir que o loop um dia termine?",
@@ -607,6 +654,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "502": {
+    "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 5,
     "titulo": "Função Range",
     "enunciado": "No comando `for i in range(5)`, quais são os valores que a variável `i` assumirá? Explique o início e o fim.",
@@ -620,6 +668,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "503": {
+    "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 5,
     "titulo": "Variável Contadora",
     "enunciado": "Para que serve uma variável contadora (ex: `cont = cont + 1`) dentro de um loop `while`?",
@@ -633,6 +682,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "504": {
+    "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 5,
     "titulo": "Variável Acumuladora",
     "enunciado": "Qual a diferença entre um 'contador' e um 'acumulador' (ex: `soma = soma + preco`)?",
@@ -646,6 +696,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "505": {
+    "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 5,
     "titulo": "For vs While",
     "enunciado": "Em que situação é melhor usar o `for` e em qual é melhor usar o `while`?",
@@ -659,6 +710,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "506": {
+    "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 5,
     "titulo": "Comando Break",
     "enunciado": "Para que serve o comando `break`? Ele encerra o programa inteiro ou apenas o loop atual?",
@@ -672,6 +724,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "507": {
+    "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 5,
     "titulo": "Comando Continue",
     "enunciado": "Qual a diferença entre o `break` e o `continue` dentro de uma repetição?",
@@ -685,6 +738,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "508": {
+    "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 5,
     "titulo": "Range com Passo",
     "enunciado": "No comando `range(0, 10, 2)`, o que o número 2 representa? Qual será a sequência de números gerada?",
@@ -698,6 +752,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "509": {
+    "disciplina": "Estruturas de Controle & Repetição",
     "nivel": 5,
     "titulo": "Loops Aninhados",
     "enunciado": "O que acontece quando colocamos um `for` dentro de outro `for`? Dê um exemplo prático (ex: relógio).",
@@ -711,6 +766,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "601": {
+    "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 6,
     "titulo": "Listas vs Variáveis",
     "enunciado": "Qual a vantagem de usar uma Lista (`list`) em vez de criar 50 variáveis differentes (ex: nota1, nota2...)?",
@@ -724,6 +780,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "602": {
+    "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 6,
     "titulo": "Índices de Matriz",
     "enunciado": "Para acessar um valor em uma matriz, usamos dois colchetes `matriz[x][y]`. O que o primeiro e o segundo índice representam?",
@@ -737,6 +794,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "603": {
+    "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 6,
     "titulo": "Index Out of Range",
     "enunciado": "O que causa o erro 'list index out of range'? Como evitar acessar um índice que não existe?",
@@ -750,6 +808,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "604": {
+    "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 6,
     "titulo": "Método Append()",
     "enunciado": "Para que serve o comando `.append()`? Onde o novo elemento é colocado na lista?",
@@ -763,6 +822,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "605": {
+    "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 6,
     "titulo": "Método Pop()",
     "enunciado": "Como removemos o último elemento de uma lista? Explique o funcionamento básico do `.pop()`.",
@@ -776,6 +836,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "606": {
+    "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 6,
     "titulo": "Percorrendo Listas",
     "enunciado": "Como usamos o `for` para imprimir todos os nomes de uma lista um por um?",
@@ -789,6 +850,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "607": {
+    "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 6,
     "titulo": "Função Len()",
     "enunciado": "O que a função `len()` nos diz sobre uma lista? Por que ela é útil em loops?",
@@ -802,6 +864,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "608": {
+    "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 6,
     "titulo": "Listas Vazias",
     "enunciado": "Por que às vezes começamos um programa criando uma lista vazia `lista = []`?",
@@ -815,6 +878,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "609": {
+    "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 6,
     "titulo": "Matrizes no Real",
     "enunciado": "Dê um exemplo de dado do mundo real que se comporta como uma matriz (ex: cinema, excel, batalha naval).",
@@ -828,6 +892,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "701": {
+    "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 7,
     "titulo": "Precisão na Saída",
     "enunciado": "No cálculo de consumo (km/L), por que usamos f-strings para limitar as casas decimais? Como o excesso de números após a vírgula afeta a leitura do usuário?",
@@ -841,6 +906,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "702": {
+    "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 7,
     "titulo": "Prevenção de Falhas",
     "enunciado": "Na calculadora, por que é obrigatório verificar se o divisor é zero antes da conta? O que é um \"crash\" de programa e como evitá-lo?",
@@ -854,6 +920,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "703": {
+    "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 7,
     "titulo": "Feedback Detalhado",
     "enunciado": "Por que um sistema de aprovação deve informar o motivo exato da reprovação (nota vs. frequência) em vez de apenas dizer \"Reprovado\"?",
@@ -867,6 +934,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "704": {
+    "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 7,
     "titulo": "Lógica de Descontos",
     "enunciado": "No simulador de loja, qual a diferença lógica entre aplicar um desconto de 15% direto e aplicar 10% seguido de 5% sobre o novo valor?",
@@ -880,6 +948,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "705": {
+    "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 7,
     "titulo": "Tipagem e Divisão",
     "enunciado": "Por que convertemos o valor da conta para `float` e o número de pessoas para `int`? O que aconteceria se usássemos `int` para o valor da conta?",
@@ -893,6 +962,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "706": {
+    "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 7,
     "titulo": "Hierarquia no Elif",
     "enunciado": "No classificador de notas, por que a ordem das condições (ex: >= 6.0 antes de >= 5.0) é crucial para o resultado correto?",
@@ -906,6 +976,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "707": {
+    "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 7,
     "titulo": "Operadores Combinados",
     "enunciado": "No verificador de acesso, como os operadores `and` e `or` permitem diferenciar um convidado comum de um VIP com ingresso?",
@@ -919,6 +990,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "708": {
+    "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 7,
     "titulo": "Aleatoriedade (Random)",
     "enunciado": "Qual a função do `import random` no jogo Pedra, Papel e Tesoura? Como a falta de aleatoriedade afetaria a experiência do jogador?",
@@ -932,6 +1004,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "709": {
+    "disciplina": "Estruturas de Dados & Algoritmos",
     "nivel": 7,
     "titulo": "Higienização de Dados",
     "enunciado": "Por que usamos métodos como `.lower()` nas entradas de texto do usuário? Como isso evita que o programa falhe por causa de letras maiúsculas?",
@@ -945,6 +1018,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "801": {
+    "disciplina": "Funções & Modularização",
     "nivel": 8,
     "titulo": "Escopo de Variáveis",
     "enunciado": "Uma variável criada dentro de uma função pode ser usada fora dela? Explique o conceito de variáveis locais.",
@@ -958,6 +1032,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "802": {
+    "disciplina": "Funções & Modularização",
     "nivel": 8,
     "titulo": "Parâmetros",
     "enunciado": "Para que servem os parâmetros de uma função? Dê um exemplo de uma função que recebe dados para processar.",
@@ -971,6 +1046,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "803": {
+    "disciplina": "Funções & Modularização",
     "nivel": 8,
     "titulo": "Return vs Print",
     "enunciado": "Qual a diferença entre uma função que dá um `print()` e uma função que dá um `return`?",
@@ -984,6 +1060,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "804": {
+    "disciplina": "Funções & Modularização",
     "nivel": 8,
     "titulo": "Vantagem de Modularizar",
     "enunciado": "Por que dividimos um programa grande em várias funções pequenas? Cite duas vantagens.",
@@ -997,6 +1074,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "805": {
+    "disciplina": "Funções & Modularização",
     "nivel": 8,
     "titulo": "Docstrings",
     "enunciado": "O que é uma docstring (texto entre três aspas) logo abaixo da definição da função? Para que serve?",
@@ -1010,6 +1088,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "806": {
+    "disciplina": "Funções & Modularização",
     "nivel": 8,
     "titulo": "Parâmetros Opcionais",
     "enunciado": "Como definimos um valor padrão para um parâmetro (ex: `f(x=10)`)? O que acontece se o usuário não enviar o valor?",
@@ -1023,6 +1102,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "807": {
+    "disciplina": "Funções & Modularização",
     "nivel": 8,
     "titulo": "Chamar uma Função",
     "enunciado": "Como você 'executa' uma função que já foi definida? O que acontece se você esquecer dos parênteses `()`?",
@@ -1036,6 +1116,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "808": {
+    "disciplina": "Funções & Modularização",
     "nivel": 8,
     "titulo": "DRY (Don't Repeat Yourself)",
     "enunciado": "Explique o conceito de DRY na programação e como as funções ajudam a evitar a repetição de código.",
@@ -1049,6 +1130,7 @@ export const BANCO_DE_PROVAS: Record<string, Prova> = {
     ]
   },
   "809": {
+    "disciplina": "Funções & Modularização",
     "nivel": 8,
     "titulo": "Bibliotecas (Import)",
     "enunciado": "Qual a relação entre funções e o comando `import`? O que estamos trazendo para o nosso código?",

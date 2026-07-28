@@ -17,15 +17,18 @@ import {
   Eye,
   ShieldAlert,
   Users,
-  Copy,
   FileText,
-  Trash2
+  Trash2,
+  BookOpen,
+  Filter,
+  Layers
 } from 'lucide-react';
 import { BANCO_DE_PROVAS, Prova, APP_CONFIG } from './data';
 
 interface UserProgress {
   sequence: string[];
   userName: string;
+  selectedDisciplina: string;
   currentLevel: string;
   responses: Record<string, string>;
   scores: Record<string, number>;
@@ -35,12 +38,23 @@ interface UserProgress {
 interface RemoteStudentSubmission {
   studentId: string;
   userName: string;
+  selectedDisciplina?: string;
   sequence: string[];
   responses: Record<string, string>;
   scores: Record<string, number>;
   completed: boolean;
   updatedAt: string;
 }
+
+export const DISCIPLINAS_DISPONIVEIS = [
+  { id: 'Todas', nome: 'Todas as Disciplinas (Simulado Geral)', icone: '🌐', descricao: 'Avaliação abrangente com sorteio equilibrado de todos os módulos.' },
+  { id: 'Hardware & Sistemas', nome: 'Hardware & Sistemas', icone: '💻', descricao: 'Componentes físicos, software, sistema operacional, arquivos e comandos.' },
+  { id: 'Lógica de Programação', nome: 'Lógica de Programação', icone: '🧩', descricao: 'Conceito de algoritmos, fluxogramas, pseudocódigo, entrada e saída.' },
+  { id: 'Python Fundamentos', nome: 'Python Fundamentos', icone: '🐍', descricao: 'Sintaxe básica, modo interativo, print, variáveis, tipos de dados e casting.' },
+  { id: 'Estruturas de Controle & Repetição', nome: 'Estruturas de Controle & Repetição', icone: '🔁', descricao: 'Tomada de decisão (if/elif/else), operadores lógicos, loops for e while.' },
+  { id: 'Estruturas de Dados & Algoritmos', nome: 'Estruturas de Dados & Algoritmos', icone: '📦', descricao: 'Listas, índices, matrizes bidimensionais, manipulação com append e pop.' },
+  { id: 'Funções & Modularização', nome: 'Funções & Modularização', icone: '⚙️', descricao: 'Criação de funções (def), parâmetros, return, escopo e código modular.' },
+];
 
 const shuffleArray = <T,>(array: T[]): T[] => {
   const newArray = [...array];
@@ -71,14 +85,24 @@ const getCleanKeyword = (kw: string): string => {
   }
 };
 
-const generateSequence = (): string[] => {
-  const allIds = Object.keys(BANCO_DE_PROVAS);
-  const byLevel: Record<number, string[]> = {};
+const generateSequence = (disciplinaFilter: string = 'Todas', bancoSource: Record<string, Prova> = BANCO_DE_PROVAS): string[] => {
+  let allIds = Object.keys(bancoSource);
   
+  if (disciplinaFilter && disciplinaFilter !== 'Todas') {
+    allIds = allIds.filter(id => {
+      const q = bancoSource[id];
+      return q && q.disciplina === disciplinaFilter;
+    });
+  }
+
+  const byLevel: Record<number, string[]> = {};
   allIds.forEach(id => {
-    const nivel = BANCO_DE_PROVAS[id].nivel;
-    if (!byLevel[nivel]) byLevel[nivel] = [];
-    byLevel[nivel].push(id);
+    const q = bancoSource[id];
+    if (q) {
+      const nivel = q.nivel;
+      if (!byLevel[nivel]) byLevel[nivel] = [];
+      byLevel[nivel].push(id);
+    }
   });
 
   const sortedNiveis = Object.keys(byLevel).map(Number).sort((a, b) => a - b);
@@ -86,8 +110,13 @@ const generateSequence = (): string[] => {
   
   sortedNiveis.forEach(n => {
     const shuffled = shuffleArray(byLevel[n]);
-    sequence.push(...shuffled.slice(0, APP_CONFIG.questoesPorNivel));
+    const perNivel = disciplinaFilter !== 'Todas' ? 4 : APP_CONFIG.questoesPorNivel;
+    sequence.push(...shuffled.slice(0, perNivel));
   });
+
+  if (disciplinaFilter !== 'Todas') {
+    return sequence.length > 0 ? sequence : Object.keys(bancoSource).slice(0, APP_CONFIG.totalQuestoes);
+  }
 
   return sequence.slice(0, APP_CONFIG.totalQuestoes);
 };
@@ -116,15 +145,19 @@ export default function App() {
         if (parsed.userName === undefined) {
           parsed.userName = '';
         }
+        if (!parsed.selectedDisciplina) {
+          parsed.selectedDisciplina = '';
+        }
         return parsed;
       } catch (e) {
         console.error("Failed to parse progress", e);
       }
     }
-    const initialSequence = generateSequence();
+    const initialSequence = generateSequence('Todas', BANCO_DE_PROVAS);
     return {
       sequence: initialSequence,
       userName: '',
+      selectedDisciplina: '',
       currentLevel: initialSequence[0],
       responses: {},
       scores: {},
@@ -135,6 +168,7 @@ export default function App() {
   const [tempName, setTempName] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
   const [adminTab, setAdminTab] = useState<'bank' | 'remote'>('remote');
+  const [adminDisciplinaFilter, setAdminDisciplinaFilter] = useState<string>('Todas');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   
   // Remote sync states
@@ -190,6 +224,7 @@ export default function App() {
       const payload: RemoteStudentSubmission = {
         studentId,
         userName: progress.userName,
+        selectedDisciplina: progress.selectedDisciplina,
         sequence: progress.sequence,
         responses: progress.responses,
         scores: progress.scores,
@@ -236,14 +271,13 @@ export default function App() {
 
   // Anti-Copy & Anti-Paste Keyboard Listener
   useEffect(() => {
-    if (isAdmin) return; // Allow admin to copy/paste if needed
+    if (isAdmin) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       const isCmdOrCtrl = e.ctrlKey || e.metaKey;
       const key = e.key.toLowerCase();
       
       if (isCmdOrCtrl && ['c', 'v', 'x', 'u', 's', 'p', 'a'].includes(key)) {
-        // Prevent copying, pasting, cutting, viewing source, saving, printing
         if (['c', 'v', 'x'].includes(key)) {
           e.preventDefault();
           showToast('🚫 Copiar e colar está estritamente desativado nesta avaliação.');
@@ -285,7 +319,6 @@ export default function App() {
     setIsLoadingRemote(true);
     let combinedMap: Record<string, RemoteStudentSubmission> = {};
 
-    // First load from local broadcast cache
     try {
       const cachedStr = localStorage.getItem('examullator_all_remote_cache') || '{}';
       combinedMap = JSON.parse(cachedStr);
@@ -293,7 +326,6 @@ export default function App() {
       console.error(e);
     }
 
-    // Next fetch from remote server endpoint
     try {
       const res = await fetch(remoteUrl, { method: 'GET' });
       if (res.ok) {
@@ -323,7 +355,6 @@ export default function App() {
   const currentLevelData: Prova = bancoProvas[progress.currentLevel] || BANCO_DE_PROVAS[progress.currentLevel];
   const currentResponse = progress.responses[progress.currentLevel] || '';
 
-  // Check if going back is permitted
   const checkCanGoBack = (): { allowed: boolean; reason?: string } => {
     const currentIndex = levels.indexOf(progress.currentLevel);
     if (currentIndex <= 0) {
@@ -374,6 +405,7 @@ export default function App() {
     
     let content = `RASCUNHO - QUESTÃO ${progress.currentLevel}\n`;
     content += `Estudante: ${progress.userName}\n`;
+    content += `Disciplina: ${progress.selectedDisciplina || 'Simulado Geral'}\n`;
     content += "--------------------------------------------\n";
     content += currentResponse;
 
@@ -402,7 +434,6 @@ export default function App() {
     }
 
     const textLower = text.toLowerCase();
-    
     const decodedKeywords = currentLevelData.keywords.map(kw => getCleanKeyword(kw));
 
     const foundKeywords = decodedKeywords.filter(kw => 
@@ -441,7 +472,7 @@ export default function App() {
     }
   };
 
-  const handleStart = () => {
+  const handleStartName = () => {
     const name = tempName.trim();
     if (name === 'ADMIN2026') {
       setIsAdmin(true);
@@ -454,13 +485,27 @@ export default function App() {
     setProgress(prev => ({ ...prev, userName: name }));
   };
 
+  const handleSelectDisciplina = (discId: string) => {
+    const newSeq = generateSequence(discId, bancoProvas);
+    setProgress(prev => ({
+      ...prev,
+      selectedDisciplina: discId,
+      sequence: newSeq,
+      currentLevel: newSeq[0],
+      responses: {},
+      scores: {},
+      completed: false
+    }));
+    setFeedback(null);
+  };
+
   const exportData = () => {
     const content = `export const BANCO_DE_PROVAS: Record<string, Prova> = ${JSON.stringify(bancoProvas, null, 2)};`;
     const blob = new Blob([content], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'data_export.ts';
+    a.download = 'bancoProvas_export.ts';
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -482,6 +527,7 @@ export default function App() {
     let content = `RELATÓRIO REMOTO DE DESEMPENHO - EXAMULLATOR\n`;
     content += `============================================\n`;
     content += `Estudante: ${student.userName}\n`;
+    content += `Disciplina: ${student.selectedDisciplina || 'Simulado Geral'}\n`;
     content += `ID: ${student.studentId}\n`;
     content += `Status: ${student.completed ? 'CONCLUÍDO' : 'EM ANDAMENTO'}\n`;
     content += `Última Atualização: ${new Date(student.updatedAt).toLocaleString()}\n\n`;
@@ -490,7 +536,8 @@ export default function App() {
     seq.forEach(lvl => {
       const q = bancoProvas[lvl] || BANCO_DE_PROVAS[lvl];
       const title = q ? q.titulo : `Questão ${lvl}`;
-      content += `[Nível ${lvl}]: ${title}\n`;
+      const disc = q ? q.disciplina : 'Geral';
+      content += `[Nível ${lvl} - ${disc}]: ${title}\n`;
       content += `Nota: ${student.scores[lvl] !== undefined ? student.scores[lvl] : 'Não avaliada'}\n`;
       content += `Resposta:\n${student.responses[lvl] || '(Sem resposta)'}\n`;
       content += `--------------------------------------------\n\n`;
@@ -535,6 +582,11 @@ export default function App() {
 
   // ADMIN VIEW
   if (isAdmin) {
+    const filteredQuestions = (Object.entries(bancoProvas) as [string, Prova][]).filter(([_, q]) => {
+      if (adminDisciplinaFilter === 'Todas') return true;
+      return q.disciplina === adminDisciplinaFilter;
+    });
+
     return (
       <div className="h-screen bg-slate-900 text-white p-8 overflow-y-auto font-sans select-none">
         <div className="max-w-6xl mx-auto space-y-8">
@@ -618,7 +670,6 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Endpoint configuration input */}
                 <div className="pt-3 border-t border-slate-700/60 flex flex-col md:flex-row items-stretch md:items-center gap-3">
                   <label className="text-xs font-bold text-slate-400 whitespace-nowrap">URL do Servidor Remoto:</label>
                   <input 
@@ -669,7 +720,12 @@ export default function App() {
                         >
                           <div className="space-y-2">
                             <div className="flex justify-between items-start gap-2">
-                              <h4 className="font-bold text-white text-base truncate">{st.userName}</h4>
+                              <div>
+                                <h4 className="font-bold text-white text-base truncate">{st.userName}</h4>
+                                <span className="text-[10px] text-blue-400 font-bold flex items-center gap-1 mt-0.5">
+                                  <BookOpen size={10} /> {st.selectedDisciplina || 'Simulado Geral'}
+                                </span>
+                              </div>
                               <span className={`text-[10px] px-2 py-0.5 rounded font-black uppercase tracking-wider shrink-0 ${
                                 st.completed 
                                   ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' 
@@ -759,20 +815,49 @@ export default function App() {
                 </div>
               </div>
 
+              {/* Discipline Filter in Question Bank */}
+              <div className="bg-slate-800 p-4 rounded-2xl border border-slate-700 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <Filter size={16} className="text-blue-400" />
+                  <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">Filtrar Questões por Disciplina:</span>
+                </div>
+
+                <div className="flex flex-wrap gap-1.5">
+                  {DISCIPLINAS_DISPONIVEIS.map(d => (
+                    <button
+                      key={d.id}
+                      onClick={() => setAdminDisciplinaFilter(d.id)}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+                        adminDisciplinaFilter === d.id
+                          ? 'bg-blue-600 text-white shadow'
+                          : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-700'
+                      }`}
+                    >
+                      <span>{d.icone}</span> {d.id}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <div className="space-y-4">
-                <h3 className="font-bold text-slate-300 uppercase text-[10px] tracking-widest">
-                  Banco de Questões & Regras de Navegação
-                </h3>
+                <div className="flex justify-between items-center">
+                  <h3 className="font-bold text-slate-300 uppercase text-[10px] tracking-widest">
+                    Banco de Questões ({filteredQuestions.length} questões exibidas)
+                  </h3>
+                </div>
+
                 <div className="space-y-3">
-                  {(Object.entries(bancoProvas) as [string, Prova][]).map(([id, q]) => (
+                  {filteredQuestions.map(([id, q]) => (
                     <div key={id} className="bg-slate-800/50 p-4 rounded-xl border border-slate-700/50 hover:border-slate-600 transition-all group">
                       <div className="flex flex-wrap justify-between items-center gap-2 mb-2">
                         <div className="flex items-center gap-2">
                           <span className="text-[10px] font-black bg-slate-700 px-2 py-0.5 rounded uppercase">ID {id} • Nível {q.nivel}</span>
+                          <span className="text-[10px] bg-blue-500/20 text-blue-400 border border-blue-500/30 px-2 py-0.5 rounded font-bold">
+                            {q.disciplina}
+                          </span>
                           <span className="text-[10px] text-slate-400 font-mono">Min: {q.min_chars} chars</span>
                         </div>
                         
-                        {/* Toggle Bloquear Voltar */}
                         <button
                           onClick={() => toggleBloquearVoltar(id)}
                           className={`text-[10px] font-bold px-3 py-1 rounded-lg border flex items-center gap-1.5 transition-all ${
@@ -832,7 +917,7 @@ export default function App() {
                       <GraduationCap className="text-blue-400" size={24} /> Respostas de {selectedStudent.userName}
                     </h3>
                     <p className="text-xs text-slate-400 font-mono mt-0.5">
-                      ID: {selectedStudent.studentId} • Atualizado em: {new Date(selectedStudent.updatedAt).toLocaleString()}
+                      Disciplina: <strong className="text-emerald-400">{selectedStudent.selectedDisciplina || 'Simulado Geral'}</strong> • ID: {selectedStudent.studentId} • Atualizado em: {new Date(selectedStudent.updatedAt).toLocaleString()}
                     </p>
                   </div>
                   <button
@@ -853,9 +938,16 @@ export default function App() {
                       <div key={qId} className="bg-slate-900/70 p-5 rounded-xl border border-slate-700/60 space-y-3">
                         <div className="flex justify-between items-start">
                           <div>
-                            <span className="text-[10px] font-bold text-blue-400 uppercase tracking-wider block">
-                              Questão {idx + 1} (ID {qId})
-                            </span>
+                            <div className="flex items-center gap-2">
+                              <span className="text-[10px] font-bold text-blue-400 uppercase tracking-wider block">
+                                Questão {idx + 1} (ID {qId})
+                              </span>
+                              {qData && (
+                                <span className="text-[9px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-bold">
+                                  {qData.disciplina}
+                                </span>
+                              )}
+                            </div>
                             <h4 className="font-bold text-slate-200 text-base">{qData ? qData.titulo : `Questão ${qId}`}</h4>
                           </div>
                           <span className={`text-xs px-2.5 py-1 rounded-full font-bold ${
@@ -984,11 +1076,12 @@ export default function App() {
     let content = "RELATÓRIO FINAL DE DESEMPENHO - EXAMULLATOR\n";
     content += "============================================\n";
     content += `Estudante: ${progress.userName}\n`;
+    content += `Disciplina: ${progress.selectedDisciplina || 'Simulado Geral'}\n`;
     content += `Data: ${new Date().toLocaleString()}\n\n`;
     
     levels.forEach(lvl => {
       const p = bancoProvas[lvl] || BANCO_DE_PROVAS[lvl];
-      content += `[Nível ${lvl}]: ${p ? p.titulo : lvl}\n`;
+      content += `[Nível ${lvl} - ${p ? p.disciplina : 'Geral'}]: ${p ? p.titulo : lvl}\n`;
       content += `Nota Final: ${progress.scores[lvl] || 0}\n`;
       content += `Resposta do Aluno:\n${progress.responses[lvl] || "(Sem resposta)"}\n`;
       content += "--------------------------------------------\n\n";
@@ -1007,12 +1100,13 @@ export default function App() {
   const resetProgress = () => {
     showConfirm(
       "Resetar Progresso", 
-      "Tem certeza que deseja apagar todo o progresso? Isso limpará o nome e todas as respostas.",
+      "Tem certeza que deseja apagar todo o progresso? Isso limpará o nome, disciplina escolhida e todas as respostas.",
       () => {
-        const newSequence = generateSequence();
+        const newSequence = generateSequence('Todas', bancoProvas);
         setProgress({
           sequence: newSequence,
           userName: '',
+          selectedDisciplina: '',
           currentLevel: newSequence[0],
           responses: {},
           scores: {},
@@ -1034,20 +1128,20 @@ export default function App() {
     );
   };
 
-  // IDENTIFICATION VIEW
+  // STEP 1: IDENTIFICATION VIEW (NAME ENTRY)
   if (!progress.userName) {
     return (
       <div className="h-screen bg-gray-50 flex items-center justify-center p-6 font-sans select-none">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="max-w-md w-full bg-white rounded-xl shadow-sm border border-gray-200 p-10 space-y-8"
+          className="max-w-md w-full bg-white rounded-2xl shadow-xl border border-gray-100 p-10 space-y-8"
         >
           <div className="text-center space-y-2">
-            <div className="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mb-4">
+            <div className="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mb-4 shadow-inner">
               <GraduationCap size={32} />
             </div>
-            <h1 className="text-2xl font-black text-slate-900">Identificação</h1>
+            <h1 className="text-2xl font-black text-slate-900 tracking-tight">Identificação do Aluno</h1>
             <p className="text-gray-500 text-sm">Insira seu nome completo para iniciar a avaliação.</p>
           </div>
 
@@ -1058,17 +1152,17 @@ export default function App() {
                 type="text"
                 value={tempName}
                 onChange={(e) => setTempName(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleStart()}
-                className="w-full p-4 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none text-slate-700 font-medium transition-all"
+                onKeyPress={(e) => e.key === 'Enter' && handleStartName()}
+                className="w-full p-4 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none text-slate-700 font-medium transition-all shadow-sm"
                 placeholder="Ex: João Silva Sauro"
                 autoFocus
               />
             </div>
             <button
-              onClick={handleStart}
-              className="w-full bg-[#111827] text-white py-4 rounded-xl font-bold hover:bg-[#374151] transition-all shadow-lg shadow-gray-200 active:scale-[0.98]"
+              onClick={handleStartName}
+              className="w-full bg-[#111827] text-white py-4 rounded-xl font-bold hover:bg-[#374151] transition-all shadow-lg shadow-gray-200 active:scale-[0.98] flex items-center justify-center gap-2"
             >
-              Iniciar Avaliação
+              Avançar para Seleção de Disciplina <ChevronRight size={18} />
             </button>
           </div>
           <p className="text-[10px] text-center text-gray-400 font-medium">Seu progresso será salvo e sincronizado automaticamente.</p>
@@ -1136,6 +1230,86 @@ export default function App() {
     );
   }
 
+  // STEP 2: MENU DE ESCOLHA DE DISCIPLINA (DISCIPLINE SELECTION MENU)
+  if (!progress.selectedDisciplina) {
+    return (
+      <div className="min-h-screen bg-[#F8FAFC] py-12 px-6 font-sans select-none flex items-center justify-center">
+        <div className="max-w-4xl w-full mx-auto space-y-8">
+          <div className="text-center space-y-3">
+            <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-700 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm">
+              <GraduationCap size={16} /> Bem-vindo(a), {progress.userName}!
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+              Escolha a Disciplina para a Avaliação
+            </h1>
+            <p className="text-slate-500 text-sm max-w-xl mx-auto">
+              Selecione o módulo de ensino para iniciar seu teste prático focado ou escolha o simulado geral.
+            </p>
+          </div>
+
+          {/* Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {DISCIPLINAS_DISPONIVEIS.map((d) => {
+              const count = (Object.values(bancoProvas) as Prova[]).filter(q => d.id === 'Todas' || q.disciplina === d.id).length;
+
+              return (
+                <motion.div
+                  key={d.id}
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => handleSelectDisciplina(d.id)}
+                  className={`p-6 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between space-y-4 shadow-sm ${
+                    d.id === 'Todas'
+                      ? 'bg-gradient-to-br from-slate-900 to-slate-800 text-white border-slate-700 hover:shadow-xl'
+                      : 'bg-white text-slate-900 border-slate-200 hover:border-blue-400 hover:shadow-md'
+                  }`}
+                >
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-start">
+                      <span className="text-3xl">{d.icone}</span>
+                      <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider ${
+                        d.id === 'Todas'
+                          ? 'bg-blue-500/20 text-blue-300 border border-blue-400/30'
+                          : 'bg-slate-100 text-slate-600 border border-slate-200'
+                      }`}>
+                        {count} Questões
+                      </span>
+                    </div>
+
+                    <div>
+                      <h3 className={`text-lg font-bold ${d.id === 'Todas' ? 'text-white' : 'text-slate-900'}`}>
+                        {d.nome}
+                      </h3>
+                      <p className={`text-xs mt-1.5 leading-relaxed ${d.id === 'Todas' ? 'text-slate-300' : 'text-slate-500'}`}>
+                        {d.descricao}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className={`pt-3 border-t flex items-center justify-between text-xs font-bold ${
+                    d.id === 'Todas' ? 'border-slate-700/60 text-blue-400' : 'border-slate-100 text-blue-600'
+                  }`}>
+                    <span>Iniciar Prova nesta Disciplina</span>
+                    <ChevronRight size={16} />
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          <div className="text-center pt-4">
+            <button
+              onClick={() => setProgress(prev => ({ ...prev, userName: '' }))}
+              className="text-xs text-slate-400 hover:text-slate-600 font-bold transition-colors inline-flex items-center gap-1"
+            >
+              <RotateCcw size={12} /> Alterar Nome de Identificação
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // COMPLETED VIEW
   if (progress.completed) {
     return (
@@ -1150,7 +1324,12 @@ export default function App() {
           </div>
           <div className="space-y-2">
             <h1 className="text-2xl font-semibold">Prova Finalizada</h1>
-            <p className="text-gray-500 text-sm">Obrigado por participar, {progress.userName}.</p>
+            <p className="text-gray-500 text-sm">
+              Obrigado por participar, <strong className="text-slate-800">{progress.userName}</strong>.
+            </p>
+            <span className="inline-block text-[11px] bg-blue-50 text-blue-700 border border-blue-200 px-3 py-1 rounded-full font-bold">
+              Disciplina: {progress.selectedDisciplina}
+            </span>
           </div>
 
           <div className="bg-gray-50 rounded-2xl p-8 border border-gray-100 space-y-4">
@@ -1235,9 +1414,9 @@ export default function App() {
     );
   }
 
-  // Calculate overall progress percentage
+  // EXAM MAIN VIEW
   const completedLevelsCount = levels.filter(lvl => (progress.scores[lvl] || 0) >= 5).length;
-  const progressPercent = (completedLevelsCount / levels.length) * 100;
+  const progressPercent = (completedLevelsCount / (levels.length || 1)) * 100;
   const canGoBackInfo = checkCanGoBack();
 
   return (
@@ -1256,17 +1435,20 @@ export default function App() {
         {/* Header */}
         <header className="px-8 py-5 border-b border-gray-100 flex justify-between items-center bg-white shrink-0">
           <div className="flex flex-col">
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <span className="text-xs font-bold text-blue-600 uppercase tracking-widest">
                 Level {progress.currentLevel} ({levels.indexOf(progress.currentLevel) + 1}/{levels.length})
               </span>
-              {currentLevelData.bloquearVoltar && (
+              <span className="text-[10px] bg-slate-100 text-slate-700 border border-slate-200 px-2 py-0.5 rounded font-bold flex items-center gap-1">
+                <BookOpen size={10} className="text-blue-500" /> {currentLevelData?.disciplina || progress.selectedDisciplina}
+              </span>
+              {currentLevelData?.bloquearVoltar && (
                 <span className="text-[10px] bg-amber-50 text-amber-700 border border-amber-200 px-2 py-0.5 rounded font-bold flex items-center gap-1">
                   <Lock size={10} /> Retorno Restrito
                 </span>
               )}
             </div>
-            <h1 className="text-2xl font-semibold tracking-tight">{currentLevelData.titulo}</h1>
+            <h1 className="text-2xl font-semibold tracking-tight">{currentLevelData?.titulo}</h1>
           </div>
           
           <div className="flex items-center gap-4">
@@ -1284,7 +1466,7 @@ export default function App() {
               <button 
                 onClick={resetProgress}
                 className="bg-white text-red-600 border border-red-200 px-3 py-2 rounded-md text-xs font-bold hover:bg-red-50 transition-all flex items-center gap-1.5 uppercase tracking-tighter"
-                title="Limpar tudo (Temporário)"
+                title="Limpar tudo e trocar disciplina"
               >
                 <RotateCcw size={14} />
                 Reset
@@ -1302,7 +1484,7 @@ export default function App() {
 
         {/* Main Split Layout */}
         <main className="flex-1 grid grid-cols-1 md:grid-cols-2 overflow-hidden border-t border-gray-100">
-          {/* Left Side: Enunciado (Restricted selection) */}
+          {/* Left Side: Enunciado */}
           <section className="p-8 bg-gray-50 overflow-y-auto border-r border-gray-100 flex flex-col select-none">
             <div className="max-w-prose">
               <div className="flex items-center justify-between mb-4">
@@ -1319,7 +1501,7 @@ export default function App() {
                   animate={{ opacity: 1, x: 0 }}
                   className="text-lg leading-relaxed text-gray-700 font-normal"
                 >
-                  {currentLevelData.enunciado}
+                  {currentLevelData?.enunciado}
                 </motion.div>
               </AnimatePresence>
             </div>
@@ -1346,8 +1528,8 @@ export default function App() {
             </div>
             
             <div className="flex justify-between items-center text-[11px] text-gray-400 font-mono tracking-tight uppercase">
-              <span className={currentResponse.length >= currentLevelData.min_chars ? "text-green-600 font-bold" : ""}>
-                {currentResponse.length} / {currentLevelData.min_chars} caracteres mín.
+              <span className={currentResponse.length >= (currentLevelData?.min_chars || 0) ? "text-green-600 font-bold" : ""}>
+                {currentResponse.length} / {currentLevelData?.min_chars || 0} caracteres mín.
               </span>
               <span className="flex items-center gap-1 italic opacity-75">
                 <Save size={10} /> Sincronização Remota Ativa
@@ -1358,7 +1540,6 @@ export default function App() {
 
         {/* Footer: Navigation & Actions */}
         <footer className="p-6 border-t border-gray-100 bg-white flex flex-col sm:flex-row items-center justify-between gap-4 shrink-0">
-          {/* Navigation Back Button */}
           <div className="flex items-center gap-2">
             {levels.indexOf(progress.currentLevel) > 0 && (
               <button
