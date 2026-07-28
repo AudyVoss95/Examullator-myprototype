@@ -51,6 +51,26 @@ const shuffleArray = <T,>(array: T[]): T[] => {
   return newArray;
 };
 
+const getCleanKeyword = (kw: string): string => {
+  if (!kw) return '';
+  if (!/^[A-Za-z0-9+/=]+$/.test(kw.trim()) || kw.length < 4) {
+    return kw;
+  }
+  try {
+    const decoded = atob(kw);
+    if (/^[A-Za-z0-9+/=]+$/.test(decoded.trim())) {
+      try {
+        return atob(decoded);
+      } catch {
+        return decoded;
+      }
+    }
+    return decoded;
+  } catch (e) {
+    return kw;
+  }
+};
+
 const generateSequence = (): string[] => {
   const allIds = Object.keys(BANCO_DE_PROVAS);
   const byLevel: Record<number, string[]> = {};
@@ -383,13 +403,7 @@ export default function App() {
 
     const textLower = text.toLowerCase();
     
-    const decodedKeywords = currentLevelData.keywords.map(kw => {
-      try {
-        return atob(kw);
-      } catch (e) {
-        return kw;
-      }
-    });
+    const decodedKeywords = currentLevelData.keywords.map(kw => getCleanKeyword(kw));
 
     const foundKeywords = decodedKeywords.filter(kw => 
       textLower.includes(kw.toLowerCase())
@@ -783,7 +797,7 @@ export default function App() {
                       <div className="flex flex-wrap gap-2">
                         {q.keywords.map((kw, idx) => (
                           <span key={idx} className="text-[9px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-1 rounded font-mono">
-                            {atob(kw)}
+                            {getCleanKeyword(kw)}
                           </span>
                         ))}
                       </div>
