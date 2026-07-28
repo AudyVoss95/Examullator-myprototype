@@ -178,7 +178,8 @@ export default function App() {
     const saved = localStorage.getItem('examullator_banco_provas');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        return { ...BANCO_DE_PROVAS, ...parsed };
       } catch (e) {
         console.error("Failed to parse custom banco_provas", e);
       }
@@ -2108,6 +2109,19 @@ export default function App() {
                           )}
                         </div>
                       ))}
+                    </div>
+                  )}
+
+                  {/* Theoretical Hint / Guide for the Student */}
+                  {currentLevelData?.resumoCurto && (
+                    <div className="bg-amber-50/90 p-4 rounded-xl border border-amber-200/90 space-y-1 shadow-xs">
+                      <div className="flex items-center gap-1.5 text-amber-900 text-xs font-bold uppercase tracking-wider">
+                        <Lightbulb size={14} className="text-amber-500 shrink-0" />
+                        <span>💡 Dica Teórica & Orientação para o Estudante</span>
+                      </div>
+                      <p className="text-xs text-amber-900 leading-relaxed font-medium">
+                        {currentLevelData.resumoCurto}
+                      </p>
                     </div>
                   )}
 
