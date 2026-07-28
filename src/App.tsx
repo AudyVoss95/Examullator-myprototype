@@ -1985,9 +1985,18 @@ export default function App() {
             
             <div className="flex items-center gap-2">
               <button 
+                onClick={changeDisciplinaOrTrilha}
+                className="bg-blue-50 text-blue-700 border border-blue-200 px-3 py-2 rounded-md text-xs font-bold hover:bg-blue-100 transition-all flex items-center gap-1.5 uppercase tracking-tighter"
+                title="Voltar para a tela inicial de seleção de disciplinas ou trilhas"
+              >
+                <BookOpen size={14} />
+                Menu de Trilhas
+              </button>
+
+              <button 
                 onClick={resetProgress}
                 className="bg-white text-red-600 border border-red-200 px-3 py-2 rounded-md text-xs font-bold hover:bg-red-50 transition-all flex items-center gap-1.5 uppercase tracking-tighter"
-                title="Limpar tudo e trocar disciplina"
+                title="Limpar tudo e reiniciar"
               >
                 <RotateCcw size={14} />
                 Reset
@@ -2052,7 +2061,9 @@ export default function App() {
                   <div className="bg-blue-50/70 p-5 rounded-2xl border border-blue-200/80 space-y-2">
                     <div className="flex items-center gap-2">
                       <span className="bg-slate-900 text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider">
-                        ✍️ Pergunta Relacionada aos Textos Acima
+                        {currentLevelData?.textosPreparatorios && currentLevelData.textosPreparatorios.length > 0 
+                          ? '✍️ Pergunta Relacionada aos Textos Acima' 
+                          : '✍️ Pergunta Prática de Fixação'}
                       </span>
                     </div>
                     <p className="text-base leading-relaxed text-slate-800 font-medium pt-1">
