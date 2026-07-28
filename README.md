@@ -8,16 +8,18 @@ Um simulador interativo web desenvolvido para criar, executar e monitorar avalia
 
 ## 📌 Visão Geral (Overview)
 
-O **Examullator** é uma plataforma completa desenvolvida para suprir as necessidades de ambientes educacionais e de avaliação técnica (ex: exames de lógica, hardware, Python e programação). Ele oferece uma interface intuitiva e segura para os estudantes realizarem avaliações sob condições simuladas, com escolha de disciplinas, textos curtos explicativos (dicas rápidas), materiais de apoio teóricos, feedback imediato de termos técnicos e sincronização remota.
+O **Examullator** é uma plataforma completa desenvolvida para suprir as necessidades de ambientes educacionais e de avaliação técnica (ex: exames de lógica, hardware, Python e programação). Ele oferece uma interface intuitiva e segura baseada na **Trilha Linear de Aprendizado**, onde o estudante consome leituras explicativas prévias de forma progressiva antes de responder a cada pergunta relacionada.
 
 ---
 
 ## ✨ Funcionalidades Principais (Key Features)
 
-* 💡 **Textos Curtos Explicativos (Dicas de Apoio por Questão)**:
-  * Propriedade `resumoCurto` adicionada a **todas** as questões do banco de provas (`src/questions/bancoProvas.ts`).
-  * Exibição de textos explicativos diretos e concisos (1 a 2 frases) no painel da questão durante o exame do aluno para apoio e reforço pedagógico.
-  * Card de pré-visualização e teste de textos curtos no **Painel do Professor**.
+* 🔄 **Trilha Linear de Aprendizado (`Texto 1 -> Texto 2 -> Pergunta Relacionada`)**:
+  * Cada desafio do questionário foi estruturado em uma **sequência linear de passos**:
+    1. 📖 **Texto Explicativo 1**: Apresenta o conceito básico ou a introdução teórica.
+    2. 💡 **Texto Explicativo 2**: Fornece o aprofundamento, regras de sintaxe e exemplos de código.
+    3. ✍️ **Pergunta Relacionada**: Apresenta o desafio dissertativo prático diretamente vinculado aos textos lidos anteriormente.
+  * Estrutura visualizada e testada tanto pelo aluno quanto no **Painel do Professor**.
 * 📖 **Telas de Materiais Explicativos & Guia Teórico (Study Hub)**:
   * Telas dedicadas para os alunos lerem resumos conceituais, exemplos práticos de código, dicas e glossários de termos chave antes ou durante os exames.
   * Botão de consulta rápida **"💡 Consultar Teoria"** no cabeçalho durante a realização dos desafios práticos.
@@ -90,7 +92,7 @@ ADMIN2026
 ```
 Isso liberará o **Painel do Professor**, onde você pode:
 - **Puxar e monitorar respostas remotas dos alunos em tempo real**.
-- Testar e visualizar os textos curtos explicativos (`resumoCurto`) de cada questão.
+- Visualizar a sequência linear de leitura teórica (`textosPreparatorios`) de cada questão.
 - Consultar e gerenciar materiais explicativos e teorias por disciplina.
 - Filtrar questões por disciplina.
 - Visualizar a disciplina escolhida pelo aluno, suas dissertações e notas por questão.

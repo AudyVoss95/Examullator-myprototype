@@ -949,7 +949,27 @@ export default function App() {
                         </button>
                       </div>
                       <p className="font-bold text-slate-200 mb-2">{q.titulo}</p>
-                      <p className="text-xs text-slate-400 leading-relaxed mb-3">{q.enunciado}</p>
+                      
+                      {q.textosPreparatorios && q.textosPreparatorios.length > 0 && (
+                        <div className="space-y-1.5 mb-3 bg-slate-900/60 p-3 rounded-lg border border-slate-700/50">
+                          <span className="text-[9px] font-black uppercase text-blue-400 tracking-wider block">
+                            📖 Sequência Linear de Leitura Teórica:
+                          </span>
+                          {q.textosPreparatorios.map((t, tIdx) => (
+                            <div key={tIdx} className="text-xs text-slate-300">
+                              <strong className="text-slate-200 font-semibold">[Texto {tIdx + 1}]: {t.titulo}</strong> — {t.conteudo}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      <div className="bg-blue-950/40 p-3 rounded-lg border border-blue-800/40 mb-3 space-y-1">
+                        <span className="text-[9px] font-black uppercase text-emerald-400 tracking-wider block">
+                          ✍️ Pergunta Relacionada aos Textos Acima:
+                        </span>
+                        <p className="text-xs text-slate-200 font-medium leading-relaxed">{q.enunciado}</p>
+                      </div>
+
                       <div className="flex flex-wrap gap-2 mb-3">
                         {q.keywords.map((kw, idx) => (
                           <span key={idx} className="text-[9px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-1 rounded font-mono">
@@ -957,14 +977,6 @@ export default function App() {
                           </span>
                         ))}
                       </div>
-                      {q.resumoCurto && (
-                        <div className="bg-blue-950/60 p-2.5 rounded-lg border border-blue-800/60 text-xs text-blue-300 space-y-1">
-                          <span className="text-[10px] font-black uppercase text-blue-400 tracking-wider flex items-center gap-1">
-                            <Lightbulb size={12} className="text-amber-400" /> Texto Explicativo Curto (Dica Rápida):
-                          </span>
-                          <p className="leading-relaxed font-sans text-slate-300">{q.resumoCurto}</p>
-                        </div>
-                      )}
                     </div>
                   ))}
                 </div>
@@ -1707,7 +1719,9 @@ export default function App() {
           <section className="p-8 bg-gray-50 overflow-y-auto border-r border-gray-100 flex flex-col select-none">
             <div className="max-w-prose space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider">Enunciado do Desafio</h3>
+                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
+                  <BookOpen size={14} className="text-blue-500" /> Trilha Linear de Aprendizado
+                </h3>
                 <span className="text-[10px] text-slate-400 flex items-center gap-1 font-mono">
                   <ShieldAlert size={12} className="text-amber-500" /> Protegido contra cópia
                 </span>
@@ -1718,21 +1732,43 @@ export default function App() {
                   key={progress.currentLevel}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  className="text-lg leading-relaxed text-gray-700 font-normal"
+                  className="space-y-4"
                 >
-                  {currentLevelData?.enunciado}
-
-                  {currentLevelData?.resumoCurto && (
-                    <div className="mt-6 bg-blue-50/80 border border-blue-200/90 p-4 rounded-xl space-y-1.5 text-xs shadow-sm">
-                      <div className="flex items-center gap-1.5 text-blue-800 font-bold">
-                        <Lightbulb size={14} className="text-amber-500 shrink-0" />
-                        <span className="uppercase tracking-wider text-[10px]">Texto Explicativo Curto (Dica de Apoio):</span>
-                      </div>
-                      <p className="text-slate-700 leading-relaxed font-medium">
-                        {currentLevelData.resumoCurto}
-                      </p>
+                  {/* Linear Step 1 & Step 2 Preparatory Explanatory Texts */}
+                  {currentLevelData?.textosPreparatorios && currentLevelData.textosPreparatorios.length > 0 && (
+                    <div className="space-y-3">
+                      {currentLevelData.textosPreparatorios.map((txt, idx) => (
+                        <div key={idx} className="bg-white p-4 rounded-xl border border-blue-100 shadow-xs space-y-1.5">
+                          <div className="flex items-center gap-2">
+                            <span className="bg-blue-100 text-blue-700 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                              📖 Texto Explicativo {idx + 1}
+                            </span>
+                            <h4 className="font-bold text-slate-900 text-xs">{txt.titulo}</h4>
+                          </div>
+                          <p className="text-xs text-slate-600 leading-relaxed font-sans">
+                            {txt.conteudo}
+                          </p>
+                          {txt.exemploCodigo && (
+                            <pre className="bg-slate-900 p-2.5 rounded font-mono text-[11px] text-emerald-400 leading-relaxed whitespace-pre-wrap">
+                              {txt.exemploCodigo}
+                            </pre>
+                          )}
+                        </div>
+                      ))}
                     </div>
                   )}
+
+                  {/* Linear Step 3: Question Related to the Texts Above */}
+                  <div className="bg-blue-50/70 p-5 rounded-2xl border border-blue-200/80 space-y-2">
+                    <div className="flex items-center gap-2">
+                      <span className="bg-slate-900 text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider">
+                        ✍️ Pergunta Relacionada aos Textos Acima
+                      </span>
+                    </div>
+                    <p className="text-base leading-relaxed text-slate-800 font-medium pt-1">
+                      {currentLevelData?.enunciado}
+                    </p>
+                  </div>
                 </motion.div>
               </AnimatePresence>
             </div>
