@@ -2166,7 +2166,11 @@ export default function App() {
                 </span>
               )}
             </div>
-            <h1 className="text-2xl font-semibold tracking-tight">{currentLevelData?.titulo}</h1>
+            <h1 className="text-2xl font-semibold tracking-tight">
+              {isEvalQuestion 
+                ? `Avaliação Final — Questão ${Math.max(1, levels.indexOf(progress.currentLevel) - 15)} de 10` 
+                : currentLevelData?.titulo}
+            </h1>
           </div>
           
           <div className="flex items-center gap-4">
