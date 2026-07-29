@@ -1665,8 +1665,67 @@ export default function App() {
 
           {/* TAB 1: TRILHAS DE APRENDIZADO */}
           {menuTab === 'trilhas' && (
-            <div className="space-y-6">
-              <div className="max-w-3xl mx-auto">
+            <div className="space-y-8 max-w-3xl mx-auto">
+              {/* Platform Instructions Box */}
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-7 border border-slate-800 shadow-xl space-y-5"
+              >
+                <div className="flex items-center gap-3 border-b border-slate-800 pb-4">
+                  <div className="p-3 bg-blue-500/20 rounded-2xl border border-blue-400/30 text-blue-400">
+                    <BookOpen size={24} />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-blue-400 block">Guia de Estudos & Orientações</span>
+                    <h2 className="text-xl font-black text-white">📋 Instruções Gerais da Plataforma</h2>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-300">
+                  <div className="bg-slate-800/60 p-4 rounded-2xl border border-slate-700/60 space-y-1.5">
+                    <div className="flex items-center gap-2 text-emerald-400 font-bold">
+                      <CheckCircle2 size={16} />
+                      <span>1. Leitura Conceitual Guiada</span>
+                    </div>
+                    <p className="text-slate-400 leading-relaxed font-sans">
+                      Antes de responder cada desafio, atente-se aos 2 Textos Explicativos no topo da tela e leia a Dica Teórica de Orientação.
+                    </p>
+                  </div>
+
+                  <div className="bg-slate-800/60 p-4 rounded-2xl border border-slate-700/60 space-y-1.5">
+                    <div className="flex items-center gap-2 text-amber-400 font-bold">
+                      <Sparkles size={16} />
+                      <span>2. Respostas Dissertativas</span>
+                    </div>
+                    <p className="text-slate-400 leading-relaxed font-sans">
+                      Escreva sua explicação em texto próprio com clareza. A plataforma corrige comparando a fundamentação dos termos técnicos.
+                    </p>
+                  </div>
+
+                  <div className="bg-slate-800/60 p-4 rounded-2xl border border-slate-700/60 space-y-1.5">
+                    <div className="flex items-center gap-2 text-blue-400 font-bold">
+                      <Award size={16} />
+                      <span>3. Avaliação Final Sortearia</span>
+                    </div>
+                    <p className="text-slate-400 leading-relaxed font-sans">
+                      Na fase final, o sistema sorteia 10 questões aleatórias divididas por nível de dificuldade (3 Nível 0, 4 Nível 1, 3 Nível 2).
+                    </p>
+                  </div>
+
+                  <div className="bg-slate-800/60 p-4 rounded-2xl border border-slate-700/60 space-y-1.5">
+                    <div className="flex items-center gap-2 text-rose-400 font-bold">
+                      <ShieldAlert size={16} />
+                      <span>4. Regras de Integridade</span>
+                    </div>
+                    <p className="text-slate-400 leading-relaxed font-sans">
+                      Atalhos de cópia e cola (Ctrl+C, Ctrl+V) e menu do mouse permanecem desativados durante a realização dos exames.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+
+              <div>
                 {Object.values(TRILHAS_DE_TESTE).map((trilha) => {
                   const totalQuestions = trilha.etapas.reduce((acc, e) => acc + e.questoesIds.length, 0);
 
