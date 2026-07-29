@@ -292,57 +292,58 @@ export default function App() {
     }
   };
 
-  // Save progress and push sync remotely
+  // Helper function to sync remote submission to backend JSON file ONLY when buttons are clicked
+  const syncRemoteSubmission = async (activeProgress: UserProgress = progress) => {
+    if (!activeProgress.userName || activeProgress.userName.trim().length === 0) return;
+
+    const studentId = activeProgress.userName.toLowerCase().trim().replace(/[^a-z0-9]/gi, '_');
+    const payload: RemoteStudentSubmission = {
+      studentId,
+      userName: activeProgress.userName,
+      selectedDisciplina: activeProgress.selectedDisciplina,
+      selectedTrilhaId: activeProgress.selectedTrilhaId,
+      sequence: activeProgress.sequence,
+      responses: activeProgress.responses,
+      scores: activeProgress.scores,
+      completed: activeProgress.completed,
+      updatedAt: new Date().toISOString()
+    };
+
+    try {
+      const cachedStr = localStorage.getItem('examullator_all_remote_cache') || '{}';
+      const cachedObj = JSON.parse(cachedStr);
+      cachedObj[studentId] = payload;
+      localStorage.setItem('examullator_all_remote_cache', JSON.stringify(cachedObj));
+    } catch (e) {
+      console.error("Local remote cache error", e);
+    }
+
+    if ('BroadcastChannel' in window) {
+      try {
+        const bc = new BroadcastChannel('examullator_channel');
+        bc.postMessage({ type: 'SUBMISSION_UPDATE', payload });
+        bc.close();
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    try {
+      await fetch(remoteUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      console.log(`[Examullator Sync] Respostas salvas via clique de botão para: ${activeProgress.userName}`);
+    } catch (e) {
+      // Quiet fallback
+    }
+  };
+
+  // Save progress locally to browser storage for crash safety
   useEffect(() => {
     localStorage.setItem('examullator_progress', JSON.stringify(progress));
-
-    if (progress.userName && progress.userName.trim().length > 0) {
-      const studentId = progress.userName.toLowerCase().trim().replace(/[^a-z0-9]/gi, '_');
-      const payload: RemoteStudentSubmission = {
-        studentId,
-        userName: progress.userName,
-        selectedDisciplina: progress.selectedDisciplina,
-        selectedTrilhaId: progress.selectedTrilhaId,
-        sequence: progress.sequence,
-        responses: progress.responses,
-        scores: progress.scores,
-        completed: progress.completed,
-        updatedAt: new Date().toISOString()
-      };
-
-      try {
-        const cachedStr = localStorage.getItem('examullator_all_remote_cache') || '{}';
-        const cachedObj = JSON.parse(cachedStr);
-        cachedObj[studentId] = payload;
-        localStorage.setItem('examullator_all_remote_cache', JSON.stringify(cachedObj));
-      } catch (e) {
-        console.error("Local remote cache error", e);
-      }
-
-      if ('BroadcastChannel' in window) {
-        try {
-          const bc = new BroadcastChannel('examullator_channel');
-          bc.postMessage({ type: 'SUBMISSION_UPDATE', payload });
-          bc.close();
-        } catch (e) {
-          // ignore
-        }
-      }
-
-      const sendRemote = async () => {
-        try {
-          await fetch(remoteUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          });
-        } catch (e) {
-          // Quiet fallback
-        }
-      };
-      sendRemote();
-    }
-  }, [progress, remoteUrl]);
+  }, [progress]);
 
   // Anti-Copy & Anti-Paste Keyboard Listener (Isento para Admin e ALUNOADMIN)
   useEffect(() => {
@@ -496,6 +497,7 @@ export default function App() {
     a.click();
     URL.revokeObjectURL(url);
     
+    syncRemoteSubmission();
     setTimeout(() => setIsSaving(false), 800);
   };
 
@@ -532,22 +534,23 @@ export default function App() {
       missingKeys: missingKeys,
     });
 
-    setProgress(prev => ({
-      ...prev,
-      scores: { ...prev.scores, [prev.currentLevel]: finalScore }
-    }));
+    const updatedScores = { ...progress.scores, [progress.currentLevel]: finalScore };
+    const updatedProgress = { ...progress, scores: updatedScores };
+    setProgress(updatedProgress);
+    syncRemoteSubmission(updatedProgress);
   };
 
   const nextLevel = () => {
     const currentIndex = levels.indexOf(progress.currentLevel);
     if (currentIndex < levels.length - 1) {
-      setProgress(prev => ({
-        ...prev,
-        currentLevel: levels[currentIndex + 1]
-      }));
+      const nextProgress = { ...progress, currentLevel: levels[currentIndex + 1] };
+      setProgress(nextProgress);
       setFeedback(null);
+      syncRemoteSubmission(nextProgress);
     } else {
-      setProgress(prev => ({ ...prev, completed: true }));
+      const completedProgress = { ...progress, completed: true };
+      setProgress(completedProgress);
+      syncRemoteSubmission(completedProgress);
     }
   };
 
@@ -562,8 +565,10 @@ export default function App() {
     if (name.toUpperCase() === 'ALUNOADMIN') {
       setIsAlunoAdmin(true);
       localStorage.setItem('examullator_is_aluno_admin', 'true');
-      setProgress(prev => ({ ...prev, userName: 'ALUNOADMIN' }));
+      const updatedProgress = { ...progress, userName: 'ALUNOADMIN' };
+      setProgress(updatedProgress);
       showToast('⚡ Perfil ALUNOADMIN ativado: Privilégios de copiar e colar liberados!');
+      syncRemoteSubmission(updatedProgress);
       return;
     }
     setIsAlunoAdmin(false);
@@ -572,7 +577,9 @@ export default function App() {
       showAlert("Identificação", "Por favor, insira seu nome completo.");
       return;
     }
-    setProgress(prev => ({ ...prev, userName: name }));
+    const updatedProgress = { ...progress, userName: name };
+    setProgress(updatedProgress);
+    syncRemoteSubmission(updatedProgress);
   };
 
   const handleSelectDisciplina = (discId: string) => {
@@ -584,8 +591,8 @@ export default function App() {
     const eval10Ids = generateEvaluationSequence(bancoProvas);
     const newSeq = [...fixacaoIds, ...eval10Ids];
 
-    setProgress(prev => ({
-      ...prev,
+    const newProgress = {
+      ...progress,
       selectedDisciplina: discId,
       selectedTrilhaId: undefined,
       sequence: newSeq,
@@ -593,8 +600,10 @@ export default function App() {
       responses: {},
       scores: {},
       completed: false
-    }));
+    };
+    setProgress(newProgress);
     setFeedback(null);
+    syncRemoteSubmission(newProgress);
   };
 
   const handleSelectTrilha = (trilha: TrilhaAprendizado, startAtEvaluation: boolean = false) => {
@@ -608,8 +617,8 @@ export default function App() {
 
     const targetLevel = startAtEvaluation ? eval10Ids[0] : finalSeq[0];
 
-    setProgress(prev => ({
-      ...prev,
+    const finalProgress = {
+      ...progress,
       selectedDisciplina: trilha.categoria,
       selectedTrilhaId: trilha.id,
       sequence: finalSeq,
@@ -617,8 +626,11 @@ export default function App() {
       responses: {},
       scores: {},
       completed: false
-    }));
+    };
+
+    setProgress(finalProgress);
     setFeedback(null);
+    syncRemoteSubmission(finalProgress);
     if (startAtEvaluation) {
       showToast("⏩ Você avançou diretamente para as 10 Questões da Avaliação Final!");
     }
@@ -631,11 +643,13 @@ export default function App() {
         "Pular para Avaliação Final 🏆",
         "Deseja pular as questões de fixação e ir diretamente para as 10 Questões da Avaliação Final (Fase 3)?",
         () => {
-          setProgress(prev => ({
-            ...prev,
+          const jumpProgress = {
+            ...progress,
             currentLevel: levels[evalIndex]
-          }));
+          };
+          setProgress(jumpProgress);
           setFeedback(null);
+          syncRemoteSubmission(jumpProgress);
           showToast("⏩ Você avançou diretamente para a Fase 3 (Avaliação Final)!");
         }
       );
