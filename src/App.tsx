@@ -554,6 +554,10 @@ export default function App() {
   };
 
   const handleSelectDisciplina = (discId: string) => {
+    if (progress.completed) {
+      showAlert("Tentativas Bloqueadas 🔒", `Atenção, ${progress.userName}: Sua avaliação já foi finalizada e registrada. Novas tentativas não são permitidas.`);
+      return;
+    }
     const fixacaoIds = ["101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116"];
     const eval10Ids = generateEvaluationSequence(bancoProvas);
     const newSeq = [...fixacaoIds, ...eval10Ids];
@@ -572,6 +576,10 @@ export default function App() {
   };
 
   const handleSelectTrilha = (trilha: TrilhaAprendizado) => {
+    if (progress.completed) {
+      showAlert("Tentativas Bloqueadas 🔒", `Atenção, ${progress.userName}: Sua avaliação já foi finalizada e registrada. Novas tentativas não são permitidas.`);
+      return;
+    }
     const fixacaoIds = ["101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116"];
     const eval10Ids = generateEvaluationSequence(bancoProvas);
     const finalSeq = [...fixacaoIds, ...eval10Ids];
@@ -1892,52 +1900,93 @@ export default function App() {
     );
   }
 
-  // COMPLETED VIEW
+  // COMPLETED VIEW (DESABILITA NOVAS TENTATIVAS AO CONCLUIR)
   if (progress.completed) {
+    const scoresArr = Object.values(progress.scores) as number[];
+    const avgScore = scoresArr.length > 0 ? scoresArr.reduce((a: number, b: number) => a + b, 0) / scoresArr.length : 0;
+    const totalAnswered = Object.keys(progress.responses).length;
+
     return (
-      <div className="h-screen bg-gray-50 flex items-center justify-center p-6 font-sans select-none">
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center p-6 font-sans select-none text-white">
         <motion.div 
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="max-w-md w-full bg-white rounded-xl shadow-sm border border-gray-200 p-10 text-center space-y-6"
+          initial={{ opacity: 0, scale: 0.96, y: 15 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          className="max-w-xl w-full bg-slate-900 rounded-3xl shadow-2xl border border-slate-800 p-8 space-y-7 relative overflow-hidden"
         >
-          <div className="mx-auto w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 animate-pulse">
-            <GraduationCap size={32} />
-          </div>
-          <div className="space-y-2">
-            <h1 className="text-2xl font-semibold">Prova Finalizada</h1>
-            <p className="text-gray-500 text-sm">
-              Obrigado por participar, <strong className="text-slate-800">{progress.userName}</strong>.
-            </p>
-            <span className="inline-block text-[11px] bg-blue-50 text-blue-700 border border-blue-200 px-3 py-1 rounded-full font-bold">
-              {progress.selectedTrilhaId ? 'Trilha: ' + progress.selectedTrilhaId : 'Disciplina: ' + progress.selectedDisciplina}
-            </span>
-          </div>
-
-          <div className="bg-gray-50 rounded-2xl p-8 border border-gray-100 space-y-4">
-            <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
-            <p className="text-sm font-medium text-gray-700">
-              Sua avaliação foi enviada e sincronizada de forma remota.
-            </p>
-            <p className="text-xs text-gray-400 leading-relaxed">
-              O processamento final pode levar alguns instantes. Suas respostas foram armazenadas para análise do professor.
-            </p>
-            
-            <div className="pt-4 border-t border-gray-200 mt-4 space-y-3">
-              <button 
-                onClick={changeDisciplinaOrTrilha}
-                className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3 rounded-xl transition-all shadow flex items-center justify-center gap-2"
-              >
-                <BookOpen size={16} /> Escolher Outra Disciplina ou Trilha
-              </button>
-
-              <button 
-                onClick={resetProgress}
-                className="text-[10px] font-bold text-slate-400 uppercase tracking-widest hover:text-red-600 transition-colors flex items-center justify-center gap-1 mx-auto pt-1"
-              >
-                <RotateCcw size={10} /> Reiniciar Sistema (Config)
-              </button>
+          {/* Top Banner Lock */}
+          <div className="flex items-center gap-4 border-b border-slate-800 pb-6">
+            <div className="w-14 h-14 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center justify-center text-red-400 shrink-0 shadow-inner">
+              <Lock size={28} />
             </div>
+            <div>
+              <span className="bg-red-500/10 text-red-400 border border-red-500/20 text-[10px] font-black uppercase px-3 py-1 rounded-full tracking-wider">
+                🚫 Tentativas Esgotadas — Avaliação Concluída
+              </span>
+              <h1 className="text-xl font-black text-white mt-1">Exame Finalizado & Respostas Congeladas</h1>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <p className="text-sm text-slate-300 leading-relaxed font-medium">
+              Prezado(a) <strong className="text-white font-bold">{progress.userName}</strong>, você concluiu todas as etapas da <strong className="text-blue-400">Avaliação Final de Lógica e Linguagem de Programação</strong>.
+            </p>
+            <p className="text-xs text-slate-400 leading-relaxed bg-slate-950/60 p-4 rounded-2xl border border-slate-800/80">
+              🔒 <strong>Política de Integridade:</strong> De acordo com as regras técnicas da disciplina, <strong>não são permitidas novas tentativas de realização do exame</strong> após a entrega das respostas. Suas respostas foram salvas e enviadas com sucesso para a coordenação.
+            </p>
+          </div>
+
+          {/* Student Performance Summary Card */}
+          <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800/80 space-y-4">
+            <h3 className="text-xs font-black uppercase text-slate-400 tracking-wider flex items-center gap-2">
+              <GraduationCap size={16} className="text-blue-400" /> Resumo do Registro do Aluno
+            </h3>
+
+            <div className="grid grid-cols-2 gap-3 text-xs">
+              <div className="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+                <span className="text-slate-500 block text-[10px] font-bold uppercase">Estudante</span>
+                <strong className="text-slate-200">{progress.userName}</strong>
+              </div>
+              <div className="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+                <span className="text-slate-500 block text-[10px] font-bold uppercase">Disciplina / Trilha</span>
+                <strong className="text-slate-200">{progress.selectedTrilhaId ? 'Trilha ' + progress.selectedTrilhaId : progress.selectedDisciplina || 'Lógica e Linguagem'}</strong>
+              </div>
+              <div className="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+                <span className="text-slate-500 block text-[10px] font-bold uppercase">Questões Respondidas</span>
+                <strong className="text-emerald-400">{totalAnswered} / {levels.length} questões</strong>
+              </div>
+              <div className="bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+                <span className="text-slate-500 block text-[10px] font-bold uppercase">Nota Média Estimada</span>
+                <strong className="text-amber-400">{avgScore.toFixed(1)} / 100 pontos</strong>
+              </div>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="space-y-3 pt-2">
+            <button 
+              onClick={downloadReport}
+              className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs py-3.5 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2"
+            >
+              <Download size={16} /> Baixar Comprovante & Relatório de Respostas (.txt)
+            </button>
+
+            <button 
+              onClick={() => {
+                setTempName('');
+                setProgress(prev => ({
+                  ...prev,
+                  userName: '',
+                  selectedDisciplina: '',
+                  selectedTrilhaId: undefined,
+                  completed: false,
+                  responses: {},
+                  scores: {}
+                }));
+              }}
+              className="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs py-3.5 rounded-xl transition-all border border-slate-700 flex items-center justify-center gap-2"
+            >
+              <RotateCcw size={16} /> Trocar de Usuário / Entrar com Novo Nome
+            </button>
           </div>
         </motion.div>
         
