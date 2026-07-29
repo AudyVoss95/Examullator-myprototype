@@ -190,6 +190,9 @@ export default function App() {
 
   const [tempName, setTempName] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isAlunoAdmin, setIsAlunoAdmin] = useState<boolean>(() => {
+    return localStorage.getItem('examullator_is_aluno_admin') === 'true';
+  });
   const [adminTab, setAdminTab] = useState<'bank' | 'remote' | 'theory' | 'trilhas'>('remote');
   const [adminDisciplinaFilter, setAdminDisciplinaFilter] = useState<string>('Todas');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -341,9 +344,9 @@ export default function App() {
     }
   }, [progress, remoteUrl]);
 
-  // Anti-Copy & Anti-Paste Keyboard Listener
+  // Anti-Copy & Anti-Paste Keyboard Listener (Isento para Admin e ALUNOADMIN)
   useEffect(() => {
-    if (isAdmin) return;
+    if (isAdmin || isAlunoAdmin) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       const isCmdOrCtrl = e.ctrlKey || e.metaKey;
@@ -359,7 +362,7 @@ export default function App() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isAdmin]);
+  }, [isAdmin, isAlunoAdmin]);
 
   // Prevent unload if completed
   useEffect(() => {
@@ -468,6 +471,9 @@ export default function App() {
   };
 
   const handleCopyPasteBlock = (e: SyntheticEvent, action: string) => {
+    if (isAdmin || isAlunoAdmin) {
+      return; // ALUNOADMIN e ADMIN possuem permissao total para copiar/colar
+    }
     e.preventDefault();
     showToast(`🚫 Não é permitido ${action} texto nesta avaliação.`);
   };
@@ -549,8 +555,19 @@ export default function App() {
     const name = tempName.trim();
     if (name === 'ADMIN2026') {
       setIsAdmin(true);
+      setIsAlunoAdmin(false);
+      localStorage.removeItem('examullator_is_aluno_admin');
       return;
     }
+    if (name.toUpperCase() === 'ALUNOADMIN') {
+      setIsAlunoAdmin(true);
+      localStorage.setItem('examullator_is_aluno_admin', 'true');
+      setProgress(prev => ({ ...prev, userName: 'ALUNOADMIN' }));
+      showToast('⚡ Perfil ALUNOADMIN ativado: Privilégios de copiar e colar liberados!');
+      return;
+    }
+    setIsAlunoAdmin(false);
+    localStorage.removeItem('examullator_is_aluno_admin');
     if (name.length < 3) {
       showAlert("Identificação", "Por favor, insira seu nome completo.");
       return;
@@ -2092,6 +2109,11 @@ export default function App() {
                   <Route size={10} className="text-emerald-600" /> Trilha Guiada
                 </span>
               )}
+              {isAlunoAdmin && (
+                <span className="text-[10px] bg-amber-500/10 text-amber-700 border border-amber-500/30 px-2 py-0.5 rounded font-bold flex items-center gap-1">
+                  <Sparkles size={10} className="text-amber-500" /> ALUNOADMIN (Copiar/Colar Liberado)
+                </span>
+              )}
               {currentTheory && (
                 <button
                   onClick={() => setShowExamTheoryDrawer(true)}
@@ -2131,14 +2153,16 @@ export default function App() {
                 Menu de Trilhas
               </button>
 
-              <button 
-                onClick={resetProgress}
-                className="bg-white text-red-600 border border-red-200 px-3 py-2 rounded-md text-xs font-bold hover:bg-red-50 transition-all flex items-center gap-1.5 uppercase tracking-tighter"
-                title="Limpar tudo e reiniciar"
-              >
-                <RotateCcw size={14} />
-                Reset
-              </button>
+              {isAdmin && (
+                <button 
+                  onClick={resetProgress}
+                  className="bg-white text-red-600 border border-red-200 px-3 py-2 rounded-md text-xs font-bold hover:bg-red-50 transition-all flex items-center gap-1.5 uppercase tracking-tighter"
+                  title="Limpar tudo e reiniciar sistema (Apenas Professor Admin)"
+                >
+                  <RotateCcw size={14} />
+                  Reset Admin
+                </button>
+              )}
               
               <button 
                 onClick={finishExam}
