@@ -5,5 +5,12 @@
     "firstLoginAt": "2026-07-29T11:07:59.978Z",
     "lastAccessAt": "2026-07-29T11:08:02.563Z",
     "accessCount": 1
+  },
+  "alunoadmin": {
+    "studentId": "alunoadmin",
+    "userName": "ALUNOADMIN",
+    "firstLoginAt": "2026-07-29T11:32:04.758Z",
+    "lastAccessAt": "2026-07-29T11:32:26.635Z",
+    "accessCount": 1
   }
 }

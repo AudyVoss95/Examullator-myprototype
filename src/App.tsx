@@ -597,7 +597,7 @@ export default function App() {
     setFeedback(null);
   };
 
-  const handleSelectTrilha = (trilha: TrilhaAprendizado) => {
+  const handleSelectTrilha = (trilha: TrilhaAprendizado, startAtEvaluation: boolean = false) => {
     if (progress.completed) {
       showAlert("Tentativas Bloqueadas 🔒", `Atenção, ${progress.userName}: Sua avaliação já foi finalizada e registrada. Novas tentativas não são permitidas.`);
       return;
@@ -606,17 +606,42 @@ export default function App() {
     const eval10Ids = generateEvaluationSequence(bancoProvas);
     const finalSeq = [...fixacaoIds, ...eval10Ids];
 
+    const targetLevel = startAtEvaluation ? eval10Ids[0] : finalSeq[0];
+
     setProgress(prev => ({
       ...prev,
       selectedDisciplina: trilha.categoria,
       selectedTrilhaId: trilha.id,
       sequence: finalSeq,
-      currentLevel: finalSeq[0],
+      currentLevel: targetLevel,
       responses: {},
       scores: {},
       completed: false
     }));
     setFeedback(null);
+    if (startAtEvaluation) {
+      showToast("⏩ Você avançou diretamente para as 10 Questões da Avaliação Final!");
+    }
+  };
+
+  const handleJumpToEvaluation = () => {
+    const evalIndex = levels.findIndex(id => id.startsWith("2") || Number(id) >= 200);
+    if (evalIndex !== -1) {
+      showConfirm(
+        "Pular para Avaliação Final 🏆",
+        "Deseja pular as questões de fixação e ir diretamente para as 10 Questões da Avaliação Final (Fase 3)?",
+        () => {
+          setProgress(prev => ({
+            ...prev,
+            currentLevel: levels[evalIndex]
+          }));
+          setFeedback(null);
+          showToast("⏩ Você avançou diretamente para a Fase 3 (Avaliação Final)!");
+        }
+      );
+    } else {
+      showAlert("Avaliação Final", "Não foram encontradas questões de avaliação final na sequência atual.");
+    }
   };
 
   const changeDisciplinaOrTrilha = () => {
@@ -1817,14 +1842,24 @@ export default function App() {
                       </div>
 
                       {/* Action Button */}
-                      <div className="pt-2">
+                      {/* Action Buttons */}
+                      <div className="pt-2 flex flex-col sm:flex-row gap-3">
                         <button
-                          onClick={() => handleSelectTrilha(trilha)}
-                          className="w-full bg-[#111827] hover:bg-[#374151] text-white py-4 rounded-2xl text-sm font-bold transition-all shadow-lg hover:shadow-xl active:scale-[0.99] flex items-center justify-center gap-3"
+                          onClick={() => handleSelectTrilha(trilha, false)}
+                          className="flex-1 bg-[#111827] hover:bg-[#374151] text-white py-4 rounded-2xl text-sm font-bold transition-all shadow-lg hover:shadow-xl active:scale-[0.99] flex items-center justify-center gap-2"
                         >
-                          <Compass size={20} />
-                          <span>Iniciar Trilha Integrada com Desafios Práticos</span>
+                          <Compass size={18} />
+                          <span>Iniciar Trilha Integrada</span>
                           <ChevronRight size={18} />
+                        </button>
+
+                        <button
+                          onClick={() => handleSelectTrilha(trilha, true)}
+                          className="bg-amber-500 hover:bg-amber-600 text-slate-950 py-4 px-6 rounded-2xl text-sm font-black transition-all shadow-md hover:shadow-lg active:scale-[0.99] flex items-center justify-center gap-2"
+                          title="Pular direto para as 10 Questões da Avaliação Final"
+                        >
+                          <Award size={18} />
+                          <span>⏩ Pular para Avaliação Final (Fase 3)</span>
                         </button>
                       </div>
                     </motion.div>
@@ -2080,6 +2115,7 @@ export default function App() {
   const canGoBackInfo = checkCanGoBack();
   const currentDiscName = currentLevelData?.disciplina || progress.selectedDisciplina;
   const currentTheory = MATERIAIS_EXPLICATIVOS[currentDiscName];
+  const isEvalQuestion = Number(progress.currentLevel) >= 200 || progress.currentLevel.startsWith("2");
 
   return (
     <div 
@@ -2087,6 +2123,7 @@ export default function App() {
       onPaste={(e) => handleCopyPasteBlock(e, 'colar')}
       onCut={(e) => handleCopyPasteBlock(e, 'recortar')}
       onContextMenu={(e) => {
+        if (isAdmin || isAlunoAdmin) return;
         e.preventDefault();
         showToast('🚫 Menu de contexto desativado durante a avaliação.');
       }}
@@ -2114,7 +2151,7 @@ export default function App() {
                   <Sparkles size={10} className="text-amber-500" /> ALUNOADMIN (Copiar/Colar Liberado)
                 </span>
               )}
-              {currentTheory && (
+              {currentTheory && !isEvalQuestion && (
                 <button
                   onClick={() => setShowExamTheoryDrawer(true)}
                   className="text-[10px] bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded font-bold hover:bg-amber-100 transition-colors flex items-center gap-1"
@@ -2144,6 +2181,17 @@ export default function App() {
             </div>
             
             <div className="flex items-center gap-2">
+              {!isEvalQuestion && (
+                <button
+                  onClick={handleJumpToEvaluation}
+                  className="bg-amber-500/10 text-amber-700 hover:bg-amber-500/20 border border-amber-500/30 px-3 py-2 rounded-md text-xs font-bold transition-all flex items-center gap-1.5 uppercase tracking-tighter"
+                  title="Pular direto para as 10 questões da Avaliação Final (Fase 3)"
+                >
+                  <Award size={14} className="text-amber-600" />
+                  Ir para Avaliação Final
+                </button>
+              )}
+
               <button 
                 onClick={changeDisciplinaOrTrilha}
                 className="bg-blue-50 text-blue-700 border border-blue-200 px-3 py-2 rounded-md text-xs font-bold hover:bg-blue-100 transition-all flex items-center gap-1.5 uppercase tracking-tighter"
@@ -2181,7 +2229,7 @@ export default function App() {
             <div className="max-w-prose space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
-                  <BookOpen size={14} className="text-blue-500" /> Trilha Linear de Aprendizado
+                  <BookOpen size={14} className="text-blue-500" /> {isEvalQuestion ? 'Avaliação Final Oficial' : 'Trilha Linear de Aprendizado'}
                 </h3>
                 <span className="text-[10px] text-slate-400 flex items-center gap-1 font-mono">
                   <ShieldAlert size={12} className="text-amber-500" /> Protegido contra cópia
@@ -2195,56 +2243,84 @@ export default function App() {
                   animate={{ opacity: 1, x: 0 }}
                   className="space-y-4"
                 >
-                  {/* Linear Step 1 & Step 2 Preparatory Explanatory Texts */}
-                  {currentLevelData?.textosPreparatorios && currentLevelData.textosPreparatorios.length > 0 && (
-                    <div className="space-y-3">
-                      {currentLevelData.textosPreparatorios.map((txt, idx) => (
-                        <div key={idx} className="bg-white p-4 rounded-xl border border-blue-100 shadow-xs space-y-1.5">
-                          <div className="flex items-center gap-2">
-                            <span className="bg-blue-100 text-blue-700 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-                              📖 Texto Explicativo {idx + 1}
-                            </span>
-                            <h4 className="font-bold text-slate-900 text-xs">{txt.titulo}</h4>
-                          </div>
-                          <p className="text-xs text-slate-600 leading-relaxed font-sans">
-                            {txt.conteudo}
-                          </p>
-                          {txt.exemploCodigo && (
-                            <pre className="bg-slate-900 p-2.5 rounded font-mono text-[11px] text-emerald-400 leading-relaxed whitespace-pre-wrap">
-                              {txt.exemploCodigo}
-                            </pre>
-                          )}
+                  {/* Se for Questao de Avaliacao Final (ID 2xx), REMOVE CONTEUDO TEORICO E DICAS */}
+                  {isEvalQuestion ? (
+                    <div className="space-y-4">
+                      <div className="bg-slate-900 text-white p-5 rounded-2xl border border-slate-800 space-y-2 shadow-md">
+                        <div className="flex items-center justify-between">
+                          <span className="bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5">
+                            <Award size={14} /> 🏆 Fase 3: Avaliação Final Oficial
+                          </span>
+                          <span className="text-[10px] text-slate-400 font-mono">ID {progress.currentLevel}</span>
                         </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Theoretical Hint / Guide for the Student */}
-                  {currentLevelData?.resumoCurto && (
-                    <div className="bg-amber-50/90 p-4 rounded-xl border border-amber-200/90 space-y-1 shadow-xs">
-                      <div className="flex items-center gap-1.5 text-amber-900 text-xs font-bold uppercase tracking-wider">
-                        <Lightbulb size={14} className="text-amber-500 shrink-0" />
-                        <span>💡 Dica Teórica & Orientação para o Estudante</span>
+                        <p className="text-xs text-slate-300 leading-relaxed font-sans pt-1">
+                          Demonstre seus conhecimentos técnicos respondendo diretamente à questão abaixo. Conteúdos teóricos e dicas de estudo foram ocultados para a avaliação oficial.
+                        </p>
                       </div>
-                      <p className="text-xs text-amber-900 leading-relaxed font-medium">
-                        {currentLevelData.resumoCurto}
-                      </p>
+
+                      <div className="bg-blue-50/80 p-6 rounded-2xl border border-blue-200/90 space-y-2 shadow-xs">
+                        <span className="bg-blue-900 text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider">
+                          ✍️ Questão de Avaliação Final
+                        </span>
+                        <p className="text-base leading-relaxed text-slate-900 font-medium pt-1">
+                          {currentLevelData?.enunciado}
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {/* Linear Step 1 & Step 2 Preparatory Explanatory Texts */}
+                      {currentLevelData?.textosPreparatorios && currentLevelData.textosPreparatorios.length > 0 && (
+                        <div className="space-y-3">
+                          {currentLevelData.textosPreparatorios.map((txt, idx) => (
+                            <div key={idx} className="bg-white p-4 rounded-xl border border-blue-100 shadow-xs space-y-1.5">
+                              <div className="flex items-center gap-2">
+                                <span className="bg-blue-100 text-blue-700 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                                  📖 Texto Explicativo {idx + 1}
+                                </span>
+                                <h4 className="font-bold text-slate-900 text-xs">{txt.titulo}</h4>
+                              </div>
+                              <p className="text-xs text-slate-600 leading-relaxed font-sans">
+                                {txt.conteudo}
+                              </p>
+                              {txt.exemploCodigo && (
+                                <pre className="bg-slate-900 p-2.5 rounded font-mono text-[11px] text-emerald-400 leading-relaxed whitespace-pre-wrap">
+                                  {txt.exemploCodigo}
+                                </pre>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Theoretical Hint / Guide for the Student */}
+                      {currentLevelData?.resumoCurto && (
+                        <div className="bg-amber-50/90 p-4 rounded-xl border border-amber-200/90 space-y-1 shadow-xs">
+                          <div className="flex items-center gap-1.5 text-amber-900 text-xs font-bold uppercase tracking-wider">
+                            <Lightbulb size={14} className="text-amber-500 shrink-0" />
+                            <span>💡 Dica Teórica & Orientação para o Estudante</span>
+                          </div>
+                          <p className="text-xs text-amber-900 leading-relaxed font-medium">
+                            {currentLevelData.resumoCurto}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Linear Step 3: Question Related to the Texts Above */}
+                      <div className="bg-blue-50/70 p-5 rounded-2xl border border-blue-200/80 space-y-2">
+                        <div className="flex items-center gap-2">
+                          <span className="bg-slate-900 text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider">
+                            {currentLevelData?.textosPreparatorios && currentLevelData.textosPreparatorios.length > 0 
+                              ? '✍️ Pergunta Relacionada aos Textos Acima' 
+                              : '✍️ Pergunta Prática de Fixação'}
+                          </span>
+                        </div>
+                        <p className="text-base leading-relaxed text-slate-800 font-medium pt-1">
+                          {currentLevelData?.enunciado}
+                        </p>
+                      </div>
                     </div>
                   )}
-
-                  {/* Linear Step 3: Question Related to the Texts Above */}
-                  <div className="bg-blue-50/70 p-5 rounded-2xl border border-blue-200/80 space-y-2">
-                    <div className="flex items-center gap-2">
-                      <span className="bg-slate-900 text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider">
-                        {currentLevelData?.textosPreparatorios && currentLevelData.textosPreparatorios.length > 0 
-                          ? '✍️ Pergunta Relacionada aos Textos Acima' 
-                          : '✍️ Pergunta Prática de Fixação'}
-                      </span>
-                    </div>
-                    <p className="text-base leading-relaxed text-slate-800 font-medium pt-1">
-                      {currentLevelData?.enunciado}
-                    </p>
-                  </div>
                 </motion.div>
               </AnimatePresence>
             </div>
