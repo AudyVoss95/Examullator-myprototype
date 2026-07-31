@@ -112,5 +112,92 @@ export const TRILHAS_DE_TESTE: Record<string, TrilhaAprendizado> = {
         tempoEstimado: "45 min"
       }
     ]
+  },
+
+  "trilha-inteligencia-artificial": {
+    id: "trilha-inteligencia-artificial",
+    nome: "Trilha Completa: Inteligência Artificial",
+    categoria: "Inteligência Artificial",
+    descricao: "Trilha completa abrangendo Machine Learning, Redes Neurais, PLN, Visão Computacional, Engenharia de Prompt, Métricas de Avaliação e Ética em IA.",
+    icone: "🤖",
+    cor: "from-purple-600 via-pink-600 to-slate-950",
+    nivelRecomendado: "Trilha Completa Integrada (Conceitos + 16 Desafios Práticos + Avaliação Final)",
+    etapas: [
+      {
+        id: "mod-ia-1",
+        titulo: "Módulo 1 de Inteligência Artificial: Fundamentos & Machine Learning",
+        descricao: "Definição de IA, Teste de Turing e diferenças entre Programação Tradicional e Aprendizado de Máquina.",
+        questoesIds: ["301", "302"],
+        icone: "🧠",
+        tempoEstimado: "15 min"
+      },
+      {
+        id: "mod-ia-2",
+        titulo: "Módulo 2 de Inteligência Artificial: Tipos de Aprendizado de Máquina",
+        descricao: "Aprendizado Supervisionado, Não-Supervisionado e Aprendizado por Reforço com Recompensas.",
+        questoesIds: ["303", "304"],
+        icone: "📊",
+        tempoEstimado: "20 min"
+      },
+      {
+        id: "mod-ia-3",
+        titulo: "Módulo 3 de Inteligência Artificial: Redes Neurais & Funções de Ativação",
+        descricao: "Estrutura do neurônio artificial, camadas ocultas, ReLU, Sigmoide e não-linearidades.",
+        questoesIds: ["305", "306"],
+        icone: "⚡",
+        tempoEstimado: "20 min"
+      },
+      {
+        id: "mod-ia-4",
+        titulo: "Módulo 4 de Inteligência Artificial: Treinamento, Overfitting & Divisão de Dados",
+        descricao: "Fenômenos de Overfitting e Underfitting, conjuntos de Treino, Validação e Teste.",
+        questoesIds: ["307", "308"],
+        icone: "🎯",
+        tempoEstimado: "20 min"
+      },
+      {
+        id: "mod-ia-5",
+        titulo: "Módulo 5 de Inteligência Artificial: Processamento de Linguagem Natural & LLMs",
+        descricao: "Tokenização de texto, modelos de linguagem generativos (LLMs) e a Arquitetura Transformer.",
+        questoesIds: ["309", "310"],
+        icone: "💬",
+        tempoEstimado: "20 min"
+      },
+      {
+        id: "mod-ia-6",
+        titulo: "Módulo 6 de Inteligência Artificial: Visão Computacional & Algoritmos de Busca",
+        descricao: "Processamento de imagens digitais com matrizes de pixels e buscas heurísticas em grafos (A*).",
+        questoesIds: ["311", "312"],
+        icone: "👁️",
+        tempoEstimado: "20 min"
+      },
+      {
+        id: "mod-ia-7",
+        titulo: "Módulo 7 de Inteligência Artificial: Métricas de Avaliação & Engenharia de Prompt",
+        descricao: "Matriz de Confusão, Precisão, Recall e boas práticas de formulação de prompts.",
+        questoesIds: ["313", "314"],
+        icone: "📐",
+        tempoEstimado: "20 min"
+      },
+      {
+        id: "mod-ia-8",
+        titulo: "Módulo 8 de Inteligência Artificial: Viés Algorítmico & Ética em IA",
+        descricao: "Origem do viés nos dados de treino, privacidade de dados e governança responsável em IA.",
+        questoesIds: ["315", "316"],
+        icone: "🛡️",
+        tempoEstimado: "20 min"
+      },
+      {
+        id: "mod-ia-eval",
+        titulo: "Módulo de Avaliação de Inteligência Artificial: Exame Final de Consolidação",
+        descricao: "Sorteio de 10 questões aleatórias de avaliação final com distribuição equilibrada por níveis (3 Nível 0, 4 Nível 1, 3 Nível 2) e navegação restrita.",
+        questoesIds: [
+          "401", "402", "403", "404", "405", "406", "407", "408",
+          "409", "410", "411", "412", "413", "414", "415", "416"
+        ],
+        icone: "🏆",
+        tempoEstimado: "45 min"
+      }
+    ]
   }
 };

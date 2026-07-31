@@ -72,7 +72,13 @@ export const DISCIPLINAS_DISPONIVEIS = [
     id: 'Lógica e Linguagem de Programação', 
     nome: 'Lógica e Linguagem de Programação', 
     icone: '💻', 
-    descricao: 'Disciplina única e integrada abrangendo fundamentos de hardware, algoritmos, fluxogramas, tipos de dados, estruturas condicionais e laços de repetição.' 
+    descricao: 'Módulo 1: Fundamentos de hardware, algoritmos, fluxogramas, tipos de dados, estruturas condicionais e laços de repetição.' 
+  },
+  { 
+    id: 'Inteligência Artificial', 
+    nome: 'Inteligência Artificial', 
+    icone: '🤖', 
+    descricao: 'Módulo 2: Machine Learning, Redes Neurais, PLN, Visão Computacional, Engenharia de Prompt e Ética em IA.' 
   }
 ];
 
@@ -126,8 +132,14 @@ const generateSequence = (disciplinaFilter: string = 'Todas', bancoSource: Recor
   return sequence.slice(0, APP_CONFIG.totalQuestoes);
 };
 
-export const generateEvaluationSequence = (bancoSource: Record<string, Prova> = BANCO_DE_PROVAS): string[] => {
-  const evalIds = ["201", "202", "203", "204", "205", "206", "207", "208", "209", "210", "211", "212", "213", "214", "215", "216"];
+export const generateEvaluationSequence = (
+  bancoSource: Record<string, Prova> = BANCO_DE_PROVAS,
+  disciplinaFilter?: string
+): string[] => {
+  const isIA = disciplinaFilter === 'Inteligência Artificial';
+  const evalIds = isIA 
+    ? ["401", "402", "403", "404", "405", "406", "407", "408", "409", "410", "411", "412", "413", "414", "415", "416"]
+    : ["201", "202", "203", "204", "205", "206", "207", "208", "209", "210", "211", "212", "213", "214", "215", "216"];
 
   const byLevel: Record<number, string[]> = { 0: [], 1: [], 2: [] };
   evalIds.forEach(id => {
@@ -139,10 +151,9 @@ export const generateEvaluationSequence = (bancoSource: Record<string, Prova> = 
     }
   });
 
-  // Select 3 from Nível 0, 4 from Nível 1, 3 from Nível 2 (Total = 10 questions)
-  const selectedLvl0 = shuffleArray(byLevel[0] && byLevel[0].length > 0 ? byLevel[0] : ["201", "202", "203", "211", "212"]).slice(0, 3);
-  const selectedLvl1 = shuffleArray(byLevel[1] && byLevel[1].length > 0 ? byLevel[1] : ["204", "205", "206", "207", "213", "214"]).slice(0, 4);
-  const selectedLvl2 = shuffleArray(byLevel[2] && byLevel[2].length > 0 ? byLevel[2] : ["208", "209", "210", "215", "216"]).slice(0, 3);
+  const selectedLvl0 = shuffleArray(byLevel[0] && byLevel[0].length > 0 ? byLevel[0] : evalIds.slice(0, 5)).slice(0, 3);
+  const selectedLvl1 = shuffleArray(byLevel[1] && byLevel[1].length > 0 ? byLevel[1] : evalIds.slice(5, 11)).slice(0, 4);
+  const selectedLvl2 = shuffleArray(byLevel[2] && byLevel[2].length > 0 ? byLevel[2] : evalIds.slice(11)).slice(0, 3);
 
   return [...selectedLvl0, ...selectedLvl1, ...selectedLvl2];
 };
@@ -186,6 +197,15 @@ export default function App() {
       scores: {},
       completed: false
     };
+  });
+
+  const [completedDisciplinas, setCompletedDisciplinas] = useState<string[]>(() => {
+    try {
+      const saved = localStorage.getItem('examullator_completed_disciplinas');
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      return [];
+    }
   });
 
   const [tempName, setTempName] = useState('');
@@ -332,18 +352,81 @@ export default function App() {
       await fetch(remoteUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        keepalive: true
       });
-      console.log(`[Examullator Sync] Respostas salvas via clique de botão para: ${activeProgress.userName}`);
+      console.log(`[Examullator Sync] Respostas salvas para: ${activeProgress.userName}`);
     } catch (e) {
       // Quiet fallback
     }
   };
 
+  // Sincroniza automaticamente com o MongoDB/servidor sempre que o aluno fechar a aba, sair da página ou ocultar o navegador
+  useEffect(() => {
+    const handleExit = () => {
+      if (!progress.userName || progress.userName.trim().length === 0) return;
+      const studentId = progress.userName.toLowerCase().trim().replace(/[^a-z0-9]/gi, '_');
+      const payload: RemoteStudentSubmission = {
+        studentId,
+        userName: progress.userName,
+        selectedDisciplina: progress.selectedDisciplina,
+        selectedTrilhaId: progress.selectedTrilhaId,
+        sequence: progress.sequence,
+        responses: progress.responses,
+        scores: progress.scores,
+        completed: progress.completed,
+        updatedAt: new Date().toISOString()
+      };
+
+      try {
+        const jsonString = JSON.stringify(payload);
+        if ('sendBeacon' in navigator) {
+          const blob = new Blob([jsonString], { type: 'application/json' });
+          navigator.sendBeacon(remoteUrl, blob);
+        } else {
+          fetch(remoteUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: jsonString,
+            keepalive: true
+          });
+        }
+      } catch (e) {
+        // Fallback silencioso
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        handleExit();
+      }
+    };
+
+    window.addEventListener('beforeunload', handleExit);
+    window.addEventListener('pagehide', handleExit);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleExit);
+      window.removeEventListener('pagehide', handleExit);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [progress, remoteUrl]);
+
   // Save progress locally to browser storage for crash safety
   useEffect(() => {
     localStorage.setItem('examullator_progress', JSON.stringify(progress));
-  }, [progress]);
+
+    if (progress.completed && progress.selectedDisciplina) {
+      const disc = progress.selectedDisciplina;
+      if (!completedDisciplinas.includes(disc)) {
+        const updated = [...completedDisciplinas, disc];
+        setCompletedDisciplinas(updated);
+        localStorage.setItem('examullator_completed_disciplinas', JSON.stringify(updated));
+      }
+    }
+  }, [progress, completedDisciplinas]);
+
 
   // Anti-Copy & Anti-Paste Keyboard Listener (Isento para Admin e ALUNOADMIN)
   useEffect(() => {
@@ -583,12 +666,20 @@ export default function App() {
   };
 
   const handleSelectDisciplina = (discId: string) => {
-    if (progress.completed) {
-      showAlert("Tentativas Bloqueadas 🔒", `Atenção, ${progress.userName}: Sua avaliação já foi finalizada e registrada. Novas tentativas não são permitidas.`);
+    if (completedDisciplinas.includes(discId)) {
+      showAlert(
+        "🚫 Tentativas Esgotadas para esta Disciplina",
+        `Atenção, ${progress.userName || 'Estudante'}: Você já concluiu a Avaliação Final da disciplina "${discId}". Não é permitido refazer a avaliação final desta disciplina. Por favor, selecione outra disciplina disponível.`
+      );
       return;
     }
-    const fixacaoIds = ["101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116"];
-    const eval10Ids = generateEvaluationSequence(bancoProvas);
+
+    const isIA = discId === 'Inteligência Artificial';
+    const fixacaoIds = isIA 
+      ? ["301", "302", "303", "304", "305", "306", "307", "308", "309", "310", "311", "312", "313", "314", "315", "316"]
+      : ["101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116"];
+    
+    const eval10Ids = generateEvaluationSequence(bancoProvas, discId);
     const newSeq = [...fixacaoIds, ...eval10Ids];
 
     const newProgress = {
@@ -607,19 +698,28 @@ export default function App() {
   };
 
   const handleSelectTrilha = (trilha: TrilhaAprendizado, startAtEvaluation: boolean = false) => {
-    if (progress.completed) {
-      showAlert("Tentativas Bloqueadas 🔒", `Atenção, ${progress.userName}: Sua avaliação já foi finalizada e registrada. Novas tentativas não são permitidas.`);
+    const discId = trilha.categoria;
+    if (completedDisciplinas.includes(discId)) {
+      showAlert(
+        "🚫 Tentativas Esgotadas para esta Disciplina",
+        `Atenção, ${progress.userName || 'Estudante'}: Você já concluiu a Avaliação Final da disciplina "${discId}". Não é permitido refazer a avaliação final desta disciplina. Por favor, selecione outra disciplina disponível.`
+      );
       return;
     }
-    const fixacaoIds = ["101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116"];
-    const eval10Ids = generateEvaluationSequence(bancoProvas);
+
+    const isIA = discId === 'Inteligência Artificial';
+    const fixacaoIds = isIA 
+      ? ["301", "302", "303", "304", "305", "306", "307", "308", "309", "310", "311", "312", "313", "314", "315", "316"]
+      : ["101", "102", "103", "104", "105", "106", "107", "108", "109", "110", "111", "112", "113", "114", "115", "116"];
+
+    const eval10Ids = generateEvaluationSequence(bancoProvas, discId);
     const finalSeq = [...fixacaoIds, ...eval10Ids];
 
     const targetLevel = startAtEvaluation ? eval10Ids[0] : finalSeq[0];
 
     const finalProgress = {
       ...progress,
-      selectedDisciplina: trilha.categoria,
+      selectedDisciplina: discId,
       selectedTrilhaId: trilha.id,
       sequence: finalSeq,
       currentLevel: targetLevel,
@@ -637,7 +737,7 @@ export default function App() {
   };
 
   const handleJumpToEvaluation = () => {
-    const evalIndex = levels.findIndex(id => id.startsWith("2") || Number(id) >= 200);
+    const evalIndex = levels.findIndex(id => id.startsWith("2") || id.startsWith("4") || Number(id) >= 200);
     if (evalIndex !== -1) {
       showConfirm(
         "Pular para Avaliação Final 🏆",
@@ -1940,17 +2040,28 @@ export default function App() {
                         </button>
                       )}
 
-                      <button
-                        onClick={() => handleSelectDisciplina(d.id)}
-                        className={`flex-1 py-2 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
-                          d.id === 'Todas'
-                            ? 'bg-blue-600 hover:bg-blue-500 text-white shadow'
-                            : 'bg-[#111827] hover:bg-[#374151] text-white shadow-sm'
-                        }`}
-                      >
-                        <span>Praticar Desafios</span>
-                        <ChevronRight size={14} />
-                      </button>
+                      {completedDisciplinas.includes(d.id) ? (
+                        <button
+                          disabled
+                          className="flex-1 py-2 px-4 rounded-xl text-xs font-bold bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed flex items-center justify-center gap-1.5"
+                          title="Sua avaliação final para esta disciplina já foi concluída e registrada"
+                        >
+                          <Lock size={14} className="text-red-500" />
+                          <span>Avaliação Concluída</span>
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleSelectDisciplina(d.id)}
+                          className={`flex-1 py-2 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+                            d.id === 'Todas'
+                              ? 'bg-blue-600 hover:bg-blue-500 text-white shadow'
+                              : 'bg-[#111827] hover:bg-[#374151] text-white shadow-sm'
+                          }`}
+                        >
+                          <span>Praticar Desafios</span>
+                          <ChevronRight size={14} />
+                        </button>
+                      )}
                     </div>
                   </motion.div>
                 );
@@ -2129,7 +2240,7 @@ export default function App() {
   const canGoBackInfo = checkCanGoBack();
   const currentDiscName = currentLevelData?.disciplina || progress.selectedDisciplina;
   const currentTheory = MATERIAIS_EXPLICATIVOS[currentDiscName];
-  const isEvalQuestion = Number(progress.currentLevel) >= 200 || progress.currentLevel.startsWith("2");
+  const isEvalQuestion = progress.currentLevel.startsWith("2") || progress.currentLevel.startsWith("4") || Number(progress.currentLevel) >= 200;
 
   return (
     <div 

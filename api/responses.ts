@@ -1,6 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'http';
+import { connectToDatabase } from '../lib/db';
 
-let globalDb: Record<string, any> = {};
+let globalDbFallback: Record<string, any> = {};
 
 export default async function handler(req: IncomingMessage & { body?: any }, res: ServerResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -10,6 +11,17 @@ export default async function handler(req: IncomingMessage & { body?: any }, res
   if (req.method === 'OPTIONS') {
     res.statusCode = 200;
     return res.end();
+  }
+
+  // Tenta conectar ao MongoDB Atlas
+  let dbInstance: any = null;
+  try {
+    if (process.env.MONGODB_URI) {
+      const { db } = await connectToDatabase();
+      dbInstance = db;
+    }
+  } catch (err) {
+    console.warn('[MongoDB Warning] Não foi possível conectar ao MongoDB, usando fallback:', err);
   }
 
   if (req.method === 'POST') {
@@ -36,7 +48,7 @@ export default async function handler(req: IncomingMessage & { body?: any }, res
 
     const id = studentId || userName.toLowerCase().trim().replace(/[^a-z0-9]/gi, '_');
 
-    globalDb[id] = {
+    const record = {
       studentId: id,
       userName: userName.trim(),
       selectedDisciplina: selectedDisciplina || 'Simulado Geral',
@@ -48,13 +60,33 @@ export default async function handler(req: IncomingMessage & { body?: any }, res
       updatedAt: updatedAt || new Date().toISOString()
     };
 
+    if (dbInstance) {
+      await dbInstance.collection('responses').updateOne(
+        { studentId: id },
+        { $set: record },
+        { upsert: true }
+      );
+    } else {
+      globalDbFallback[id] = record;
+    }
+
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
-    return res.end(JSON.stringify({ success: true, message: 'Resposta registrada no servidor online com sucesso', studentId: id }));
+    return res.end(JSON.stringify({ 
+      success: true, 
+      message: dbInstance ? 'Resposta salva com sucesso no MongoDB Atlas' : 'Resposta registrada em memória (defina MONGODB_URI para persistência)', 
+      studentId: id 
+    }));
   }
 
   if (req.method === 'GET') {
-    const studentsList = Object.values(globalDb);
+    let studentsList: any[] = [];
+    if (dbInstance) {
+      studentsList = await dbInstance.collection('responses').find({}).toArray();
+    } else {
+      studentsList = Object.values(globalDbFallback);
+    }
+
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
     return res.end(JSON.stringify({
@@ -65,12 +97,18 @@ export default async function handler(req: IncomingMessage & { body?: any }, res
   }
 
   if (req.method === 'DELETE') {
-    globalDb = {};
+    if (dbInstance) {
+      await dbInstance.collection('responses').deleteMany({});
+    } else {
+      globalDbFallback = {};
+    }
+    
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
-    return res.end(JSON.stringify({ success: true, message: 'Todas as respostas online foram apagadas.' }));
+    return res.end(JSON.stringify({ success: true, message: 'Todas as respostas foram apagadas.' }));
   }
 
   res.statusCode = 405;
   return res.end(JSON.stringify({ error: 'Method Not Allowed' }));
 }
+

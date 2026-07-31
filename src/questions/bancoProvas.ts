@@ -1,4 +1,5 @@
 import { bancoQuestoesExamullator } from './trilha_de_estudos_e_avalia_o_no_modelo_examullator';
+import { bancoQuestoesIA } from './questoes_inteligencia_artificial';
 
 export interface SecaoTexto {
   titulo: string;
@@ -20,6 +21,7 @@ export interface Prova {
 
 export const BANCO_DE_PROVAS: Record<string, Prova> = {
   ...bancoQuestoesExamullator,
+  ...bancoQuestoesIA,
   "001": {
     "textosPreparatorios": [
       {

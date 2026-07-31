@@ -1,34 +1,57 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+import { MongoClient } from 'mongodb';
+
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const DATA_FILE = path.join(__dirname, '../student_responses.json');
 
-function runAnalysis() {
+async function runAnalysis() {
   console.log('\n===========================================================');
-  console.log('🎓 EXAMULLATOR - ANÁLISE DE RESPOSTAS (LOCALHOST CLI)');
+  console.log('🎓 EXAMULLATOR - ANÁLISE DE RESPOSTAS');
   console.log('===========================================================');
 
-  if (!fs.existsSync(DATA_FILE)) {
-    console.log('\n❌ Nenhum banco de dados de respostas encontrado em:');
-    console.log(`   ${DATA_FILE}`);
-    console.log('\n💡 As respostas serão geradas assim que os alunos utilizarem a plataforma.\n');
+  let students = [];
+
+  // Tenta carregar do MongoDB Atlas se MONGODB_URI estiver configurado
+  if (process.env.MONGODB_URI) {
+    try {
+      console.log('🌐 Conectando ao MongoDB Atlas...');
+      const client = new MongoClient(process.env.MONGODB_URI);
+      await client.connect();
+      const db = client.db('examullator');
+      students = await db.collection('responses').find({}).toArray();
+      await client.close();
+      console.log(`✅ Dados carregados com sucesso do MongoDB Atlas (${students.length} registros).`);
+    } catch (err) {
+      console.error('⚠️ Falha ao conectar ao MongoDB Atlas. Usando arquivo local como fallback:', err.message);
+    }
+  }
+
+  // Se não tem dados do MongoDB, lê o arquivo local
+  if (students.length === 0 && fs.existsSync(DATA_FILE)) {
+    try {
+      const raw = fs.readFileSync(DATA_FILE, 'utf-8');
+      const data = JSON.parse(raw);
+      students = Object.values(data);
+      console.log(`📁 Dados carregados do arquivo local student_responses.json (${students.length} registros).`);
+    } catch (e) {
+      // Ignorado
+    }
+  }
+
+  if (students.length === 0) {
+    console.log('\nℹ️ Nenhuma resposta registrada ainda.');
+    console.log('💡 As respostas serão exibidas assim que os alunos realizarem os simulados.\n');
     return;
   }
 
   try {
-    const raw = fs.readFileSync(DATA_FILE, 'utf-8');
-    const data = JSON.parse(raw);
-    const students = Object.values(data);
-
-    if (students.length === 0) {
-      console.log('\nℹ️ O arquivo de respostas está vazio.');
-      return;
-    }
-
     const totalStudents = students.length;
     const completedStudents = students.filter((s) => s.completed).length;
 
@@ -106,3 +129,4 @@ function runAnalysis() {
 }
 
 runAnalysis();
+

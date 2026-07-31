@@ -4,6 +4,10 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
+import { MongoClient } from 'mongodb';
+
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,6 +20,23 @@ app.use(express.json({ limit: '10mb' }));
 
 const DATA_FILE = path.join(__dirname, 'student_responses.json');
 const REGISTRY_FILE = path.join(__dirname, 'student_registry.json');
+
+let mongoDbInstance = null;
+const getMongoDb = async () => {
+  if (mongoDbInstance) return mongoDbInstance;
+  if (!process.env.MONGODB_URI) return null;
+  try {
+    const client = new MongoClient(process.env.MONGODB_URI);
+    await client.connect();
+    mongoDbInstance = client.db('examullator');
+    console.log('[MongoDB Atlas] Conectado com sucesso no server.js');
+    return mongoDbInstance;
+  } catch (err) {
+    console.error('[MongoDB Atlas Error] Falha de conexão:', err.message);
+    return null;
+  }
+};
+
 
 const getResponses = () => {
   if (!fs.existsSync(DATA_FILE)) return {};
@@ -104,7 +125,7 @@ app.get('/api/registry', (req, res) => {
 });
 
 // Endpoint to register or update student submission remotely
-app.post('/api/responses', (req, res) => {
+app.post('/api/responses', async (req, res) => {
   const { studentId, userName, selectedDisciplina, selectedTrilhaId, responses, scores, sequence, completed, updatedAt } = req.body;
   if (!userName) {
     return res.status(400).json({ success: false, error: 'Nome do estudante é obrigatório' });
@@ -129,7 +150,7 @@ app.post('/api/responses', (req, res) => {
   saveRegistry(reg);
 
   const db = getResponses();
-  db[id] = {
+  const record = {
     studentId: id,
     userName: userName.trim(),
     selectedDisciplina: selectedDisciplina || 'Simulado Geral',
@@ -140,16 +161,44 @@ app.post('/api/responses', (req, res) => {
     completed: !!completed,
     updatedAt: updatedAt || now
   };
-
+  db[id] = record;
   saveResponses(db);
+
+  try {
+    const mongoDb = await getMongoDb();
+    if (mongoDb) {
+      await mongoDb.collection('responses').updateOne(
+        { studentId: id },
+        { $set: record },
+        { upsert: true }
+      );
+      console.log(`[MongoDB Atlas] Resposta sincronizada no MongoDB para: ${userName}`);
+    }
+  } catch (err) {
+    console.error('[MongoDB Error]', err.message);
+  }
+
   console.log(`[Examullator Remote] Resposta salva para: ${userName} (${selectedDisciplina || 'Simulado Geral'})`);
   return res.json({ success: true, message: 'Resposta registrada com sucesso', studentId: id });
 });
 
 // Endpoint for Teacher/Admin to fetch all student responses remotely
-app.get('/api/responses', (req, res) => {
-  const db = getResponses();
-  const studentsList = Object.values(db);
+app.get('/api/responses', async (req, res) => {
+  let studentsList = [];
+  try {
+    const mongoDb = await getMongoDb();
+    if (mongoDb) {
+      studentsList = await mongoDb.collection('responses').find({}).toArray();
+    }
+  } catch (err) {
+    console.error('[MongoDB Error]', err.message);
+  }
+
+  if (studentsList.length === 0) {
+    const db = getResponses();
+    studentsList = Object.values(db);
+  }
+
   return res.json({
     success: true,
     count: studentsList.length,
@@ -158,11 +207,18 @@ app.get('/api/responses', (req, res) => {
 });
 
 // Endpoint to delete all remote responses and registry (Admin cleanup)
-app.delete('/api/responses', (req, res) => {
+app.delete('/api/responses', async (req, res) => {
   saveResponses({});
   saveRegistry({});
+  try {
+    const mongoDb = await getMongoDb();
+    if (mongoDb) {
+      await mongoDb.collection('responses').deleteMany({});
+    }
+  } catch (err) {}
   return res.json({ success: true, message: 'Todas as respostas remotas e o registro de presença foram apagados.' });
 });
+
 
 // Helper to configure email transporter
 const createMailTransporter = async () => {

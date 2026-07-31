@@ -191,5 +191,33 @@ export const MATERIAIS_EXPLICATIVOS: Record<string, MaterialExplicativo> = {
       { termo: "return", explicacao: "Comando que devolve o valor de saída de uma função." },
       { termo: "Escopo Local", explicacao: "Visibilidade de variáveis restrita apenas ao interior da função." }
     ]
+  },
+  "Inteligência Artificial": {
+    disciplinaId: "Inteligência Artificial",
+    titulo: "Fundamentos de Inteligência Artificial e Machine Learning",
+    subtitulo: "Compreenda Aprendizado de Máquina, Redes Neurais, PLN, Visão Computacional e Ética Algorítmica.",
+    icone: "🤖",
+    secoes: [
+      {
+        titulo: "1. Aprendizado de Máquina (Machine Learning)",
+        conteudo: "Ao contrário da programação tradicional onde regras são escritas manualmente, o Machine Learning utiliza algoritmos para extrair padrões e regras automaticamente a partir de grandes volumes de dados.",
+        dica: "Supervisionado usa dados com respostas conhecidas (rótulos); Não-Supervisionado descobre agrupamentos em dados sem rótulos."
+      },
+      {
+        titulo: "2. Redes Neurais e Aprendizado Profundo (Deep Learning)",
+        conteudo: "Redes neurais artificiais consistem em camadas de neurônios artificiais interconectados por pesos numéricos. Funções de ativação (como ReLU) adicionam não-linearidade permitindo resolver problemas complexos.",
+        exemploCodigo: "# Exemplo conceitual de neurônio:\nsaida = relu( (entrada1 * peso1) + (entrada2 * peso2) + bias )"
+      },
+      {
+        titulo: "3. Processamento de Linguagem Natural & LLMs",
+        conteudo: "PLN converte palavras em números (tokens) para interpretação computacional. Modelos de Linguagem de Grande Porte (LLMs) usam a arquitetura Transformer e auto-atenção para gerar e compreender textos de forma contextualizada."
+      }
+    ],
+    termosChave: [
+      { termo: "Machine Learning", explicacao: "Técnica de IA onde algoritmos aprendem padrões a partir de dados." },
+      { termo: "Rede Neural Artificial", explicacao: "Modelo computacional inspirado no cérebro organizado em camadas." },
+      { termo: "Overfitting", explicacao: "Decodificação/memorização excessiva do treino que reduz a generalização em dados novos." },
+      { termo: "Tokenização", explicacao: "Divisão de texto em pedaços numéricos menores para processamento por LLMs." }
+    ]
   }
 };
