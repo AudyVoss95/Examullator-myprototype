@@ -486,25 +486,37 @@ export default function App() {
       console.error(e);
     }
 
-    try {
-      const res = await fetch(remoteUrl, { method: 'GET' });
-      if (res.ok) {
-        const data = await res.json();
-        if (data && Array.isArray(data.students)) {
-          data.students.forEach((st: RemoteStudentSubmission) => {
-            if (st && st.studentId) {
-              combinedMap[st.studentId] = st;
-            }
-          });
+    let fetchSuccess = false;
+    const urlsToTry = Array.from(new Set([remoteUrl, '/api/responses', 'http://localhost:3001/api/responses']));
+
+    for (const url of urlsToTry) {
+      try {
+        const res = await fetch(url, { method: 'GET' });
+        if (res.ok) {
+          const data = await res.json();
+          if (data && Array.isArray(data.students)) {
+            data.students.forEach((st: RemoteStudentSubmission) => {
+              if (st && st.studentId) {
+                combinedMap[st.studentId] = st;
+              }
+            });
+            fetchSuccess = true;
+            break;
+          }
         }
+      } catch (err) {
+        console.warn(`Could not reach endpoint ${url}`, err);
       }
-    } catch (err) {
-      console.warn("Could not reach remote server URL, using local broadcast cache", err);
+    }
+
+    if (!fetchSuccess && Object.keys(combinedMap).length === 0) {
+      showToast("⚠️ Não foi possível conectar ao servidor. Verifique o servidor local ou o MONGODB_URI na Vercel.");
     }
 
     setRemoteStudents(Object.values(combinedMap));
     setIsLoadingRemote(false);
   };
+
 
   useEffect(() => {
     if (isAdmin && adminTab === 'remote') {

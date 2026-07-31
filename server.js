@@ -26,7 +26,7 @@ const getMongoDb = async () => {
   if (mongoDbInstance) return mongoDbInstance;
   if (!process.env.MONGODB_URI) return null;
   try {
-    const client = new MongoClient(process.env.MONGODB_URI);
+    const client = new MongoClient(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 5000 });
     await client.connect();
     mongoDbInstance = client.db('examullator');
     console.log('[MongoDB Atlas] Conectado com sucesso no server.js');
@@ -36,6 +36,7 @@ const getMongoDb = async () => {
     return null;
   }
 };
+
 
 
 const getResponses = () => {
