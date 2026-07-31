@@ -66,7 +66,7 @@ const saveRegistry = (data) => {
 };
 
 // Endpoint to register student login/access for attendance control
-app.post('/api/register-login', (req, res) => {
+app.post('/api/register-login', async (req, res) => {
   const { userName } = req.body;
   if (!userName || userName.trim().length === 0) {
     return res.status(400).json({ success: false, error: 'Nome do estudante é obrigatório' });
@@ -90,14 +90,50 @@ app.post('/api/register-login', (req, res) => {
   }
 
   saveRegistry(reg);
+
+  try {
+    const mongoDb = await getMongoDb();
+    if (mongoDb) {
+      await mongoDb.collection('registry').updateOne(
+        { studentId: id },
+        { $set: reg[id] },
+        { upsert: true }
+      );
+      console.log(`[MongoDB Registry] Acesso sincronizado no MongoDB para: ${userName.trim()}`);
+    }
+  } catch (err) {
+    console.error('[MongoDB Registry Error]', err.message);
+  }
+
   console.log(`[Examullator Registry] Acesso de estudante registrado: ${userName.trim()}`);
   return res.json({ success: true, studentId: id, registry: reg[id] });
 });
 
 // Endpoint for Teacher to fetch full student access and attendance registry
-app.get('/api/registry', (req, res) => {
-  const reg = getRegistry();
-  const db = getResponses();
+app.get('/api/registry', async (req, res) => {
+  let reg = getRegistry();
+  let db = getResponses();
+
+  try {
+    const mongoDb = await getMongoDb();
+    if (mongoDb) {
+      const regDocs = await mongoDb.collection('registry').find({}).toArray();
+      const respDocs = await mongoDb.collection('responses').find({}).toArray();
+      
+      const mongoReg: Record<string, any> = {};
+      regDocs.forEach((doc: any) => { mongoReg[doc.studentId] = doc; });
+      
+      const mongoDbMap: Record<string, any> = {};
+      respDocs.forEach((doc: any) => { mongoDbMap[doc.studentId] = doc; });
+
+      if (regDocs.length > 0 || respDocs.length > 0) {
+        reg = { ...reg, ...mongoReg };
+        db = { ...db, ...mongoDbMap };
+      }
+    }
+  } catch (err) {
+    console.error('[MongoDB Registry GET Error]', err.message);
+  }
   
   // Combine login registry with response submissions
   const allIds = new Set([...Object.keys(reg), ...Object.keys(db)]);
@@ -124,6 +160,7 @@ app.get('/api/registry', (req, res) => {
     students: combined
   });
 });
+
 
 // Endpoint to register or update student submission remotely
 app.post('/api/responses', async (req, res) => {

@@ -1,6 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'http';
+import { connectToDatabase } from '../lib/db';
 
-let globalRegistry: Record<string, any> = {};
+let globalRegistryFallback: Record<string, any> = {};
 
 export default async function handler(req: IncomingMessage & { body?: any }, res: ServerResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -10,6 +11,16 @@ export default async function handler(req: IncomingMessage & { body?: any }, res
   if (req.method === 'OPTIONS') {
     res.statusCode = 200;
     return res.end();
+  }
+
+  let dbInstance: any = null;
+  try {
+    if (process.env.MONGODB_URI) {
+      const { db } = await connectToDatabase();
+      dbInstance = db;
+    }
+  } catch (err) {
+    console.warn('[MongoDB Warning] Não foi possível conectar ao MongoDB em register-login:', err);
   }
 
   if (req.method === 'POST') {
@@ -36,26 +47,58 @@ export default async function handler(req: IncomingMessage & { body?: any }, res
     const id = userName.toLowerCase().trim().replace(/[^a-z0-9]/gi, '_');
     const now = new Date().toISOString();
 
-    if (!globalRegistry[id]) {
-      globalRegistry[id] = {
-        studentId: id,
-        userName: userName.trim(),
-        firstLoginAt: now,
-        lastAccessAt: now,
-        accessCount: 1
-      };
+    let regItem: any = null;
+    if (dbInstance) {
+      const existing = await dbInstance.collection('registry').findOne({ studentId: id });
+      if (!existing) {
+        regItem = {
+          studentId: id,
+          userName: userName.trim(),
+          firstLoginAt: now,
+          lastAccessAt: now,
+          accessCount: 1
+        };
+      } else {
+        regItem = {
+          ...existing,
+          lastAccessAt: now,
+          accessCount: (existing.accessCount || 1) + 1
+        };
+      }
+      await dbInstance.collection('registry').updateOne(
+        { studentId: id },
+        { $set: regItem },
+        { upsert: true }
+      );
     } else {
-      globalRegistry[id].lastAccessAt = now;
-      globalRegistry[id].accessCount = (globalRegistry[id].accessCount || 1) + 1;
+      if (!globalRegistryFallback[id]) {
+        globalRegistryFallback[id] = {
+          studentId: id,
+          userName: userName.trim(),
+          firstLoginAt: now,
+          lastAccessAt: now,
+          accessCount: 1
+        };
+      } else {
+        globalRegistryFallback[id].lastAccessAt = now;
+        globalRegistryFallback[id].accessCount = (globalRegistryFallback[id].accessCount || 1) + 1;
+      }
+      regItem = globalRegistryFallback[id];
     }
 
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
-    return res.end(JSON.stringify({ success: true, studentId: id, registry: globalRegistry[id] }));
+    return res.end(JSON.stringify({ success: true, studentId: id, registry: regItem }));
   }
 
   if (req.method === 'GET') {
-    const registryList = Object.values(globalRegistry);
+    let registryList: any[] = [];
+    if (dbInstance) {
+      registryList = await dbInstance.collection('registry').find({}).toArray();
+    } else {
+      registryList = Object.values(globalRegistryFallback);
+    }
+
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
     return res.end(JSON.stringify({
@@ -68,3 +111,4 @@ export default async function handler(req: IncomingMessage & { body?: any }, res
   res.statusCode = 405;
   return res.end(JSON.stringify({ error: 'Method Not Allowed' }));
 }
+
