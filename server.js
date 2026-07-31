@@ -120,11 +120,12 @@ app.get('/api/registry', async (req, res) => {
       const regDocs = await mongoDb.collection('registry').find({}).toArray();
       const respDocs = await mongoDb.collection('responses').find({}).toArray();
       
-      const mongoReg: Record<string, any> = {};
-      regDocs.forEach((doc: any) => { mongoReg[doc.studentId] = doc; });
+      const mongoReg = {};
+      regDocs.forEach((doc) => { mongoReg[doc.studentId] = doc; });
       
-      const mongoDbMap: Record<string, any> = {};
-      respDocs.forEach((doc: any) => { mongoDbMap[doc.studentId] = doc; });
+      const mongoDbMap = {};
+      respDocs.forEach((doc) => { mongoDbMap[doc.studentId] = doc; });
+
 
       if (regDocs.length > 0 || respDocs.length > 0) {
         reg = { ...reg, ...mongoReg };
