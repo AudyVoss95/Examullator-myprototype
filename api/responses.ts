@@ -74,10 +74,12 @@ export default async function handler(req: IncomingMessage & { body?: any }, res
     res.setHeader('Content-Type', 'application/json');
     return res.end(JSON.stringify({ 
       success: true, 
-      message: dbInstance ? 'Resposta salva com sucesso no MongoDB Atlas' : 'Resposta registrada em memória (defina MONGODB_URI para persistência)', 
+      message: dbInstance ? 'Resposta salva com sucesso no MongoDB Atlas' : 'Resposta registrada apenas em memória (MONGODB_URI ausente ou inacessível no Vercel)', 
+      savedToMongo: !!dbInstance,
       studentId: id 
     }));
   }
+
 
   if (req.method === 'GET') {
     let studentsList: any[] = [];

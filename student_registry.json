@@ -12,5 +12,12 @@
     "firstLoginAt": "2026-07-29T11:32:04.758Z",
     "lastAccessAt": "2026-07-29T14:28:57.769Z",
     "accessCount": 1
+  },
+  "testando": {
+    "studentId": "testando",
+    "userName": "Testando",
+    "firstLoginAt": "2026-07-31T14:40:58.603Z",
+    "lastAccessAt": "2026-07-31T14:41:23.629Z",
+    "accessCount": 1
   }
 }
